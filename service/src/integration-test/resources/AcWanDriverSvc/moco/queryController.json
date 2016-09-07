@@ -1,0 +1,18 @@
+{
+	"request": {
+		"uri": "/org.openo.sdno.brs/openoapi/sdnobrs/v1/controller/123",
+		"method": "get",
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8"
+		},
+		"json": {
+			
+		}
+	},
+	"response": {
+		"status": 200,
+		"json": {
+			"hostName": "127.0.0.1"
+		}
+	}
+}

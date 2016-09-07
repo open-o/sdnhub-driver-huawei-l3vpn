@@ -1,0 +1,34 @@
+[
+	{
+		"url": "/openoapi/sdnomss/v1",
+		"prefix": "/org.openo.sdno.mss.service"
+	},
+	{
+		"url": "/sdnobrs/v1",
+		"prefix": "/org.openo.sdno.brs"
+	},
+	{
+		"url": "/openoapi/sdnol3vpn/v1/l3vpns",
+		"prefix": "/org.openo.sdno.l3vpnservice"
+	},
+	{
+		"url": "/openoapi/sdnooverlayvpn",
+		"prefix": "/org.openo.sdno.overlayvpnservice"
+	},
+	{
+		"url": "/openoapi/sdnovxlan/v1/vxlanservice",
+		"prefix": "/org.openo.sdno.vxlanservice"
+	},
+	{
+		"url": "/openoapi/sdnoipsec/v1/ipsecs",
+		"prefix": "/org.openo.sdno.ipsecservice"
+	},
+	{
+		"url": "/controller/cloud/v2/northbound/config/123/device/arvpnsvxlan",
+		"prefix": ""
+	},
+	{
+		"url": "openoapi/sbi-l3vpn/v1",
+		"prefix": "/org.openo.sdno.acwanservice"
+	}
+]

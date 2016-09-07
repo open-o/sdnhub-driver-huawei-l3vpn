@@ -1,0 +1,23 @@
+{
+	"request": {
+		"uri": "/org.openo.sdno.brs/openoapi/sdnobrs/v1/controller/TEST",
+		"method": "get",
+		"headers": {
+			"Content-Type": "application/json"
+		}
+	},
+	"response": {
+		"status": 200,
+		"json": {
+			"objectId": "12345",
+			"name": "test",
+			"category": "l3vpn",
+			"productName": "test/project1",
+			"version": "v1",
+			"hostName": "127.0.0.1",
+			"slaveHostName": "127.0.0.1",
+			"description": "test",
+			"vendor": "huawei"
+		}
+	}
+}

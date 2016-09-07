@@ -1,0 +1,17 @@
+{
+	"request": {
+		"uri": "/openoapi/sbi-l3vpn/v1/l3vpns/123",
+		"method": "put",
+		"headers": {
+			"Content-Type": "application/json;charset=UTF-8",
+			"X-Driver-Parameter": "extSysID=123"
+		},
+		"json": {
+			"id": "123",
+			"adminStatus": "adminDown"
+		}
+	},
+	"response": {
+		"status": 200
+	 }
+}

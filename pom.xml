@@ -8,14 +8,14 @@
     </parent>
 
     <groupId>org.openo.sdno.driver-huawei-l3vpn</groupId>
-    <artifactId>wanvpn</artifactId>
+    <artifactId>l3vpndriver-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Wanvpn</name>
     <packaging>pom</packaging>
 
     <modules>
-        <module>l3vpn</module>
-    </modules>
+		<module>service</module>
+		<module>deployment</module>
+	</modules>
 
     <build>
         <plugins>
@@ -30,5 +30,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
