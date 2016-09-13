@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2016, Huawei Technologies Co., Ltd.
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
- * The tool class of serialize.<br/>
+ * The tool class of serialize.<br>
  *
  * @author
  * @version SDNO 0.5 2016-6-2
@@ -57,7 +57,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Serialize the body.<br/>
+     * Serialize the body.<br>
      *
      * @param contentType The enum of contents type
      * @param body The body to be serialized
@@ -73,7 +73,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Deserialize the string object.<br/>
+     * Deserialize the string object.<br>
      *
      * @param contentType The enum of contents type
      * @param str The string object to be deserialized
@@ -90,7 +90,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the body to json.<br/>
+     * Change the body to json.<br>
      *
      * @param body The body object to be changed
      * @return The json that body is changed to
@@ -114,7 +114,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the json object to the class type.<br/>
+     * Change the json object to the class type.<br>
      *
      * @param json The json object to be changed
      * @param clazz The class type that the json is changed to
@@ -140,7 +140,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the object to xml.<br/>
+     * Change the object to xml.<br>
      *
      * @param obj The object to be changed
      * @return The xml that object is changed to
@@ -166,7 +166,7 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the xml object to the class type.<br/>
+     * Change the xml object to the class type.<br>
      *
      * @param xml The xml object to be changed
      * @param clazz The class type that the xml is changed to

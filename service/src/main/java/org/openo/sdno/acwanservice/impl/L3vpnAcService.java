@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2016, Huawei Technologies Co., Ltd.
+ * Copyright 2016 Huawei Technologies Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The service class of L3vpn.<br/>
+ * The service class of L3vpn.<br>
  *
  * @author
  * @version SDNO 0.5 2016-6-2
@@ -57,7 +57,7 @@ public class L3vpnAcService implements Il3VpnService {
     private static final String INACTIVE_STATUS = "inactive";
 
     /**
-     * Update the L3vpn information.<br/>
+     * Update the L3vpn information.<br>
      *
      * @param request request
      * @param vpdId vpn ID
@@ -87,7 +87,7 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Create L3vpn.<br/>
+     * Create L3vpn.<br>
      *
      * @param spi The service parameters information
      * @param ctrlUuid ctrl UUID
@@ -114,7 +114,7 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Delete the L3vpn.<br/>
+     * Delete the L3vpn.<br>
      *
      * @param ctrlId ctrl ID
      * @param vpnId vpn ID
@@ -134,7 +134,7 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Update the description of L3vpn.<br/>
+     * Update the description of L3vpn.<br>
      *
      * @param spi The service parameters information
      * @return The result of updating
@@ -156,7 +156,7 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Get the operate status of L3vpn.<br/>
+     * Get the operate status of L3vpn.<br>
      *
      * @param spi The service parameters information
      * @return The result of getting
@@ -180,7 +180,7 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Get the information of L3vpn.<br/>
+     * Get the information of L3vpn.<br>
      *
      * @param vpnId vpn ID
      * @param ctrlUuid ctrl UUID
