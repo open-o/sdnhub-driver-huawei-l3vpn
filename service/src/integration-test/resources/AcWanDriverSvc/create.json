@@ -4,7 +4,7 @@
 		"method": "post",
 		"headers": {
 			"Content-Type": "application/json;charset=UTF-8",
-			"X-Driver-Parameter": "extSysID=123"
+			"X-Driver-Parameter": "extSysID=ctrlid1024"
 		},
 		"json": {
 	"id": "00000000-0000-0000-0000-000000000001",
@@ -17,7 +17,7 @@
 	"frr": false,
 	"diffServ": {
 		"mode": "uniform",
-		"class": "BE",
+		"serviceClass": "BE",
 		"color": "yellow"
 	},
 	"topologyService": {
@@ -52,7 +52,7 @@
 				"dot1qVlanBitmap": "22",
 				"qinqSvlanBitmap": null,
 				"qinqCvlanBitmap": null,
-				"accessAction": "keep",
+				"accessAction": "KEEP",
 				"pushVlanId": 241,
 				"swapVlanId": 210
 			},
@@ -180,7 +180,7 @@
 				"dot1qVlanBitmap": "22",
 				"qinqSvlanBitmap": null,
 				"qinqCvlanBitmap": null,
-				"accessAction": "keep",
+				"accessAction": "KEEP",
 				"pushVlanId": 241,
 				"swapVlanId": 210
 			},
@@ -308,7 +308,7 @@
 				"dot1qVlanBitmap": "22",
 				"qinqSvlanBitmap": null,
 				"qinqCvlanBitmap": null,
-				"accessAction": "keep",
+				"accessAction": "KEEP",
 				"pushVlanId": 241,
 				"swapVlanId": 210
 			},
