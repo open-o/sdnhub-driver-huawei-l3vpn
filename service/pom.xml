@@ -11,7 +11,7 @@
     <parent>
 		<groupId>org.openo.sdno.driver-huawei-l3vpn</groupId>
 		<artifactId>l3vpndriver-root</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>l3vpndriver-service</artifactId>
@@ -45,9 +45,9 @@
 		<dependency>
 			<groupId>org.openo.sdno.l3vpn</groupId>
 			<artifactId>org.openo.sdno.wanvpn.model</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-                <dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.3.2</version>
@@ -161,7 +161,7 @@
 		<dependency>
 			<groupId>org.openo.integration</groupId>
 			<artifactId>org.openo.sdno.testframework</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>1.0.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
