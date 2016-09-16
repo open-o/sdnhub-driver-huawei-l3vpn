@@ -47,13 +47,7 @@
 			<artifactId>org.openo.sdno.wanvpn.model</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>org.openo.sdno.l3vpn</groupId>
-			<artifactId>org.openo.sdno.wanvpn.inventory</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
+	<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.3.2</version>

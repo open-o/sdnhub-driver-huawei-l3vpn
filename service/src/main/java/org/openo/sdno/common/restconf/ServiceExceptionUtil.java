@@ -19,7 +19,6 @@ package org.openo.sdno.common.restconf;
 import org.openo.baseservice.remoteservice.exception.ExceptionArgs;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.model.servicemodel.brs.Device;
-import org.openo.sdno.wanvpn.inventory.sdk.util.InventoryProxy;
 
 /**
  * The tool class of service exception.<br>
@@ -44,7 +43,7 @@ public class ServiceExceptionUtil {
      */
     public static ServiceException getServiceException(final String errCode, final int httpCode, final String detail,
             final String controllerID) throws ServiceException {
-        final Device dev = InventoryProxy.getControllerDevice(controllerID);
+        final Device dev = RestConfProxy.getControllerDevice(controllerID);
         final String strErrorID = String.valueOf(errCode);
         final ServiceException ex = new ServiceException(strErrorID, detail);
         ex.setHttpCode(httpCode);
@@ -53,4 +52,5 @@ public class ServiceExceptionUtil {
         ex.setExceptionArgs(new ExceptionArgs(new String[] {}, reasonArgs, details, new String[] {}));
         return ex;
     }
+    
 }

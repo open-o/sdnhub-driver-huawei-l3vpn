@@ -16,13 +16,17 @@
 
 package org.openo.sdno.common.restconf;
 
+import java.net.URL;
+import java.util.Map;
+
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.sdno.acwanservice.config.Configuration;
+import org.openo.sdno.common.services.ESRutil;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.servicemodel.brs.Device;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 import org.openo.sdno.util.http.HTTPSender;
-import org.openo.sdno.wanvpn.inventory.sdk.util.InventoryProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +64,7 @@ public class RestConfProxy {
     public static HTTPReturnMessage get(final ContentType contentType, final String url, final String controller)
             throws ServiceException {
         LOGGER.info("url:" + url);
-        final Device dev = InventoryProxy.getControllerDevice(controller);
+        final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
         return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, null, "GET"));
     }
@@ -79,7 +83,7 @@ public class RestConfProxy {
             final String body) throws ServiceException {
         LOGGER.info("url:" + url);
         LOGGER.info("body:" + body);
-        final Device dev = InventoryProxy.getControllerDevice(controller);
+        final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
         return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, body, "POST"));
     }
@@ -96,7 +100,7 @@ public class RestConfProxy {
     public static HTTPReturnMessage del(final ContentType contentType, final String url, final String controller)
             throws ServiceException {
         LOGGER.info("url:" + url);
-        final Device dev = InventoryProxy.getControllerDevice(controller);
+        final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
         return httpSender.restInvoke(buildAuthParam(contentType, dev),
                 buildParam(contentType, url, dev, null, "DELETE"));
@@ -116,9 +120,32 @@ public class RestConfProxy {
             final String body) throws ServiceException {
         LOGGER.info("url:" + url);
         LOGGER.info("body:" + body);
-        final Device dev = InventoryProxy.getControllerDevice(controller);
+        final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
         return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, body, "PUT"));
+    }
+
+    public static Device getControllerDevice(String controller) throws ServiceException {
+         if(Configuration.getValues("ESREnabled") == null || "false".equals(Configuration.getValues("ESREnabled"))) {
+            return InventoryProxy.getControllerDevice(controller);
+        } else {
+            Device device = new Device();
+            try {
+                Map contentMap = ESRutil.getControllerDetails(controller);
+                device.setUser((String)contentMap.get("userName"));
+                device.setPwd((String)contentMap.get("password"));
+
+                URL url = new URL((String)contentMap.get("url"));
+                device.setIp(url.getHost());
+                device.setPort(url.getPort());
+            } catch(Exception e) {
+                LOGGER.error("Error in getting controller", e);
+                throw new ServiceException("Error in getting controller", e);
+            }
+
+            return device;
+
+        }
     }
 
     private static HTTPSender buildHTTPSender(final ContentType contentType) {

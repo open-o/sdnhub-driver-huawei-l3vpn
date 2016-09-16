@@ -40,6 +40,8 @@ public class L3vpnGetForAcWanDriverServer extends MocoHttpServer {
                 new AcWanL3vpnGetResponseHandler());
         this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/getL3vpn.json",
                 new AcWanL3vpnGetResponseHandler());
+        this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/ESRGetController.json",
+                new AcWanL3vpnGetResponseHandler());
     }
 
     private class AcWanL3vpnGetResponseHandler extends MocoResponseHandler {

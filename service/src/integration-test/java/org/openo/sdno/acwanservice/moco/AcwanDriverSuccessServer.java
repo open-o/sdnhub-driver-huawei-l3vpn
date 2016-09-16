@@ -41,6 +41,12 @@ public class AcwanDriverSuccessServer extends MocoHttpServer {
                 new AcWanSuccessResponseHandler());
         this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/CreateSuccess.json",
                 new AcWanSuccessResponseHandler());
+        this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/DMregistration.json",
+                new AcWanSuccessResponseHandler());
+        this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/DMUnregistration.json",
+                new AcWanSuccessResponseHandler());
+        this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/ESRGetController.json",
+                new AcWanSuccessResponseHandler());
     }
 
     private class AcWanSuccessResponseHandler extends MocoResponseHandler {
