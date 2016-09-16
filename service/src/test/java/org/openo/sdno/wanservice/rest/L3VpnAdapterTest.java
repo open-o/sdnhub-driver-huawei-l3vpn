@@ -16,16 +16,8 @@
 
 package org.openo.sdno.wanservice.rest;
 
-import javax.servlet.http.HttpServletRequestWrapper;
-
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.sdno.frame.ServiceParasInfo;
-import org.openo.sdno.wanvpn.util.rest.ROAInputStreamParser;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
-
-import mockit.Mock;
-import mockit.MockUp;
 
 public class L3VpnAdapterTest {
 
@@ -34,13 +26,13 @@ public class L3VpnAdapterTest {
     @Test
     public void testAdminStatusUpdate() throws ServiceException {
 
-        new MockUp<ROAInputStreamParser>() {
+       /* new MockUp<ROAInputStreamParser>() {
 
             @Mock
             public ServiceParasInfo fromJson(String str, Class<ServiceParasInfo> clazz) throws ServiceException {
                 return new ServiceParasInfo("test", "test", "test", null, "test");
             }
-        };
+        };*/
 
         l3VpnAdapter.getResUri();
         l3VpnAdapter.getService();

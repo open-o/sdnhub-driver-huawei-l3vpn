@@ -16,7 +16,6 @@
 
 package org.openo.sdno.wanservice.constants;
 
-import org.openo.sdno.wanvpn.util.error.ErrorCodeUtils;
 
 /**
  * The constants of L3VPN service error code.<br>
