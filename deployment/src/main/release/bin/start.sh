@@ -42,6 +42,9 @@ then
     exit 1
 fi
 
+cd ..
+export CATALINA_BASE=$(cd `dirname $0`; pwd)
+
 if [ -z "$CATALINA_BASE" ]
 then
     echo "There is no CATALINA_BASE"

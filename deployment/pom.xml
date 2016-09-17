@@ -15,22 +15,13 @@
 	</parent>
 
 	<artifactId>l3vpndriver-deployment</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<build>
-		<!-- pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.gmaven</groupId>
-					<artifactId>groovy-maven-plugin</artifactId>
-					<version>2.0</version>
-				</plugin>
-			</plugins>
-		</pluginManagement --> 
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.gmaven</groupId>
@@ -46,14 +37,12 @@
 						<configuration>
 							<source>
 								System.out.println("******** Going to make release zip *******")
-								projectName =
-								"l3vpndriver-service"
 								deployFolder =
 								"${project.build.directory}/deployoutput"
 								deployUnzip =
 								"${project.build.directory}/deployunzip"
 								outfileName =
-								"${projectName}.${project.version}.zip"
+								"${package.name}.${project.version}.zip"
 								ant.delete(dir: "${deployFolder}")
 								ant.mkdir(dir:
 								"${deployFolder}")
@@ -65,6 +54,7 @@
 
 								ant.mkdir(dir:
 								"${deployUnzip}/webapps/")
+								ant.mkdir(dir: "${deployUnzip}/webapps/ROOT")
 								ant.mkdir(dir:
 								"${deployUnzip}/logs")
 
@@ -78,9 +68,9 @@
 								}
 
 								ant.copy(todir:
-								"${deployUnzip}/webapps/${projectName}-${project.version}") {
+								"${deployUnzip}/webapps/${package.name}-${project.version}") {
 								fileset(dir:
-								"${project.build.directory}/../../service/target/${projectName}-${project.version}")
+								"${project.build.directory}/../../service/target/${package.name}")
 								}
 
 								ant.zip(destfile:
