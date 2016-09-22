@@ -16,12 +16,17 @@
 
 package org.openo.sdno.common.services;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.commons.io.IOUtils;
+import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.sdno.framework.container.resthelper.RestfulProxy;
@@ -30,10 +35,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DriverRegistrarListener implements ServletContextListener {
-    
+
+    private static final int DRIVER_REGISTRATION_DELAY = 60;
+
+    private static final int DRIVER_REGISTRATION_INITIAL_DELAY = 5;
+
+    private static final int HTTP_RESPONSE_SUCCESS_CODE = 201;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DriverRegistrarListener.class);
-    
-    private String instanceId = "sdnl3vpndriver-0-1"; 
+
+    private static final String DRIVER_INFO_KEY = "driverInfo";
+
+    private static final String DRIVER_INSTANCE_ID_KEY = "instanceID";
+
+    private String instanceId = "sdnl3vpndriver-0-1";
+
+    private ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
@@ -46,44 +63,60 @@ public class DriverRegistrarListener implements ServletContextListener {
             restParametes.putHttpContextHeader("Content-Type", "application/json;charset=UTF-8");
 
             RestfulResponse response = RestfulProxy.delete(uri, restParametes);
-            
-            if(response.getStatus()==200) {
+
+            if(response.getStatus() == HTTP_RESPONSE_SUCCESS_CODE) {
                 LOGGER.info("Driver successfully unregistered from driver manager");
             } else {
                 LOGGER.warn("Driver failed unregistered from driver manager");
             }
-            
-            
+
         } catch(Exception e) {
             LOGGER.warn("Driver failed unregistered from driver manager", e);
         }
-
+        scheduledExecutorService.shutdown();
     }
 
     @Override
     public void contextInitialized(ServletContextEvent arg0) {
+        String driverDetails = null;
         String uri = "/openoapi/drivermgr/v1/drivers";
 
         RestfulParametes restParametes = new RestfulParametes();
+        restParametes.putHttpContextHeader("Content-Type", "application/json;charset=UTF-8");
 
         try {
-            restParametes.putHttpContextHeader("Content-Type", "application/json;charset=UTF-8");
-            String driverDetails = IOUtils.toString(this.getClass().getResourceAsStream("/generalconfig/driver.json"));
-            Map driverDetailsMap=JsonUtil.fromJson(driverDetails, Map.class);
-            driverDetailsMap.put("instanceID", this.instanceId);
-            restParametes.setRawData(JsonUtil.toJson(driverDetailsMap));
-
-            RestfulResponse response = RestfulProxy.post(uri, restParametes);
-            if(response.getStatus()==200) {
-                LOGGER.info("Driver successfully registered with driver manager");
-            } else {
-                LOGGER.warn("Driver failed registered with driver manager");
-            }
-            
-        } catch(Exception e) {
-            LOGGER.warn("Driver failed registered with driver manager", e);
+            driverDetails = IOUtils.toString(this.getClass().getResourceAsStream("/generalconfig/driver.json"));
+        } catch(IOException e) {
+            LOGGER.info("Driver registration failed with driver manager : {0}", e.toString());
+            return;
         }
 
-    }
+        Map driverDetailsMap = JsonUtil.fromJson(driverDetails, Map.class);
+        Map<String, String> driverInfo = (Map)driverDetailsMap.get(DRIVER_INFO_KEY);
+        driverInfo.put(DRIVER_INSTANCE_ID_KEY, this.instanceId);
 
+        restParametes.setRawData(JsonUtil.toJson(driverDetailsMap));
+
+        // Re-attempt the driver registration if the registration is unsuccessful
+        // If the registration is successful then finish the task by throwing
+        // RuntimeException().
+        scheduledExecutorService.scheduleAtFixedRate(() -> {
+            try {
+                RestfulResponse response = RestfulProxy.post(uri, restParametes);
+                if(response.getStatus() == HTTP_RESPONSE_SUCCESS_CODE) {
+                    LOGGER.info("Driver successfully registered with driver manager. Now Stop the scheduler.");
+                    throw new RuntimeException();
+                } else {
+                    LOGGER.warn(
+                            "Driver failed registered with driver manager will reattempt the connection after {0} seconds.",
+                            DRIVER_REGISTRATION_DELAY);
+                }
+            } catch(ServiceException e) {
+                LOGGER.warn(
+                        "Driver registration failed with driver manager, connection will be reattempted after {0} seconds : {1}",
+                        DRIVER_REGISTRATION_DELAY, e.toString());
+            }
+        }, DRIVER_REGISTRATION_INITIAL_DELAY, DRIVER_REGISTRATION_DELAY, TimeUnit.SECONDS);
+
+    }
 }
