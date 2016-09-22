@@ -23,7 +23,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <package.name>l3vpndriver</package.name>
+        <package.name>l3vpndriverservice</package.name>
     </properties>
 
     <modules>
