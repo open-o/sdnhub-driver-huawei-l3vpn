@@ -60,6 +60,8 @@ import org.openo.sdno.model.uniformsbi.l3vpn.HubGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.IsisRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * class for transforming service to network model<br>
@@ -68,6 +70,8 @@ import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
  * @version SDNO 0.5 Aug 22, 2016
  */
 public class SerToNetTransformer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SerToNetTransformer.class);
 
     private SerToNetTransformer() {
     }
@@ -98,17 +102,31 @@ public class SerToNetTransformer {
         if(l3Vpn.getFrr() != null) {
             ctrlrl3vpn.setFrr(l3Vpn.getFrr().toString());
         }
-        
-        //
+
+        // if NE doesn't exist in the l3Vpn argument then read it from config file
+        // else create the NE from the Ac model (Ac -> NE).
         List<Ne> nesList = new ArrayList<Ne>();
-        Ne ne = new Ne();
-        ne.setId(Configuration.getValues(ConfigKeyConst.NE_ID_1));
-        nesList.add(ne);
-        
-        ne = new Ne();
-        ne.setId(Configuration.getValues(ConfigKeyConst.NE_ID_2));
-        nesList.add(ne);
-        
+
+        if((l3Vpn.getAcs() != null) && (l3Vpn.getAcs().getL3Ac() != null) && (l3Vpn.getAcs().getL3Ac().size() > 0)) {
+
+            List<org.openo.sdno.model.uniformsbi.l3vpn.L3Ac> l3Acs = l3Vpn.getAcs().getL3Ac();
+
+            l3Acs.stream().forEach(ac -> {
+                Ne ne = new Ne();
+                ne.setId(ac.getNeId());
+                nesList.add(ne);
+            });
+        } else {
+            Ne ne = new Ne();
+            ne.setId(Configuration.getValues(ConfigKeyConst.NE_ID_1));
+            nesList.add(ne);
+
+            ne = new Ne();
+            ne.setId(Configuration.getValues(ConfigKeyConst.NE_ID_2));
+            nesList.add(ne);
+            LOGGER.error("Failed Model translation due to empty Acs. Reading Acs from the config file.");
+        }
+
         Nes nes = new Nes();
         nes.setNes(nesList);
         ctrlrl3vpn.setNes(nes);
