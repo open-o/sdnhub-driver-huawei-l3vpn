@@ -25,7 +25,7 @@ import org.codehaus.jackson.map.annotate.JsonRootName;
 
 /**
  * The user auth information.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-6-2
  */
@@ -40,18 +40,42 @@ public class UserAuthInfo {
     @XmlElement(required = true)
     private String password;
 
+    /**
+     * Get the user name.<br>
+     *
+     * @return the user name to be authenticated
+     * @since SDNO 0.5
+     */
     public String getUserName() {
         return userName;
     }
 
+    /**
+     * Set the user name.<br>
+     *
+     * @param userName is the user name to be authenticated
+     * @since SDNO 0.5
+     */
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    /**
+     * Get the password.<br>
+     *
+     * @return the password in string representation
+     * @since SDNO 0.5
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Set the password.<br>
+     *
+     * @param password is a password in string representation
+     * @since SDNO 0.5
+     */
     public void setPassword(String password) {
         this.password = password;
     }

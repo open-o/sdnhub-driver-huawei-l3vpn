@@ -62,7 +62,8 @@ public class L3vpnAcService implements Il3VpnService {
      * @param request request
      * @param vpdId vpn ID
      * @param ctrlUuid ctrl UUID
-     * @return
+     * @return the result of the operation
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override
@@ -90,9 +91,10 @@ public class L3vpnAcService implements Il3VpnService {
     /**
      * Create L3vpn.<br>
      *
-     * @param spi The service parameters information
+     * @param spi the service parameters information
      * @param ctrlUuid ctrl UUID
-     * @return The result of creating L3vpn
+     * @return the result of L3vpn creation
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override
@@ -120,7 +122,8 @@ public class L3vpnAcService implements Il3VpnService {
      *
      * @param ctrlId ctrl ID
      * @param vpnId vpn ID
-     * @return The result of deleting
+     * @return the result of L3vpn deletion
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override
@@ -139,8 +142,9 @@ public class L3vpnAcService implements Il3VpnService {
     /**
      * Update the description of L3vpn.<br>
      *
-     * @param spi The service parameters information
-     * @return The result of updating
+     * @param spi the service parameters information
+     * @return the result of update operation
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override
@@ -160,10 +164,11 @@ public class L3vpnAcService implements Il3VpnService {
     }
 
     /**
-     * Get the operate status of L3vpn.<br>
+     * Get the operation status of L3vpn.<br>
      *
-     * @param spi The service parameters information
-     * @return The result of getting
+     * @param spi the service parameters information
+     * @return the result of operation status
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override
@@ -189,7 +194,8 @@ public class L3vpnAcService implements Il3VpnService {
      *
      * @param vpnId vpn ID
      * @param ctrlUuid ctrl UUID
-     * @return The result of getting L3vpn information
+     * @return the result of getting L3vpn information
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     @Override

@@ -17,7 +17,7 @@
 package org.openo.sdno.acwanservice.config;
 
 /**
- * The security const define. <br>
+ * The configuration key constants. <br>
  * 
  * @author
  * @version SDNO 0.5 Jun 20, 2016

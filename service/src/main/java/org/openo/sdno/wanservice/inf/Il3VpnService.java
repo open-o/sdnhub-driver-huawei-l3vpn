@@ -25,7 +25,7 @@ import org.openo.sdno.result.Result;
 
 /**
  * L3Vpn adapter service interface.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-6-22
  */
@@ -36,8 +36,9 @@ public interface Il3VpnService extends IService {
      *
      * @param req request
      * @param vpdId vpn ID
-     * @param ctrlUuid ctrl ID
-     * @return
+     * @param ctrlUuid controller uuid
+     * @return the status
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<String> l3vpnStatusUpdate(String req, String vpdId, String ctrlUuid) throws ServiceException;
@@ -45,26 +46,20 @@ public interface Il3VpnService extends IService {
     /**
      * Create L3vpn.<br>
      *
-     * @param req The service parameters information
-     * @param ctrlUuid
-     * @return The result of creating L3vpn
+     * @param req the service parameters information
+     * @param ctrlUuid controller uuid
+     * @return the result of creating L3vpn
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<String> l3vpnCreate(String req, String ctrlUuid) throws ServiceException;
 
     /**
-     * Delete the TP information of vpn.<br>
-     *
-     * @param spi The service parameters information
-     * @return The result of deleting
-     * @since SDNO 0.5
-     */
-
-    /**
      * Update the description of L3vpn.<br>
      *
-     * @param spi The service parameters information
-     * @return The result of updating
+     * @param spi the service parameters information
+     * @return the result of update
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<L3Vpn> l3vpnUpdateDecs(ServiceParasInfo spi) throws ServiceException;
@@ -72,8 +67,9 @@ public interface Il3VpnService extends IService {
     /**
      * Get the operate status of L3vpn.<br>
      *
-     * @param spi The service parameters information
-     * @return The result of getting
+     * @param spi the service parameters information
+     * @return the result of getting
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<VpnOperStatus> l3vpnOperStatusGet(ServiceParasInfo spi) throws ServiceException;
@@ -81,9 +77,10 @@ public interface Il3VpnService extends IService {
     /**
      * Get the information of L3vpn.<br>
      *
-     * @param ctrlId ctrl ID
+     * @param ctrlId controller uuid
      * @param vpnId vpn ID
-     * @return The result of getting L3vpn information
+     * @return the result of getting L3vpn information
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<String> l3vpnGet(String ctrlId, String vpnId) throws ServiceException;
@@ -91,9 +88,10 @@ public interface Il3VpnService extends IService {
     /**
      * Delete the L3vpn.<br>
      *
-     * @param ctrlId ctrl ID
+     * @param ctrlId controller uuid
      * @param vpnId vpn ID
-     * @return The result of deleting
+     * @return the result of deleting
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     Result<String> l3vpnDelete(String ctrlId, String vpnId) throws ServiceException;

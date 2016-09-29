@@ -18,7 +18,7 @@ package org.openo.sdno.model.networkmodel.servicetypes.enumeration;
 
 /**
  * The enum class of route type.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-6-6
  */
@@ -29,23 +29,54 @@ public enum RouteType {
 
     private String name;
 
+    /**
+     * Constructor to initialise the class.<br>
+     *
+     * @param value is a value
+     * @param name is a type of routing
+     * @since SDNO 0.5
+     */
     private RouteType(int value, String name) {
         this.value = value;
         this.name = name;
     }
 
+    /**
+     * Get the route type value.<br>
+     *
+     * @return route type value
+     * @since SDNO 0.5
+     */
     public int getValue() {
         return value;
     }
 
+    /**
+     * Set the route type value.<br>
+     *
+     * @param value is a route type value
+     * @since SDNO 0.5
+     */
     public void setValue(int value) {
         this.value = value;
     }
 
+    /**
+     * Get the route type.<br>
+     *
+     * @return the route type
+     * @since SDNO 0.5
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the route type.<br>
+     *
+     * @param name is the route type
+     * @since SDNO 0.5
+     */
     public void setName(String name) {
         this.name = name;
     }

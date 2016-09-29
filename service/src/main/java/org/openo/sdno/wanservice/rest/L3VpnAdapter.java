@@ -36,7 +36,7 @@ import org.openo.sdno.result.Result;
 
 /**
  * Restful interface class of L3 VPN adapter resource.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-5-30
  */
@@ -54,6 +54,12 @@ public class L3VpnAdapter extends IResource<Il3VpnService> {
         return "/openoapi/sbi-l3vpn/v1";
     }
 
+    /**
+     * Set the L3VPN service.<br>
+     *
+     * @param service is l3vpn service information.
+     * @since SDNO 0.5
+     */
     public void setService(Il3VpnService service) {
         this.service = service;
     }
@@ -83,7 +89,7 @@ public class L3VpnAdapter extends IResource<Il3VpnService> {
      *
      * @param ctrlUuidParam ctrl UUID parameter in header
      * @param vpnId vpn ID
-     * @return Response of the delete operation.
+     * @return response of the delete operation.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5
      */
@@ -103,7 +109,7 @@ public class L3VpnAdapter extends IResource<Il3VpnService> {
      * @param request Http servlet request with the service parameters information..
      * @param ctrlUuidParam ctrl UUID parameter in header
      * @param vpdId vpn ID
-     * @return
+     * @return response of the update operation.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5
      */
@@ -113,7 +119,7 @@ public class L3VpnAdapter extends IResource<Il3VpnService> {
     @Produces({"application/json"})
     public Result<String> l3vpnStatusUpdate(@Context final HttpServletRequest request,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam, @PathParam("id") String vpdId)
-            throws ServiceException {
+                    throws ServiceException {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
         return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);

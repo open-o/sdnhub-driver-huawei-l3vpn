@@ -46,7 +46,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.Vrrp;
 
 /**
  * class for transforming network to service model<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 Aug 22, 2016
  */
@@ -61,9 +61,9 @@ public class NetToSerTransformer {
     /**
      * Transform model from network to service
      * <br>
-     * 
-     * @param l3VpnConfig
-     * @return service instance
+     *
+     * @param l3VpnConfig is a network model vpn configuration
+     * @return service instance of uniform sbi
      * @since SDNO 0.5
      */
     public static org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn transformModel(L3VpnConfig l3VpnConfig) {
@@ -73,13 +73,14 @@ public class NetToSerTransformer {
         }
         L3Vpn l3Vpn = l3VpnConfig.getInstances().getInstances().get(0);
         org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        
+
         nbil3Vpn.setUuid(l3Vpn.getId());
         nbil3Vpn.setName(l3Vpn.getName());
         nbil3Vpn.setAdminStatus(AdminStatus.valueOf(l3Vpn.getAdminStatus()));
-        // Topology set to hubSpoke as controller model does not support topology 
+
+        // Topology set to hubSpoke as controller model does not support topology
         nbil3Vpn.setDescription(l3Vpn.getName());
-        
+
         if(l3Vpn.getFrr() != null) {
             nbil3Vpn.setFrr(Boolean.valueOf(l3Vpn.getFrr()));
         }
@@ -100,8 +101,8 @@ public class NetToSerTransformer {
         if(l3Vpn.getAcProtectGroups() != null && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null) {
             protectGroup.setMasterAc(l3Vpn.getAcProtectGroups().getAcprotectGroup().getMasterAcId());
         }
-        if(l3Vpn.getAcProtectGroups() != null 
-                && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null 
+        if(l3Vpn.getAcProtectGroups() != null
+                && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null
                 && l3Vpn.getAcProtectGroups().getAcprotectGroup().getVrrp() != null) {
             Vrrp vrrp = new Vrrp();
             vrrp.setVirtualIp(l3Vpn.getAcProtectGroups().getAcprotectGroup().getVrrp().getVirtualIp());
@@ -125,6 +126,14 @@ public class NetToSerTransformer {
         return nbil3Vpn;
     }
 
+    /**
+     * Transform attachment circuits associated with the VPN from network to service
+     * <br>
+     *
+     * @param acs is a network attachment circuits
+     * @return service instance of attachment circuits
+     * @since SDNO 0.5
+     */
     private static org.openo.sdno.model.uniformsbi.l3vpn.L3Acs transformAcs(L3Acs acs) {
 
         org.openo.sdno.model.uniformsbi.l3vpn.L3Acs l3Acs = new org.openo.sdno.model.uniformsbi.l3vpn.L3Acs();
@@ -141,7 +150,7 @@ public class NetToSerTransformer {
                 l2access.setL2AccessType(l3ac.getL2Access().getAccessType());
                 l2access.setDot1qVlanBitmap(l3ac.getL2Access().getDot1q().getVlanId());
                 l2access.setPushVlanId(String.valueOf(l3ac.getL2Access().getDot1q().getVlanId()));
-                
+
                 ctrlrl3ac.setL2Access(l2access);
             }
 
@@ -150,33 +159,32 @@ public class NetToSerTransformer {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Access l3Access =
                         new org.openo.sdno.model.uniformsbi.l3vpn.L3Access();
                 l3Access.setIpv4Address(l3ac.getL3Access().getAddress());
-                
+
                 Routes routes = new Routes();
                 List<Route> routeList = new ArrayList<>();
-                
+
                 if(l3ac.getL3Access().getStaticRoutes() != null) {
                     Route route = new Route();
                     StaticRoutes sroutes = new StaticRoutes();
                     List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> staticRouteList = new ArrayList<>();
-                    
+
                     for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
                         org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
                                 new org.openo.sdno.model.uniformsbi.l3vpn.Route();
                         nbiRoute.setRouteType(RouteType.STATIC.getName());
-                        
+
                         org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr = new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
                         sr.setIpPrefix(staticRoute.getIpPrefix());
                         sr.setNextHop(staticRoute.getNextHop());
                         staticRouteList.add(sr);
                     }
                     sroutes.setStaticRoute(staticRouteList);
-                    
+
                     route.setStaticRoutes(sroutes);
                     route.setRouteType("static");
                     routeList.add(route);
-                    
                 }
-                
+
                 if(l3ac.getL3Access().getProtocols()!= null) {
                     for(Protocol protocol:l3ac.getL3Access().getProtocols()) {
                         if(protocol.getBgp() != null) {
@@ -198,7 +206,7 @@ public class NetToSerTransformer {
                             route.setBgpRoutes(bgps);
                             routeList.add(route);
                         }
-                        
+
                         if(protocol.getIsis() != null) {
                             Route route = new Route();
                             IsisRoute isis = new IsisRoute();
@@ -206,15 +214,15 @@ public class NetToSerTransformer {
                             route.setIsisRoute(isis);
                             routeList.add(route);
                         }
-                        
+
                         if(protocol.getOspf() != null) {
                             //TODO ospf
                         }
-                        
+
                     }
                 }
                 routes.setRoute(routeList);
-                
+
                 l3Access.setRoutes(routes);
                 ctrlrl3ac.setL3Access(l3Access);
             }
@@ -224,8 +232,16 @@ public class NetToSerTransformer {
         return l3Acs;
     }
 
+    /**
+     * Transform tunnel service of l3vpn from network to service model
+     * <br>
+     *
+     * @param tunnelService is a network tunnel service
+     * @return service instance of uniform sbi's tunnel service
+     * @since SDNO 0.5
+     */
     private static org.openo.sdno.model.uniformsbi.base.TunnelService
-            transformTunnelService(TunnelService tunnelService) {
+    transformTunnelService(TunnelService tunnelService) {
         org.openo.sdno.model.uniformsbi.base.TunnelService ts =
                 new org.openo.sdno.model.uniformsbi.base.TunnelService();
 
@@ -237,7 +253,6 @@ public class NetToSerTransformer {
             autoSelectPolicy.setLoadBalanceNumber(tunnelService.getAutoSelect().getLoadBalanceNumber());
             ts.setAutoSelect(autoSelectPolicy);
         }
-        
 
         if(tunnelService.getMplsTe() != null) {
             ts.setMplsTe(transformMplsTe(tunnelService.getMplsTe()));
@@ -246,6 +261,14 @@ public class NetToSerTransformer {
         return ts;
     }
 
+    /**
+     * Transform MPLS traffic engineering data from network to service model
+     * <br>
+     *
+     * @param mplsTe is a network MPLS traffic engineering data
+     * @return service instance of uniform sbi's MPLS traffic engineering data
+     * @since SDNO 0.5
+     */
     private static org.openo.sdno.model.uniformsbi.base.MplsTePolicy transformMplsTe(MplsTe mplsTe) {
 
         org.openo.sdno.model.uniformsbi.base.MplsTePolicy mplsObj =
@@ -279,15 +302,23 @@ public class NetToSerTransformer {
         return mplsObj;
     }
 
+    /**
+     * Transform topology service from network to service model
+     * <br>
+     *
+     * @param topologyService is a network topology service
+     * @return service instance of uniform sbi's topology service
+     * @since SDNO 0.5
+     */
     private static org.openo.sdno.model.uniformsbi.l3vpn.TopologyService
-            transformTopoService(TopoService topologyService) {
+    transformTopoService(TopoService topologyService) {
 
         org.openo.sdno.model.uniformsbi.l3vpn.TopologyService topoService =
                 new org.openo.sdno.model.uniformsbi.l3vpn.TopologyService();
         org.openo.sdno.model.uniformsbi.l3vpn.HubGroups hubGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.HubGroups();
         SpokeGroup spokeGroup = new SpokeGroup();
-        
+
         if(topologyService.getHubSpoke() != null) {
             TOPOLOGY_TYPE = "hubSpoke";
             if(topologyService.getHubSpoke().getHubGroup() != null) {
@@ -297,7 +328,7 @@ public class NetToSerTransformer {
             if(topologyService.getHubSpoke().getSpokeGroup() != null) {
                 spokeGroup.setLocalBridge(topologyService.getHubSpoke().getSpokeGroup().getLocalBridge());
                 spokeGroup
-                        .setSpokeAcs(transformSpokeGroup(topologyService.getHubSpoke().getSpokeGroup().getSpokeAcs()));
+                .setSpokeAcs(transformSpokeGroup(topologyService.getHubSpoke().getSpokeGroup().getSpokeAcs()));
             }
             topoService.setSpokeGroup(spokeGroup);
             topoService.setHubGroups(hubGroup);
@@ -306,6 +337,14 @@ public class NetToSerTransformer {
         return topoService;
     }
 
+    /**
+     * Transform spoke attachment circuits from network to service model
+     * <br>
+     *
+     * @param spokeAcs is a network spoke attachment circuits
+     * @return service instance of uniform sbi's spoke attachment circuits
+     * @since SDNO 0.5
+     */
     private static List<SpokeAcs> transformSpokeGroup(List<SpokeAc> spokeAcs) {
 
         List<SpokeAcs> nbispokeAcs = new ArrayList<>();
@@ -314,10 +353,18 @@ public class NetToSerTransformer {
             acs.setAcId(spokeAc.getAcId());
             nbispokeAcs.add(acs);
         }
-        
+
         return nbispokeAcs;
     }
 
+    /**
+     * Transform hub attachment circuits from network to service model
+     * <br>
+     *
+     * @param hubGroup is a network hub attachment circuits
+     * @return service instance of uniform sbi's hub attachment circuits
+     * @since SDNO 0.5
+     */
     private static List<HubGroup> transformHubGroup(List<HubAc> hubGroup) {
         List<HubGroup> hubAcs = new ArrayList<>();
 

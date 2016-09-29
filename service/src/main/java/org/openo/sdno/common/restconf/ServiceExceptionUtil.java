@@ -22,7 +22,7 @@ import org.openo.sdno.model.servicemodel.brs.Device;
 
 /**
  * The tool class of service exception.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-6-2
  */
@@ -33,12 +33,13 @@ public class ServiceExceptionUtil {
 
     /**
      * Get the ServiceException.<br>
-     * 
-     * @param errCode The error code
-     * @param httpCode The http status code
-     * @param detail The detail description message
-     * @param controllerID The controller uuid
-     * @return The ServiceException
+     *
+     * @param errCode the error code
+     * @param httpCode the http status code
+     * @param detail the detail description message
+     * @param controllerID the controller uuid
+     * @return the ServiceException
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     public static ServiceException getServiceException(final String errCode, final int httpCode, final String detail,
@@ -52,5 +53,5 @@ public class ServiceExceptionUtil {
         ex.setExceptionArgs(new ExceptionArgs(new String[] {}, reasonArgs, details, new String[] {}));
         return ex;
     }
-    
+
 }

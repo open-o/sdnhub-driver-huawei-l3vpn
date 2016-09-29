@@ -43,6 +43,11 @@ public class L3VpnSvcErrorCode {
 
     public static final String L3VPN_GET_STATUS_CONTROLLER_FAIL = null;
 
+    /**
+     * Default constructor.<br>
+     *
+     * @since SDNO 0.5
+     */
     private L3VpnSvcErrorCode() {
     }
 }

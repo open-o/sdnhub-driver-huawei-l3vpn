@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * class for transforming service to network model<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 Aug 22, 2016
  */
@@ -77,11 +77,11 @@ public class SerToNetTransformer {
     }
 
     /**
-     * transform service to network
+     * Transform service to network model
      * <br>
-     * 
-     * @param l3Vpn
-     * @return network instance
+     *
+     * @param l3Vpn is a service model vpn configuration
+     * @return network instance of vpn configuration
      * @since SDNO 0.5
      */
     public static L3VpnConfig transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
@@ -156,6 +156,14 @@ public class SerToNetTransformer {
         return l3VpnConfig;
     }
 
+    /**
+     * Transform service attachment circuits associated with the VPN to network model.
+     * <br>
+     *
+     * @param acs is uniform sbi's service model
+     * @return network instance of attachment circuits
+     * @since SDNO 0.5
+     */
     private static L3Acs transformAcs(org.openo.sdno.model.uniformsbi.l3vpn.L3Acs acs) {
 
         L3Acs l3Acs = new L3Acs();
@@ -210,7 +218,7 @@ public class SerToNetTransformer {
                                         Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
                                 staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
                                 staticRoute
-                                        .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
+                                .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
                                 staticRoutes.add(staticRoute);
                                 Protocol protocol = new Protocol();
                                 protocol.setType(RouteType.STATIC.getName());
@@ -271,6 +279,14 @@ public class SerToNetTransformer {
         return l3Acs;
     }
 
+    /**
+     * Transform service attachment circuit's protection group to network protection group model
+     * <br>
+     *
+     * @param protectGroup is uniform sbi's attachment circuit's protection group service model
+     * @return network instance of attachment circuit's protection group
+     * @since SDNO 0.5
+     */
     private static AcProtectGroups transformProtectGroup(ProtectGroup protectGroup) {
         AcProtectGroups apgs = new AcProtectGroups();
 
@@ -287,8 +303,16 @@ public class SerToNetTransformer {
         return apgs;
     }
 
+    /**
+     * Transform from service tunnel services to network tunnel service model
+     * <br>
+     *
+     * @param tunnelService is uniform sbi's tunnel service model
+     * @return network instance of tunnel services
+     * @since SDNO 0.5
+     */
     private static TunnelService
-            transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
+    transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
         TunnelService ts = new TunnelService();
 
         ts.setType(tunnelService.getType());
@@ -322,6 +346,14 @@ public class SerToNetTransformer {
         return ts;
     }
 
+    /**
+     * Transform service mpls traffic engineering to network mpls traffic engineering model
+     * <br>
+     *
+     * @param mplsTe is uniform sbi's service model
+     * @return network instance of mpls traffic engineering
+     * @since SDNO 0.5
+     */
     private static MplsTe transformMplsTe(org.openo.sdno.model.uniformsbi.base.MplsTePolicy mplsTe) {
 
         MplsTe mplsObj = new MplsTe();
@@ -352,6 +384,14 @@ public class SerToNetTransformer {
         return mplsObj;
     }
 
+    /**
+     * Transform service difference service to network difference service model
+     * <br>
+     *
+     * @param diffServ is uniform sbi's service model
+     * @return network instance of difference service
+     * @since SDNO 0.5
+     */
     private static DiffServ transformDiffServ(org.openo.sdno.model.uniformsbi.l3vpn.DiffServ diffServ) {
         DiffServ diffServValue = new DiffServ();
         if(diffServ.getServiceClass() != null) {
@@ -367,6 +407,14 @@ public class SerToNetTransformer {
         return diffServValue;
     }
 
+    /**
+     * Transform service level topology to network level topology model.
+     * <br>
+     *
+     * @param topologyService is uniform sbi's service model
+     * @return network instance of topology service
+     * @since SDNO 0.5
+     */
     private static TopoService transformTopoService(TopologyService topologyService) {
         TopoService topoService = new TopoService();
         HubSpoke hubSpoke = new HubSpoke();
@@ -384,6 +432,14 @@ public class SerToNetTransformer {
         return topoService;
     }
 
+    /**
+     * Transform service spoke group to network spoke group model
+     * <br>
+     *
+     * @param spokeGroup is uniform sbi's service model
+     * @return network instance of spoke group
+     * @since SDNO 0.5
+     */
     private static SpokeGroup transformSpokeGroup(org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup spokeGroup) {
         SpokeGroup sg = new SpokeGroup();
         sg.setLocalBridge(spokeGroup.isLocalBridge());
@@ -403,6 +459,14 @@ public class SerToNetTransformer {
         return sg;
     }
 
+    /**
+     * Transform service hub group to network hub group model
+     * <br>
+     *
+     * @param hubGroup is uniform sbi's service model
+     * @return network instance of hub group
+     * @since SDNO 0.5
+     */
     private static List<HubAc> transformHubGroup(List<HubGroup> hubGroup) {
         List<HubAc> hubAcs = new ArrayList<HubAc>();
 

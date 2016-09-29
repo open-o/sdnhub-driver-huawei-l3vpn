@@ -47,11 +47,11 @@ public class HttpProxy extends HTTPSender {
     private String contentType;
 
     /**
-     * Heavy load, the current AC controller to get token only support JSON.<br>
+     * Authenticate the http request .<br>
      *
-     * @param authReq Auth http request message
+     * @param authReq http authentication request message
      * @param request HTTP request message
-     * @return The http response message
+     * @return the http response message
      * @since SDNO 0.5
      */
     @Override
@@ -99,6 +99,12 @@ public class HttpProxy extends HTTPSender {
         return response;
     }
 
+    /**
+     * Set the http content type.<br>
+     *
+     * @param httpContentType is type of http content
+     * @since SDNO 0.5
+     */
     @Override
     public void setHttpContentType(String httpContentType) {
         super.setHttpContentType(httpContentType);

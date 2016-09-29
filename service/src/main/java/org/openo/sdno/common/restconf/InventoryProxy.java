@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The class of inventory proxy.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 2016-6-3
  */
@@ -58,9 +58,10 @@ public class InventoryProxy {
 
     /**
      * Get the controller device data through the controller uuid.<br>
-     * 
-     * @param ctrId The controller uuid
-     * @return The controller device data
+     *
+     * @param ctrId the controller uuid
+     * @return the controller device data
+     * @throws ServiceException
      * @since SDNO 0.5
      */
     public static Device getControllerDevice(final String ctrId) throws ServiceException {
@@ -91,6 +92,14 @@ public class InventoryProxy {
         return device;
     }
 
+    /**
+     * Query the controller by controller uuid.<br>
+     *
+     * @param ctrID the controller uuid
+     * @return the controller model object
+     * @throws ServiceException
+     * @since SDNO 0.5
+     */
     private static ControllerMO queryControllerByID(final String ctrID) throws ServiceException {
         final RestfulParametes restfulParametes = new RestfulParametes();
         restfulParametes.putHttpContextHeader("Content-Type", MediaType.APPLICATION_JSON);

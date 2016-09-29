@@ -59,9 +59,9 @@ public class SerializeUtil {
     /**
      * Serialize the body.<br>
      *
-     * @param contentType The enum of contents type
-     * @param body The body to be serialized
-     * @return The serialized body
+     * @param contentType the enum of contents type
+     * @param body the body to be serialized
+     * @return the serialized body
      * @since SDNO 0.5
      */
     public static String serialize(ContentType contentType, Object body) throws ServiceException {
@@ -75,10 +75,11 @@ public class SerializeUtil {
     /**
      * Deserialize the string object.<br>
      *
-     * @param contentType The enum of contents type
-     * @param str The string object to be deserialized
-     * @param clazz The class type that deserialize to
-     * @return The deserialized object
+     * @param contentType the enum of contents type
+     * @param str the string object to be deserialized
+     * @param clazz the class type that deserialize to
+     * @return the deserialized object
+     * @service ServiceException
      * @since SDNO 0.5
      */
     public static <T> T deSerialize(ContentType contentType, String str, Class<T> clazz) throws ServiceException {
@@ -92,8 +93,9 @@ public class SerializeUtil {
     /**
      * Change the body to json.<br>
      *
-     * @param body The body object to be changed
-     * @return The json that body is changed to
+     * @param body the body object to be changed
+     * @return the json that body is changed to
+     * @service ServiceException
      * @since SDNO 0.5
      */
     public static String toJson(Object body) throws ServiceException {
@@ -116,9 +118,10 @@ public class SerializeUtil {
     /**
      * Change the json object to the class type.<br>
      *
-     * @param json The json object to be changed
-     * @param clazz The class type that the json is changed to
-     * @return The object that the json is changed to
+     * @param json the json object to be changed
+     * @param clazz the class type that the json is changed to
+     * @return the object that the json is changed to
+     * @service ServiceException
      * @since SDNO 0.5
      */
     public static <T> T fromJson(String json, Class<T> clazz) throws ServiceException {
@@ -142,8 +145,9 @@ public class SerializeUtil {
     /**
      * Change the object to xml.<br>
      *
-     * @param obj The object to be changed
-     * @return The xml that object is changed to
+     * @param obj the object to be changed
+     * @return the xml that object is changed to
+     * @service ServiceException
      * @since SDNO 0.5
      */
     public static String toXml(Object obj) throws ServiceException {
@@ -168,9 +172,10 @@ public class SerializeUtil {
     /**
      * Change the xml object to the class type.<br>
      *
-     * @param xml The xml object to be changed
-     * @param clazz The class type that the xml is changed to
-     * @return The object that the xml is changed to
+     * @param xml is the object to be changed
+     * @param clazz the class type that the xml is changed to
+     * @return the object that the xml is changed to
+     * @service ServiceException
      * @since SDNO 0.5
      */
     public static <T> T fromXml(String xml, Class<T> clazz) throws ServiceException {
@@ -207,6 +212,13 @@ public class SerializeUtil {
         }
     }
 
+    /**
+     * Trim the url body.<br>
+     *
+     * @param body is url to be trimmed
+     * @return the trimmed url string
+     * @since SDNO 0.5
+     */
     private static String trimBodyStr(String body) {
         if(body.indexOf('"') == 0 && body.lastIndexOf('"') == body.length() - 1) {
             return body.substring(1, body.length() - 1);

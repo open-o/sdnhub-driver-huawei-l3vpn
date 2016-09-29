@@ -28,18 +28,18 @@ import org.openo.sdno.framework.container.util.JsonUtil;
  * <br/>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version     SDNO 0.5  Sep 15, 2016
  */
 public class ESRutil {
-    
+
     /**
      * Queries ESR for controller details and returns contoller's properties as map.
      * <br/>
-     * 
-     * @param ctrlUuid
-     * @return
+     *
+     * @param ctrlUuid controller uuid
+     * @return the map of controller's properties
      * @throws ServiceException
      * @since  SDNO 0.5
      */

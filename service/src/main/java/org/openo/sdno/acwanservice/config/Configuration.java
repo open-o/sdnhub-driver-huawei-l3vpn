@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Configuration class<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 Aug 22, 2016
  */
@@ -48,10 +48,10 @@ public class Configuration {
     }
 
     /**
-     * get label values.<br>
-     * 
-     * @param label
-     * @return
+     * Get label values.<br>
+     *
+     * @param label is a key
+     * @return acwan configured value
      * @since SDNO 0.5
      */
     public static String getValues(String label) {
@@ -66,19 +66,35 @@ public class Configuration {
 
     }
 
+    /**
+     * Get label values.<br>
+     *
+     * @param values is a key value map
+     * @param key is a configuration key
+     * @return the configuration value for a given key
+     * @since SDNO 0.5
+     */
     private static String getValue(List<Map<String, String>> values, String key) {
-        String returnResult = null;
+        String result = null;
         for(Map<String, String> value : values) {
             String keyValue = value.get(CF_KEY);
             if((keyValue != null) && keyValue.equals(key)) {
-                returnResult = value.get(CF_VALUE);
+                result = value.get(CF_VALUE);
                 break;
             }
         }
 
-        return returnResult;
+        return result;
     }
 
+    /**
+     * Json file parser.<br>
+     *
+     * @param domain acwan configuration domain
+     * @return the values which is a key value map
+     * @throws ServiceException
+     * @since SDNO 0.5
+     */
     private static List<Map<String, String>> getJsonFileData(String domain) throws ServiceException {
         try {
             String content = IOUtils.toString(
