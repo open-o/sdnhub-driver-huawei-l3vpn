@@ -27,7 +27,7 @@
 	</listener>
 	
 	<listener>
-		<listener-class>org.openo.sdno.common.services.DriverRegistrarListener</listener-class>
+		<listener-class>org.openo.sdno.common.services.DriverRegistrationListener</listener-class>
 	</listener>
 
 	<context-param>

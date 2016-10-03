@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.ServletContextEvent;
@@ -29,6 +30,7 @@ import org.apache.commons.io.IOUtils;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
+import org.openo.sdno.exception.HttpCode;
 import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.slf4j.Logger;
@@ -40,15 +42,13 @@ import org.slf4j.LoggerFactory;
  * @author
  * @version SDNO 0.5 2016-9-27
  */
-public class DriverRegistrarListener implements ServletContextListener {
+public class DriverRegistrationListener implements ServletContextListener {
 
     private static final int DRIVER_REGISTRATION_DELAY = 60;
 
     private static final int DRIVER_REGISTRATION_INITIAL_DELAY = 5;
 
-    private static final int HTTP_RESPONSE_SUCCESS_CODE = 201;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(DriverRegistrarListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DriverRegistrationListener.class);
 
     private static final String DRIVER_INFO_KEY = "driverInfo";
 
@@ -57,6 +57,8 @@ public class DriverRegistrarListener implements ServletContextListener {
     private String instanceId = "sdnl3vpndriver-0-1";
 
     private ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+    private ScheduledFuture<?> scheduler;
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
@@ -70,7 +72,7 @@ public class DriverRegistrarListener implements ServletContextListener {
 
             RestfulResponse response = RestfulProxy.delete(uri, restParametes);
 
-            if(response.getStatus() == HTTP_RESPONSE_SUCCESS_CODE) {
+            if(HttpCode.isSucess(response.getStatus())) {
                 LOGGER.info("Driver successfully unregistered from driver manager");
             } else {
                 LOGGER.warn("Driver failed unregistered from driver manager");
@@ -104,14 +106,14 @@ public class DriverRegistrarListener implements ServletContextListener {
         restParametes.setRawData(JsonUtil.toJson(driverDetailsMap));
 
         // Re-attempt the driver registration if the registration is unsuccessful
-        // If the registration is successful then finish the task by throwing
-        // RuntimeException().
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
+        // If the registration is successful then finish the task by cancelling the scheduler.
+
+        scheduler = scheduledExecutorService.scheduleAtFixedRate(() -> {
             try {
                 RestfulResponse response = RestfulProxy.post(uri, restParametes);
-                if(response.getStatus() == HTTP_RESPONSE_SUCCESS_CODE) {
+                if(HttpCode.isSucess(response.getStatus())) {
                     LOGGER.info("Driver successfully registered with driver manager. Now Stop the scheduler.");
-                    throw new RuntimeException();
+                    this.scheduler.cancel(false);
                 } else {
                     LOGGER.warn(
                             "Driver failed registered with driver manager will reattempt the connection after {0} seconds.",
