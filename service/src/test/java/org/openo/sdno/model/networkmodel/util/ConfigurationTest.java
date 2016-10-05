@@ -16,6 +16,8 @@
 
 package org.openo.sdno.model.networkmodel.util;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -58,7 +60,8 @@ public class ConfigurationTest {
                 return mapList;
             }
         };
-        Configuration.getValues("label");
+        String result = Configuration.getValues("label");
+        assertEquals(result, "cfgvalue");
     }
 
     @Test
@@ -84,7 +87,8 @@ public class ConfigurationTest {
                 return mapList;
             }
         };
-        Configuration.getValues("label");
+        String result = Configuration.getValues("label");
+        assertEquals(result, null);
     }
 
     @Test
@@ -110,6 +114,7 @@ public class ConfigurationTest {
                 return mapList;
             }
         };
-        Configuration.getValues("label");
+        String result = Configuration.getValues("label");
+        assertEquals(result, null);
     }
 }

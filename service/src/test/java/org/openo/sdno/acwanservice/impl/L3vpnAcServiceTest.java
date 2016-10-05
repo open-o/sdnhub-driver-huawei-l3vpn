@@ -16,6 +16,8 @@
 
 package org.openo.sdno.acwanservice.impl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -34,8 +36,6 @@ import org.openo.sdno.common.restconf.HttpProxy;
 import org.openo.sdno.common.restconf.InventoryProxy;
 import org.openo.sdno.frame.ServiceParasInfo;
 import org.openo.sdno.framework.container.util.JsonUtil;
-import org.openo.sdno.model.networkmodel.servicetypes.AcProtectGroup;
-import org.openo.sdno.model.networkmodel.servicetypes.AcProtectGroups;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
 import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
@@ -56,6 +56,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs;
 import org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
 import org.openo.sdno.model.uniformsbi.l3vpn.Vrrp;
+import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 
@@ -163,42 +164,6 @@ public class L3vpnAcServiceTest {
     @Test
     public void testl3adminStatusUpdate() throws ServiceException {
 
-        new MockUp<JsonUtil>() {
-
-            @Mock
-            public L3Vpn fromJson(String arg0, Class<L3Vpn> arg1) {
-                L3Vpn l3Vpn = new L3Vpn();
-                l3Vpn.setId("Id");
-                l3Vpn.setMode("mode");
-                l3Vpn.setName("name");
-                List<AcProtectGroup> list = new ArrayList<>();
-                list.add(new AcProtectGroup());
-                l3Vpn.setAcProtectGroups(new AcProtectGroups());
-                ;
-                l3Vpn.setAcs(new L3Acs());
-                return l3Vpn;
-
-            }
-        };
-
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(200);
-                return httpReturnMessage;
-            }
-        };
         new MockUp<AbstractMarshallerImpl>() {
 
             @Mock
@@ -221,7 +186,6 @@ public class L3vpnAcServiceTest {
                     Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                ;
                 return l3Vpn;
             }
         };
@@ -260,8 +224,8 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
-        l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
+        Result<String> resultString = l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
+        assertEquals(resultString.getErrcode(), 0);
     }
 
     @Test
@@ -274,7 +238,6 @@ public class L3vpnAcServiceTest {
                     Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                ;
                 return l3Vpn;
             }
         };
@@ -306,8 +269,8 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
-        l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
+        Result<String> resultString = l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
+        assertEquals(resultString.getErrcode(), 0);
     }
 
     @Test(expected = ServiceException.class)
@@ -326,7 +289,6 @@ public class L3vpnAcServiceTest {
                     Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                ;
                 return l3Vpn;
             }
         };
@@ -377,7 +339,6 @@ public class L3vpnAcServiceTest {
             public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
                     Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpnl = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-                // modifyTpStatusInput.setAdminStatus("inactive");
                 return l3Vpnl;
             }
         };
@@ -399,7 +360,8 @@ public class L3vpnAcServiceTest {
                 return httpReturnMessage;
             }
         };
-        l3vpnAcService.l3vpnCreate("spi", "ctrluuid");
+        Result<String> resultString = l3vpnAcService.l3vpnCreate("spi", "ctrluuid");
+        assertEquals(resultString.getErrcode(), 0);
     }
 
     @Test(expected = ServiceException.class)
@@ -443,53 +405,6 @@ public class L3vpnAcServiceTest {
     }
 
     @Test
-    public void testl3vpnBindTpDelete() throws ServiceException {
-
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(200);
-                return httpReturnMessage;
-            }
-        };
-    }
-
-    @Test
-    public void testl3vpnBindTpDeleteException() throws ServiceException {
-
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(504);
-                return httpReturnMessage;
-            }
-        };
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-    }
-
-    @Test
     public void testl3vpnDelete() throws ServiceException {
 
         new MockUp<InventoryProxy>() {
@@ -511,7 +426,8 @@ public class L3vpnAcServiceTest {
             }
         };
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-        l3vpnAcService.l3vpnDelete("123", "121");
+        Result<String> resultString = l3vpnAcService.l3vpnDelete("123", "121");
+        assertEquals(resultString.getErrcode(), 0);
     }
 
     @Test(expected = ServiceException.class)
@@ -569,7 +485,8 @@ public class L3vpnAcServiceTest {
             }
         };
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-        l3vpnAcService.l3vpnUpdateDecs(spi);
+        Result<L3Vpn> resultL3Vpn = l3vpnAcService.l3vpnUpdateDecs(spi);
+        assertEquals(resultL3Vpn.getErrcode(), 0);
     }
 
     @Test(expected = ServiceException.class)
@@ -635,7 +552,8 @@ public class L3vpnAcServiceTest {
             }
         };
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-        l3vpnAcService.l3vpnOperStatusGet(spi);
+        Result<VpnOperStatus> resultVpnOperStatus = l3vpnAcService.l3vpnOperStatusGet(spi);
+        assertEquals(resultVpnOperStatus.getErrcode(), 0);
     }
 
     @Test
@@ -661,7 +579,8 @@ public class L3vpnAcServiceTest {
         };
 
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-        l3vpnAcService.l3vpnOperStatusGet(spi);
+        Result<VpnOperStatus> resultVpnOperStatus = l3vpnAcService.l3vpnOperStatusGet(spi);
+        assertEquals(resultVpnOperStatus.getErrcode(), 0);
     }
 
     @Test(expected = ServiceException.class)
@@ -720,73 +639,8 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-        l3vpnAcService.l3vpnGet("vpcID", "ctrlID");
+        Result<String> resultString = l3vpnAcService.l3vpnGet("vpcID", "ctrlID");
+        assertEquals(resultString.getErrcode(), 0);
     }
-/*
-    @Test(expected = ServiceException.class)
-    public void testl3vpnGetException() throws ServiceException {
-        new MockUp<InventoryProxy>() {
 
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(504);
-                return httpReturnMessage;
-            }
-        };
-
-        new MockUp<AbstractUnmarshallerImpl>() {
-
-            @Mock
-            public Object unmarshal(javax.xml.transform.Source source) {
-
-                return new L3Vpn();
-            }
-        };
-        l3vpnAcService.l3vpnGet("vpcID", "ctrlID");
-    }
-*/
-    @Test
-    public void testl3vpnBindTpCreate() throws ServiceException {
-        new MockUp<JsonUtil>() {
-
-            @Mock
-            public L3Vpn fromJson(String arg0, Class<L3Vpn> arg1) {
-                L3Vpn l3Vpn = new L3Vpn();
-                l3Vpn.setAcs(new L3Acs());
-                l3Vpn.setId("id");
-                return l3Vpn;
-            }
-        };
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(504);
-                return httpReturnMessage;
-            }
-        };
-
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
-    }
 }

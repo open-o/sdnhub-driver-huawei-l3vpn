@@ -28,7 +28,6 @@ import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.acwanservice.transformer.SerToNetTransformer;
 import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
-import org.openo.sdno.model.networkmodel.servicetypes.Ne;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectPolicy;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnels;
@@ -292,7 +291,8 @@ public class SerToNetTransformerTest {
         diffServ.setColor("color");
         diffServ.setMode("mode");
         l3Vpn.setDiffServ(diffServ);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test(expected = Exception.class)
@@ -403,7 +403,6 @@ public class SerToNetTransformerTest {
         };
         L3Vpn l3Vpn = new L3Vpn();
         AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
-        // adminStatus.setName("name");
         l3Vpn.setAdminStatus(adminStatus);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
@@ -485,7 +484,8 @@ public class SerToNetTransformerTest {
         diffServ.setColor(null);
         diffServ.setMode(null);
         l3Vpn.setDiffServ(diffServ);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test
@@ -579,7 +579,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test
@@ -671,7 +672,8 @@ public class SerToNetTransformerTest {
         l3acs.setL3Ac(lsitL3Ac);
         l3Vpn.setAcs(l3acs);
         l3Vpn.setDiffServ(null);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test
@@ -684,7 +686,6 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
         l3Vpn.setAdminStatus(null);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
@@ -760,7 +761,6 @@ public class SerToNetTransformerTest {
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("preFix");
         staticRoute.setNextHop("nextHop");
-        // staticRouteList.add(staticRoute);
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         BgpRoutes bgpRoutes = new BgpRoutes();
@@ -783,7 +783,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test
@@ -796,7 +797,6 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
         l3Vpn.setAdminStatus(null);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
@@ -866,7 +866,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        SerToNetTransformer.transformModel(l3Vpn);
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 
     @Test
@@ -879,7 +880,6 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
         l3Vpn.setAdminStatus(null);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
@@ -895,220 +895,7 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(null);
 
         l3Vpn.setDiffServ(null);
-        SerToNetTransformer.transformModel(l3Vpn);
-    }
-
-    @Test
-    public void transformModel_empty_ACs() throws ServiceException {
-        new MockUp<IOUtils>() {
-
-            @Mock
-            public String toString(InputStream input) throws IOException {
-                return "temp";
-            }
-        };
-
-        L3Vpn l3Vpn = new L3Vpn();
-        AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
-        l3Vpn.setAdminStatus(adminStatus);
-        l3Vpn.setUuid("uuid");
-        l3Vpn.setName("name");
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
-        List<HubGroup> listHubGroup = new ArrayList<>();
-        HubGroup hubGroup = new HubGroup();
-        hubGroup.setAcId("acID");
-        hubGroup.setHubDirection("hubDirection");
-        listHubGroup.add(hubGroup);
-        hubGroups.setHubGroup(listHubGroup);
-        topologyService.setHubGroups(hubGroups);
-
-        SpokeGroup spokeGroup = new SpokeGroup();
-        spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
-        spokeGroup.setSpokeAcs(listSpokeAcs);
-        topologyService.setSpokeGroup(spokeGroup);
-        l3Vpn.setTopologyService(topologyService);
-        TunnelService tunnelService = new TunnelService();
-        tunnelService.setType("type");
-        AutoSelectPolicy autoSelectPolicy = new AutoSelectPolicy();
-        autoSelectPolicy.setLoadBalanceNumber(1);
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
-        AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
-        autoSelectTunnel.setPriority(1);
-        autoSelectTunnel.setType("type");
-        List<AutoSelectTunnel> list = new ArrayList<>();
-        list.add(autoSelectTunnel);
-        autoSelectTunnels.setAutoSelectTunnel(list);
-        autoSelectPolicy.setAutoSelectTunnels(autoSelectTunnels);
-        tunnelService.setAutoSelect(autoSelectPolicy);
-        MplsTePolicy mplsTe = new MplsTePolicy();
-        mplsTe.setBandwidth(123);
-        mplsTe.setManageProtocol("mangeProtocol");
-        mplsTe.setSignalType("strongSignal");
-        PathProtectPolicy pathProtectPolicy = new PathProtectPolicy();
-        pathProtectPolicy.setBandwidthMode("auto");
-        pathProtectPolicy.setRevertive(true);
-        pathProtectPolicy.setWtr(1);
-        mplsTe.setPathProtectPolicy(pathProtectPolicy);
-        PathConstraint pathConstraint = new PathConstraint();
-        pathConstraint.setHoldupPriority(1);
-        pathConstraint.setSetupPriority(1);
-        pathConstraint.setLatency(1);
-        mplsTe.setPathConstraint(pathConstraint);
-
-        tunnelService.setMplsTe(mplsTe);
-        l3Vpn.setTunnelService(tunnelService);
-        l3Vpn.setFrr(true);
-        ProtectGroup protectGroup = new ProtectGroup();
-        protectGroup.setBackupAc("backUpAc");
-        protectGroup.setMasterAc("masterAc");
-        Vrrp vrrp = new Vrrp();
-        vrrp.setVirtualIp("virtualIp");
-        protectGroup.setVrrp(vrrp);
-        l3Vpn.setProtectGroup(protectGroup);
-
-        L3Acs l3acs = new L3Acs();
-        L2Access l2Access = new L2Access();
-        l2Access.setL2AccessType("L2AccessType");
-        L3Access l3Access = new L3Access();
-        l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
-        List<Route> routeList = new ArrayList<>();
-        Route route = new Route();
-        route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
-        List<StaticRoute> staticRouteList = new ArrayList<>();
-        StaticRoute staticRoute = new StaticRoute();
-        staticRoute.setIpPrefix("preFix");
-        staticRoute.setNextHop("nextHop");
-        staticRouteList.add(staticRoute);
-        staticRoutes.setStaticRoute(staticRouteList);
-        route.setStaticRoutes(staticRoutes);
-        BgpRoutes bgpRoutes = new BgpRoutes();
-        List<BgpRoute> bgpRouteList = new ArrayList<>();
-        BgpRoute bgpRoute = createBgpRoute();
-        bgpRouteList.add(bgpRoute);
-        bgpRoutes.setBgpRoute(bgpRouteList);
-        route.setBgpRoutes(bgpRoutes);
-        IsisRoute isisRoute = new IsisRoute();
-        isisRoute.setNetworkEntity("networkEntity");
-        route.setIsisRoute(isisRoute);
-        routeList.add(route);
-        routes.setRoute(routeList);
-        l3Access.setRoutes(routes);
-
-        List<L3Ac> lsitL3Ac = new ArrayList<>();
-        l3acs.setL3Ac(lsitL3Ac);
-        l3Vpn.setAcs(l3acs);
-
-        DiffServ diffServ = new DiffServ();
-        diffServ.setServiceClass("serViceType");
-        diffServ.setColor("color");
-
-        diffServ.setMode("mode");
-        l3Vpn.setDiffServ(diffServ);
-        L3VpnConfig transformedNEModel = SerToNetTransformer.transformModel(l3Vpn);
-
-        assertTrue("more than one instance of ctrl vpn instance",
-                transformedNEModel.getInstances().getInstances().size() == 1);
-
-        List<Ne> nes = transformedNEModel.getInstances().getInstances().get(0).getNes().getNes();
-
-        assertTrue("NEs are Not initialized from the config file.", nes.size() == 2);
-    }
-
-    @Test
-    public void transformModel_Non_empty_ACs() throws ServiceException {
-        new MockUp<IOUtils>() {
-
-            @Mock
-            public String toString(InputStream input) throws IOException {
-                return "temp";
-            }
-        };
-
-        L3Vpn l3Vpn = new L3Vpn();
-        AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
-        l3Vpn.setAdminStatus(null);
-        l3Vpn.setUuid("uuid");
-        l3Vpn.setName("name");
-
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
-        List<HubGroup> listHubGroup = new ArrayList<>();
-        HubGroup hubGroup = new HubGroup();
-        hubGroup.setAcId("acID");
-        hubGroup.setHubDirection("hubDirection");
-        listHubGroup.add(hubGroup);
-        hubGroups.setHubGroup(listHubGroup);
-        topologyService.setHubGroups(hubGroups);
-
-        SpokeGroup spokeGroup = new SpokeGroup();
-        spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        spokeGroup.setSpokeAcs(listSpokeAcs);
-        topologyService.setSpokeGroup(spokeGroup);
-        l3Vpn.setTopologyService(topologyService);
-
-        l3Vpn.setTunnelService(null);
-
-        l3Vpn.setFrr(null);
-
-        l3Vpn.setProtectGroup(null);
-
-        L3Acs l3acs = new L3Acs();
-        L3Ac l3Ac = new L3Ac();
-        l3Ac.setUuid("uuid");
-        L2Access l2Access = new L2Access();
-        l2Access.setL2AccessType("L2AccessType");
-        l3Ac.setL2Access(l2Access);
-        l3Ac.setNeId("neId");
-        L3Access l3Access = new L3Access();
-        l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
-        List<Route> routeList = new ArrayList<>();
-        Route route = new Route();
-        route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
-        List<StaticRoute> staticRouteList = new ArrayList<>();
-        StaticRoute staticRoute = new StaticRoute();
-        staticRoute.setIpPrefix("preFix");
-        staticRoute.setNextHop("nextHop");
-        staticRoutes.setStaticRoute(staticRouteList);
-        route.setStaticRoutes(staticRoutes);
-        BgpRoutes bgpRoutes = new BgpRoutes();
-        List<BgpRoute> bgpRouteList = new ArrayList<>();
-        BgpRoute bgpRoute = createBgpRoute();
-        bgpRouteList.add(bgpRoute);
-        bgpRoutes.setBgpRoute(bgpRouteList);
-        route.setBgpRoutes(bgpRoutes);
-        IsisRoute isisRoute = new IsisRoute();
-        isisRoute.setNetworkEntity("networkEntity");
-        route.setIsisRoute(null);
-        routeList.add(route);
-        routes.setRoute(routeList);
-        l3Access.setRoutes(routes);
-        l3Ac.setL3Access(l3Access);
-
-        List<L3Ac> lsitL3Ac = new ArrayList<>();
-        lsitL3Ac.add(l3Ac);
-        l3acs.setL3Ac(lsitL3Ac);
-        l3Vpn.setAcs(l3acs);
-
-        L3VpnConfig transformedNEModel = SerToNetTransformer.transformModel(l3Vpn);
-
-        assertTrue("more than one instance of ctrl vpn instance",
-                transformedNEModel.getInstances().getInstances().size() == 1);
-
-        List<Ne> nes = transformedNEModel.getInstances().getInstances().get(0).getNes().getNes();
-
-        assertTrue("More than one NE in the transformed model.", nes.size() == 1);
-        assertTrue("NE id is not matching.", nes.get(0).getId().equals("neId"));
+        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(l3VpnConfig != null);
     }
 }

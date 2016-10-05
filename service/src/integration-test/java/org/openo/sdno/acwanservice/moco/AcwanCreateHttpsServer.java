@@ -26,8 +26,8 @@ public class AcwanCreateHttpsServer extends MocoHttpsServer {
         super();
     }
 
-    public AcwanCreateHttpsServer(String configFile) {
-        // super(configFile);
+    public AcwanCreateHttpsServer(int port) {
+         super(port);
     }
 
     @Override
