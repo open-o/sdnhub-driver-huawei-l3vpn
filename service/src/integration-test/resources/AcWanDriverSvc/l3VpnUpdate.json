@@ -4,7 +4,7 @@
 		"method": "put",
 		"headers": {
 			"Content-Type": "application/json;charset=UTF-8",
-			"X-Driver-Parameter": "extSysID=123"
+			"X-Driver-Parameter": "extSysID=ctrlid1024"
 		},
 		"json": {
 			"id": "123",

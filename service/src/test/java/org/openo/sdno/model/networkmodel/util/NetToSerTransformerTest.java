@@ -16,6 +16,8 @@
 
 package org.openo.sdno.model.networkmodel.util;
 
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -537,7 +539,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -879,7 +882,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -1221,7 +1225,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -1563,7 +1568,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -1905,7 +1911,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -2247,7 +2254,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -2590,7 +2598,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -2930,7 +2939,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -3269,7 +3279,7 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
     }
 
     @Test
@@ -3608,7 +3618,8 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -3905,7 +3916,6 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setAdminStatus(adminStatus1);
         nbil3Vpn.setDescription("description");
         org.openo.sdno.model.uniformsbi.l3vpn.DiffServ diffServ1 = new org.openo.sdno.model.uniformsbi.l3vpn.DiffServ();
-        // nbil3Vpn.setDiffServ(diffServ1);
         nbil3Vpn.setDiffServ(null);
         nbil3Vpn.setFrr(true);
         nbil3Vpn.setIpMtu(1);
@@ -3963,12 +3973,6 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        /*
-         * L3VpnConfig l3VpnConfig = new L3VpnConfig();
-         * L3VpnInstances l3VpnInstances = new L3VpnInstances();
-         * List<L3Vpn> l3Vpnlist = new ArrayList<>();
-         * L3Vpn l3vpn = new L3Vpn();
-         */
         l3vpn.setDiffServ(null);
 
         l3vpn.setAcProtectGroups(null);
@@ -3976,7 +3980,8 @@ public class NetToSerTransformerTest {
         l3Vpnlist.add(l3vpn);
         l3VpnInstances.setInstances(l3Vpnlist);
         l3VpnConfig.setInstances(l3VpnInstances);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -3994,7 +3999,6 @@ public class NetToSerTransformerTest {
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
-        // acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
@@ -4315,21 +4319,10 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        /*
-         * L3VpnConfig l3VpnConfig = new L3VpnConfig();
-         * L3VpnInstances l3VpnInstances = new L3VpnInstances();
-         * List<L3Vpn> l3Vpnlist = new ArrayList<>();
-         * L3Vpn l3vpn = new L3Vpn();
-         * DiffServ diffServ = new DiffServ();
-         */
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
         l3vpn.setDiffServ(diffServ);
-        /*
-         * AcProtectGroups acProtectGroups = new AcProtectGroups();
-         * AcProtectGroup acprotectGroup = new AcProtectGroup();
-         */
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         acProtectGroups.setAcprotectGroup(null);
@@ -4338,7 +4331,8 @@ public class NetToSerTransformerTest {
         l3Vpnlist.add(l3vpn);
         l3VpnInstances.setInstances(l3Vpnlist);
         l3VpnConfig.setInstances(l3VpnInstances);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -4677,21 +4671,10 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        /*
-         * L3VpnConfig l3VpnConfig = new L3VpnConfig();
-         * L3VpnInstances l3VpnInstances = new L3VpnInstances();
-         * List<L3Vpn> l3Vpnlist = new ArrayList<>();
-         * L3Vpn l3vpn = new L3Vpn();
-         * DiffServ diffServ = new DiffServ();
-         */
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
         l3vpn.setDiffServ(diffServ);
-        /*
-         * AcProtectGroups acProtectGroups = new AcProtectGroups();
-         * AcProtectGroup acprotectGroup = new AcProtectGroup();
-         */
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         acProtectGroups.setAcprotectGroup(null);
@@ -4700,7 +4683,8 @@ public class NetToSerTransformerTest {
         l3Vpnlist.add(l3vpn);
         l3VpnInstances.setInstances(l3Vpnlist);
         l3VpnConfig.setInstances(l3VpnInstances);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -4718,7 +4702,6 @@ public class NetToSerTransformerTest {
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
-        // acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
@@ -5039,21 +5022,10 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        /*
-         * L3VpnConfig l3VpnConfig = new L3VpnConfig();
-         * L3VpnInstances l3VpnInstances = new L3VpnInstances();
-         * List<L3Vpn> l3Vpnlist = new ArrayList<>();
-         * L3Vpn l3vpn = new L3Vpn();
-         * DiffServ diffServ = new DiffServ();
-         */
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
         l3vpn.setDiffServ(diffServ);
-        /*
-         * AcProtectGroups acProtectGroups = new AcProtectGroups();
-         * AcProtectGroup acprotectGroup = new AcProtectGroup();
-         */
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         acProtectGroups.setAcprotectGroup(null);
@@ -5062,7 +5034,8 @@ public class NetToSerTransformerTest {
         l3Vpnlist.add(l3vpn);
         l3VpnInstances.setInstances(l3Vpnlist);
         l3VpnConfig.setInstances(l3VpnInstances);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 
     @Test
@@ -5080,7 +5053,6 @@ public class NetToSerTransformerTest {
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
-        // acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
@@ -5402,21 +5374,10 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setTunnelService(tunnelService);
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
-        /*
-         * L3VpnConfig l3VpnConfig = new L3VpnConfig();
-         * L3VpnInstances l3VpnInstances = new L3VpnInstances();
-         * List<L3Vpn> l3Vpnlist = new ArrayList<>();
-         * L3Vpn l3vpn = new L3Vpn();
-         * DiffServ diffServ = new DiffServ();
-         */
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
         l3vpn.setDiffServ(diffServ);
-        /*
-         * AcProtectGroups acProtectGroups = new AcProtectGroups();
-         * AcProtectGroup acprotectGroup = new AcProtectGroup();
-         */
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         acProtectGroups.setAcprotectGroup(null);
@@ -5425,6 +5386,7 @@ public class NetToSerTransformerTest {
         l3Vpnlist.add(l3vpn);
         l3VpnInstances.setInstances(l3Vpnlist);
         l3VpnConfig.setInstances(l3VpnInstances);
-        NetToSerTransformer.transformModel(l3VpnConfig);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3VpnConfig);
+        assertTrue(l3VpnSbi != null);
     }
 }

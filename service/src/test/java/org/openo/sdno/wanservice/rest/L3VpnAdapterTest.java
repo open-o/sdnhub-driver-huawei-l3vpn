@@ -16,8 +16,11 @@
 
 package org.openo.sdno.wanservice.rest;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
+import org.openo.sdno.wanservice.inf.Il3VpnService;
 
 public class L3VpnAdapterTest {
 
@@ -26,18 +29,9 @@ public class L3VpnAdapterTest {
     @Test
     public void testAdminStatusUpdate() throws ServiceException {
 
-       /* new MockUp<ROAInputStreamParser>() {
-
-            @Mock
-            public ServiceParasInfo fromJson(String str, Class<ServiceParasInfo> clazz) throws ServiceException {
-                return new ServiceParasInfo("test", "test", "test", null, "test");
-            }
-        };*/
-
         l3VpnAdapter.getResUri();
-        l3VpnAdapter.getService();
-        l3VpnAdapter.setService(null);
-        // l3VpnAdapter.adminStatusUpdate(new HttpServletRequest());
+        Il3VpnService service = null;
+        l3VpnAdapter.setService(service);
+        assertEquals(l3VpnAdapter.getService(), service);
     }
-
 }

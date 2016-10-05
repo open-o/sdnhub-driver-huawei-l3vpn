@@ -48,6 +48,8 @@ public class SuccessMocoServer extends MocoHttpServer {
 
         this.addRequestResponsePair(GET_CONTROLER_MO_FILE, new CreateVpcSuccessInResponseHandler());
         this.addRequestResponsePair(DELETE_L3VPN_SUCCESS_FILE, new CreateVpcSuccessInResponseHandler());
+        this.addRequestResponsePair("src/integration-test/resources/AcWanDriverSvc/moco/ESRGetController.json",
+                new CreateVpcSuccessInResponseHandler());
 
     }
 

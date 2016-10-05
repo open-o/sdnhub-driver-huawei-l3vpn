@@ -17,7 +17,6 @@
 package org.openo.sdno.wanservice.rest;
 
 import org.junit.Test;
-import org.openo.baseservice.remoteservice.exception.ServiceException;
 
 public class AcWanRestModuleTest {
 
@@ -25,8 +24,7 @@ public class AcWanRestModuleTest {
 
     @Test
     public void testAcWanRestModule() {
-
         acWanRestModule.destroy();
-                            acWanRestModule.init();
+        acWanRestModule.init();
     }
 }

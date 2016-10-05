@@ -16,6 +16,12 @@
 
 package org.openo.sdno.common.restconf;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +33,8 @@ import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.util.http.HTTPRequestMessage;
+import org.openo.sdno.util.http.HTTPReturnMessage;
+import org.openo.sdno.util.http.HTTPSender;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -51,19 +59,21 @@ public class HttpProxyTest {
                 return map;
             }
         };
-
-        new MockUp<RestfulProxy>() {
+        
+        new MockUp<HTTPSender>() {
 
             @Mock
-            RestfulResponse post(String uri, RestfulParametes restParametes) throws ServiceException {
-                RestfulResponse restful = new RestfulResponse();
-                restful.setStatus(200);
-                return restful;
+            protected HttpURLConnection sendMsg(HTTPRequestMessage requst, Map<String, String> authInfo,
+                    HTTPReturnMessage response, boolean isAuth)
+                    throws IOException, NoSuchProviderException, NoSuchAlgorithmException, ServiceException {
+                response.setStatus(200);
+                return null;
             }
         };
         HTTPRequestMessage authReq = new HTTPRequestMessage();
         HTTPRequestMessage request = new HTTPRequestMessage();
-        httpProxy.restInvoke(authReq, request);
+        HTTPReturnMessage response = httpProxy.restInvoke(authReq, request);
+        assertEquals(response.getStatus(), 200);
     }
 
     @Test
@@ -77,18 +87,18 @@ public class HttpProxyTest {
                 return map;
             }
         };
-
         new MockUp<RestfulProxy>() {
 
             @Mock
             RestfulResponse post(String uri, RestfulParametes restParametes) throws ServiceException {
                 RestfulResponse restful = new RestfulResponse();
-                restful.setStatus(504);
+                restful.setStatus(200);
                 return restful;
             }
         };
         HTTPRequestMessage authReq = new HTTPRequestMessage();
         HTTPRequestMessage request = new HTTPRequestMessage();
-        httpProxy.restInvoke(authReq, request);
+        HTTPReturnMessage response = httpProxy.restInvoke(authReq, request);
+        assertEquals(response.getStatus(), 500);
     }
 }

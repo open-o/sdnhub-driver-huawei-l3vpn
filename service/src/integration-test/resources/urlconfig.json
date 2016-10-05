@@ -29,6 +29,6 @@
 	},
 	{
 		"url": "openoapi/sbi-l3vpn/v1",
-		"prefix": "/l3vpndriver"
+		"prefix": "/l3vpndriverservice"
 	}
 ]
