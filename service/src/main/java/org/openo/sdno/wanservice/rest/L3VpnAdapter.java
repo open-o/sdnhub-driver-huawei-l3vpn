@@ -30,7 +30,7 @@ import javax.ws.rs.core.Context;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.util.RestUtils;
-import org.openo.sdno.wanservice.inf.Il3VpnService;
+import org.openo.sdno.wanservice.inf.L3VpnService;
 import org.openo.sdno.framework.container.service.IResource;
 import org.openo.sdno.result.Result;
 
@@ -41,11 +41,11 @@ import org.openo.sdno.result.Result;
  * @version SDNO 0.5 2016-5-30
  */
 @Path("/sbi-l3vpn/v1")
-public class L3VpnAdapter extends IResource<Il3VpnService> {
+public class L3VpnAdapter extends IResource<L3VpnService> {
 
-    private Il3VpnService service;
+    private L3VpnService service;
 
-    public Il3VpnService getService() {
+    public L3VpnService getService() {
         return service;
     }
 
@@ -60,7 +60,7 @@ public class L3VpnAdapter extends IResource<Il3VpnService> {
      * @param service is l3vpn service information.
      * @since SDNO 0.5
      */
-    public void setService(Il3VpnService service) {
+    public void setService(L3VpnService service) {
         this.service = service;
     }
 

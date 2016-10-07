@@ -28,9 +28,6 @@ import java.util.Map;
 import org.apache.poi.ss.formula.functions.T;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.baseservice.roa.util.restclient.RestfulParametes;
-import org.openo.baseservice.roa.util.restclient.RestfulResponse;
-import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
@@ -59,7 +56,7 @@ public class HttpProxyTest {
                 return map;
             }
         };
-        
+
         new MockUp<HTTPSender>() {
 
             @Mock
@@ -87,18 +84,20 @@ public class HttpProxyTest {
                 return map;
             }
         };
-        new MockUp<RestfulProxy>() {
+        new MockUp<HTTPSender>() {
 
             @Mock
-            RestfulResponse post(String uri, RestfulParametes restParametes) throws ServiceException {
-                RestfulResponse restful = new RestfulResponse();
-                restful.setStatus(200);
-                return restful;
+            protected HttpURLConnection sendMsg(HTTPRequestMessage requst, Map<String, String> authInfo,
+                    HTTPReturnMessage response, boolean isAuth)
+                    throws IOException, NoSuchProviderException, NoSuchAlgorithmException, ServiceException {
+                response.setStatus(200);
+                return null;
             }
         };
+
         HTTPRequestMessage authReq = new HTTPRequestMessage();
         HTTPRequestMessage request = new HTTPRequestMessage();
         HTTPReturnMessage response = httpProxy.restInvoke(authReq, request);
-        assertEquals(response.getStatus(), 500);
+        assertEquals(response.getStatus(), 200);
     }
 }

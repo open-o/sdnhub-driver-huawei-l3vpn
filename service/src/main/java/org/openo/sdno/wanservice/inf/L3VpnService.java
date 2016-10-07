@@ -29,7 +29,7 @@ import org.openo.sdno.result.Result;
  * @author
  * @version SDNO 0.5 2016-6-22
  */
-public interface Il3VpnService extends IService {
+public interface L3VpnService extends IService {
 
     /**
      * Update the L3vpn information.<br>

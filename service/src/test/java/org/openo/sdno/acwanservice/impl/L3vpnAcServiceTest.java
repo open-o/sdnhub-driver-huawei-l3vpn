@@ -65,7 +65,7 @@ import mockit.MockUp;
 
 public class L3vpnAcServiceTest {
 
-    L3vpnAcService l3vpnAcService = new L3vpnAcService();
+    L3vpnAcServiceImpl l3vpnAcService = new L3vpnAcServiceImpl();
 
     org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
 

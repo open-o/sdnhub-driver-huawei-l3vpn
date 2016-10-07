@@ -36,7 +36,7 @@ import org.openo.sdno.model.networkmodel.servicetypes.VpnOperStatus;
 import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 import org.openo.sdno.wanservice.constants.L3VpnSvcErrorCode;
-import org.openo.sdno.wanservice.inf.Il3VpnService;
+import org.openo.sdno.wanservice.inf.L3VpnService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +46,9 @@ import org.slf4j.LoggerFactory;
  * @author
  * @version SDNO 0.5 2016-6-2
  */
-public class L3vpnAcService implements Il3VpnService {
+public class L3vpnAcServiceImpl implements L3VpnService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(L3vpnAcService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(L3vpnAcServiceImpl.class);
 
     private static final ContentType CONTENT_TYPE = ContentType.XML;
 
@@ -73,12 +73,12 @@ public class L3vpnAcService implements Il3VpnService {
                 JsonUtil.fromJson(request, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
         L3VpnConfig ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
-        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcService.CONTENT_TYPE, ctrlrl3vpn);
+        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
 
         final String url =
                 MessageFormat.format("/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/{0}", vpdId);
-        final HTTPReturnMessage msg = RestConfProxy.put(L3vpnAcService.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
+        final HTTPReturnMessage msg = RestConfProxy.put(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
         if(HttpCode.isSucess(msg.getStatus())) {
             return new Result<>(ErrorCode.OPERATION_SUCCESS, msg.getBody());
         }
@@ -105,9 +105,9 @@ public class L3vpnAcService implements Il3VpnService {
                 JsonUtil.fromJson(spi, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
         L3VpnConfig ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
-        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcService.CONTENT_TYPE, ctrlrl3vpn);
+        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
-        final HTTPReturnMessage msg = RestConfProxy.post(L3vpnAcService.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
+        final HTTPReturnMessage msg = RestConfProxy.post(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
         if(HttpCode.isSucess(msg.getStatus())) {
             return new Result<>(ErrorCode.OPERATION_SUCCESS, msg.getBody());
         } else {
@@ -129,7 +129,7 @@ public class L3vpnAcService implements Il3VpnService {
     @Override
     public Result<String> l3vpnDelete(String ctrlId, String vpnId) throws ServiceException {
         final String url = "/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/" + vpnId;
-        final HTTPReturnMessage msg = RestConfProxy.del(L3vpnAcService.CONTENT_TYPE, url, ctrlId);
+        final HTTPReturnMessage msg = RestConfProxy.del(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlId);
         if(HttpCode.isSucess(msg.getStatus())) {
             return new Result<>(ErrorCode.OPERATION_SUCCESS, msg.getBody());
         } else {
@@ -152,8 +152,8 @@ public class L3vpnAcService implements Il3VpnService {
         final L3Vpn l3Vpn = JsonUtil.fromJson(spi.getServiceBody(), L3Vpn.class);
         LOGGER.info("l3vpn update :" + spi.getServiceBody());
         final String url = "/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/" + l3Vpn.getId();
-        final HTTPReturnMessage msg = RestConfProxy.put(L3vpnAcService.CONTENT_TYPE, url, spi.getCltuuid(),
-                SerializeUtil.serialize(L3vpnAcService.CONTENT_TYPE, l3Vpn));
+        final HTTPReturnMessage msg = RestConfProxy.put(L3vpnAcServiceImpl.CONTENT_TYPE, url, spi.getCltuuid(),
+                SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, l3Vpn));
         if(HttpCode.isSucess(msg.getStatus())) {
             return new Result<>(ErrorCode.OPERATION_SUCCESS, l3Vpn);
         } else {
@@ -176,10 +176,10 @@ public class L3vpnAcService implements Il3VpnService {
         final Map<String, String[]> obj = spi.getQueryMap();
         final String uuid = obj.get("uuid")[0];
         final String url = "/restconf/operational/huawei-ac-net-l3vpn:l3vpn-oper/instances/instance/" + uuid;
-        final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcService.CONTENT_TYPE, url, spi.getCltuuid());
+        final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcServiceImpl.CONTENT_TYPE, url, spi.getCltuuid());
         if(HttpCode.isSucess(msg.getStatus())) {
             final VpnOperStatus operStatus =
-                    SerializeUtil.deSerialize(L3vpnAcService.CONTENT_TYPE, msg.getBody(), VpnOperStatus.class);
+                    SerializeUtil.deSerialize(L3vpnAcServiceImpl.CONTENT_TYPE, msg.getBody(), VpnOperStatus.class);
             LOGGER.info("doGetL3vpnCfg success:" + msg.getBody());
             return new Result<>(ErrorCode.OPERATION_SUCCESS, operStatus == null ? null : operStatus);
         } else {
@@ -202,10 +202,10 @@ public class L3vpnAcService implements Il3VpnService {
     public Result<String> l3vpnGet(String ctrlUuid, String vpnId) throws ServiceException {
 
         final String url = "/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/" + vpnId;
-        final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcService.CONTENT_TYPE, url, ctrlUuid);
+        final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid);
         if(HttpCode.isSucess(msg.getStatus())) {
             String str = msg.getBody().replaceAll("\\\\", "");
-            final L3VpnConfig l3Vpn = SerializeUtil.deSerialize(L3vpnAcService.CONTENT_TYPE, str, L3VpnConfig.class);
+            final L3VpnConfig l3Vpn = SerializeUtil.deSerialize(L3vpnAcServiceImpl.CONTENT_TYPE, str, L3VpnConfig.class);
             org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbiL3vpn = NetToSerTransformer.transformModel(l3Vpn);
             LOGGER.info("doGetL3vpnOperStatus success:" + msg.getBody());
             return new Result<>(ErrorCode.OPERATION_SUCCESS, JsonUtil.toJson(nbiL3vpn));
