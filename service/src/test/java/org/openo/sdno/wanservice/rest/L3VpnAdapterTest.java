@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.sdno.wanservice.inf.Il3VpnService;
+import org.openo.sdno.wanservice.inf.L3VpnService;
 
 public class L3VpnAdapterTest {
 
@@ -30,7 +30,7 @@ public class L3VpnAdapterTest {
     public void testAdminStatusUpdate() throws ServiceException {
 
         l3VpnAdapter.getResUri();
-        Il3VpnService service = null;
+        L3VpnService service = null;
         l3VpnAdapter.setService(service);
         assertEquals(l3VpnAdapter.getService(), service);
     }
