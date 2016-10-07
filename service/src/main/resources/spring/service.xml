@@ -38,7 +38,7 @@
 		<property name="service" ref="l3VpnService" />
 	</bean>
 
-	<bean id="l3VpnService" class="org.openo.sdno.acwanservice.impl.L3vpnAcService" />
+	<bean id="l3VpnService" class="org.openo.sdno.acwanservice.impl.L3vpnAcServiceImpl" />
 
 	<bean id="AcWanRestModule" class="org.openo.sdno.wanservice.rest.AcWanRestModule"
 		init-method="start" destroy-method="stop">
