@@ -77,7 +77,7 @@
                                 }
 
                                 ant.copy(todir:
-                                "${deployUnzip}/webapps/${package.name}-${project.version}") {
+                                "${deployUnzip}/webapps/ROOT") {
                                 fileset(dir:
                                 "${project.build.directory}/../../service/target/${package.name}")
                                 }
