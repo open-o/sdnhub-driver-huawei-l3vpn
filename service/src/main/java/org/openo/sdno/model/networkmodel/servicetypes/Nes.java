@@ -31,10 +31,10 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Nes class<br>
+ * NE's class<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "nes")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,7 +43,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 @JsonSerialize(include = Inclusion.NON_NULL)
 @JsonPropertyOrder(value = {"nes"})
 public class Nes {
-    
+
     @XmlElement(name = "ne")
     @JsonProperty("ne")
     List<Ne> nes;
@@ -51,10 +51,9 @@ public class Nes {
     public List<Ne> getNes() {
         return nes;
     }
-    
+
     public void setNes(List<Ne> nes) {
         this.nes = nes;
     }
-    
 
 }

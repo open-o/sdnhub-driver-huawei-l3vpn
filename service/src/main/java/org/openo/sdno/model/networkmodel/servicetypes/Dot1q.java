@@ -34,7 +34,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "dot1q")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -17,7 +17,7 @@
 package org.openo.sdno.common.restconf;
 
 /**
- * The enum of contents type.<br>
+ * The enumeration of contents type.<br>
  * 
  * @author
  * @version SDNO 0.5 2016-6-2

@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * Configuration class<br>
  *
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 public class Configuration {
 
@@ -51,7 +51,7 @@ public class Configuration {
      * Get label values.<br>
      *
      * @param label is a key
-     * @return acwan configured value
+     * @return AC WAN configured value
      * @since SDNO 0.5
      */
     public static String getValues(String label) {
@@ -88,9 +88,9 @@ public class Configuration {
     }
 
     /**
-     * Json file parser.<br>
+     * JSON file parser.<br>
      *
-     * @param domain acwan configuration domain
+     * @param domain AC WAN configuration domain
      * @return the values which is a key value map
      * @throws ServiceException
      * @since SDNO 0.5

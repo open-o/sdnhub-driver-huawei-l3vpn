@@ -29,12 +29,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Qos If Phb class<br>
+ * QOS If PHB class<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "qos-if-phb")
 @XmlAccessorType(XmlAccessType.FIELD)

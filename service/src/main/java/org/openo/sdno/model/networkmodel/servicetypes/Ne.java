@@ -31,10 +31,10 @@ import org.openo.sdno.model.networkmodel.NetModel;
 import org.openo.sdno.model.servicemodel.tp.Tp;
 
 /**
- * Ne class<br>
+ * NE class<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "ne")
 @XmlAccessorType(XmlAccessType.FIELD)

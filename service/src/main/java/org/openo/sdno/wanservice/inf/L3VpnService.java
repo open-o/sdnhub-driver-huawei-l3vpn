@@ -35,7 +35,7 @@ public interface L3VpnService extends IService {
      * Update the L3vpn information.<br>
      *
      * @param req request
-     * @param vpdId vpn ID
+     * @param vpdId VPN ID
      * @param ctrlUuid controller uuid
      * @return the status
      * @throws ServiceException
@@ -78,7 +78,7 @@ public interface L3VpnService extends IService {
      * Get the information of L3vpn.<br>
      *
      * @param ctrlId controller uuid
-     * @param vpnId vpn ID
+     * @param vpnId VPN ID
      * @return the result of getting L3vpn information
      * @throws ServiceException
      * @since SDNO 0.5
@@ -89,7 +89,7 @@ public interface L3VpnService extends IService {
      * Delete the L3vpn.<br>
      *
      * @param ctrlId controller uuid
-     * @param vpnId vpn ID
+     * @param vpnId VPN ID
      * @return the result of deleting
      * @throws ServiceException
      * @since SDNO 0.5

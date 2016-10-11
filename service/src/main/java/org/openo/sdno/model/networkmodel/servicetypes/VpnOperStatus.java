@@ -32,12 +32,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.openo.sdno.model.networkmodel.NetModel;
 
 /**
- * Vpn OperStatus class<br>
+ * VPN OperStatus class<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "instance")
 @XmlAccessorType(XmlAccessType.FIELD)

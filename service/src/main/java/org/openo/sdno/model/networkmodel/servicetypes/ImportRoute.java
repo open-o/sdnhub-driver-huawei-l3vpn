@@ -26,7 +26,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * ImportRoute class.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @JsonRootName(value = "import-route")
 @JsonSerialize(include = Inclusion.NON_NULL)

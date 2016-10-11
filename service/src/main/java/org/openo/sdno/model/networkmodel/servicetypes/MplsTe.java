@@ -34,7 +34,7 @@ import org.openo.sdno.model.networkmodel.NetModel;
  * MplsTe class.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "mpls-te")
 @XmlAccessorType(XmlAccessType.FIELD)

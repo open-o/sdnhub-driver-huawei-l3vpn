@@ -35,7 +35,7 @@ public class ServiceExceptionUtil {
      * Get the ServiceException.<br>
      *
      * @param errCode the error code
-     * @param httpCode the http status code
+     * @param httpCode the HTTP status code
      * @param detail the detail description message
      * @param controllerID the controller uuid
      * @return the ServiceException

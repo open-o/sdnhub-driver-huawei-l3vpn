@@ -29,12 +29,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Qos If Traffic Policy class.<br>
+ * QOS If Traffic Policy class.<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "traffic-policy")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -57,7 +57,7 @@ public class QosIfTrafficPolicy {
     }
 
     /**
-     * Qos If Traffic Policy Constructor<br>
+     * QOS If Traffic Policy Constructor<br>
      * 
      * @param direction
      * @param trafficPolicyId

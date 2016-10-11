@@ -106,7 +106,7 @@ public class DriverRegistrationListener implements ServletContextListener {
         restParametes.setRawData(JsonUtil.toJson(driverDetailsMap));
 
         // Re-attempt the driver registration if the registration is unsuccessful
-        // If the registration is successful then finish the task by cancelling the scheduler.
+        // If the registration is successful then finish the task by canceling the scheduler.
 
         scheduler = scheduledExecutorService.scheduleAtFixedRate(() -> {
             try {

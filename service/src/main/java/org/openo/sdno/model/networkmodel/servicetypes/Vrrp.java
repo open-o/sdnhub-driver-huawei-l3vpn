@@ -16,7 +16,6 @@
 
 package org.openo.sdno.model.networkmodel.servicetypes;
 
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -33,11 +32,11 @@ import org.openo.sdno.model.networkmodel.NetModel;
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "vrrp")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(propOrder = { "virtualIp" })
+@XmlType(propOrder = {"virtualIp"})
 @JsonRootName(value = "vrrp")
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class Vrrp implements NetModel {

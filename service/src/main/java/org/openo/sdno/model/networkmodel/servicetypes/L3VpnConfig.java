@@ -31,7 +31,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * L3VpnConfig class<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "l3vpn-cfg")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -29,12 +29,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Qos If Queue Profile class.<br>
+ * QOS If Queue Profile class.<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "queue-profile")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -57,7 +57,7 @@ public class QosIfQueueProfile {
     }
 
     /**
-     * Qos If Queue Profile Constructor<br>
+     * QOS If Queue Profile Constructor<br>
      * 
      * @param direction
      * @param queueProfileId

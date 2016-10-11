@@ -35,7 +35,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * Particular Constraint Statement class.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "particular-constraint")
 @XmlAccessorType(XmlAccessType.FIELD)
