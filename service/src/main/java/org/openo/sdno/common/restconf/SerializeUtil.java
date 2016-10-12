@@ -59,7 +59,7 @@ public class SerializeUtil {
     /**
      * Serialize the body.<br>
      *
-     * @param contentType the enum of contents type
+     * @param contentType the enumeration of contents type
      * @param body the body to be serialized
      * @return the serialized body
      * @since SDNO 0.5
@@ -75,7 +75,7 @@ public class SerializeUtil {
     /**
      * Deserialize the string object.<br>
      *
-     * @param contentType the enum of contents type
+     * @param contentType the enumeration of contents type
      * @param str the string object to be deserialized
      * @param clazz the class type that deserialize to
      * @return the deserialized object
@@ -91,10 +91,10 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the body to json.<br>
+     * Change the body to JSON.<br>
      *
      * @param body the body object to be changed
-     * @return the json that body is changed to
+     * @return the JSON that body is changed to
      * @service ServiceException
      * @since SDNO 0.5
      */
@@ -116,11 +116,11 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the json object to the class type.<br>
+     * Change the JSON object to the class type.<br>
      *
-     * @param json the json object to be changed
-     * @param clazz the class type that the json is changed to
-     * @return the object that the json is changed to
+     * @param json the JSON object to be changed
+     * @param clazz the class type that the JSON is changed to
+     * @return the object that the JSON is changed to
      * @service ServiceException
      * @since SDNO 0.5
      */
@@ -143,10 +143,10 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the object to xml.<br>
+     * Change the object to XML.<br>
      *
      * @param obj the object to be changed
-     * @return the xml that object is changed to
+     * @return the XML that object is changed to
      * @service ServiceException
      * @since SDNO 0.5
      */
@@ -170,11 +170,11 @@ public class SerializeUtil {
     }
 
     /**
-     * Change the xml object to the class type.<br>
+     * Change the XML object to the class type.<br>
      *
      * @param xml is the object to be changed
-     * @param clazz the class type that the xml is changed to
-     * @return the object that the xml is changed to
+     * @param clazz the class type that the XML is changed to
+     * @return the object that the XML is changed to
      * @service ServiceException
      * @since SDNO 0.5
      */
@@ -213,10 +213,10 @@ public class SerializeUtil {
     }
 
     /**
-     * Trim the url body.<br>
+     * Trim the URL body.<br>
      *
-     * @param body is url to be trimmed
-     * @return the trimmed url string
+     * @param body is URL to be trimmed
+     * @return the trimmed URL string
      * @since SDNO 0.5
      */
     private static String trimBodyStr(String body) {

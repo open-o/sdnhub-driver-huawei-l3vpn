@@ -19,7 +19,7 @@ package org.openo.sdno.wanservice.constants;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Error code util class.<br>
+ * Error code utility class.<br>
  *
  * @author
  * @version SDNO 0.5 2016-6-1

@@ -47,11 +47,11 @@ public class HttpProxy extends HTTPSender {
     private String contentType;
 
     /**
-     * Authenticate the http request .<br>
+     * Authenticate the HTTP request .<br>
      *
-     * @param authReq http authentication request message
+     * @param authReq HTTP authentication request message
      * @param request HTTP request message
-     * @return the http response message
+     * @return the HTTP response message
      * @since SDNO 0.5
      */
     @Override
@@ -100,9 +100,9 @@ public class HttpProxy extends HTTPSender {
     }
 
     /**
-     * Set the http content type.<br>
+     * Set the HTTP content type.<br>
      *
-     * @param httpContentType is type of http content
+     * @param httpContentType is type of HTTP content
      * @since SDNO 0.5
      */
     @Override

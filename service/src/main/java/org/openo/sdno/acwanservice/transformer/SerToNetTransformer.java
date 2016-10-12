@@ -67,7 +67,7 @@ import org.slf4j.LoggerFactory;
  * class for transforming service to network model<br>
  *
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 public class SerToNetTransformer {
 
@@ -80,8 +80,8 @@ public class SerToNetTransformer {
      * Transform service to network model
      * <br>
      *
-     * @param l3Vpn is a service model vpn configuration
-     * @return network instance of vpn configuration
+     * @param l3Vpn is a service model VPN configuration
+     * @return network instance of VPN configuration
      * @since SDNO 0.5
      */
     public static L3VpnConfig transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
@@ -103,8 +103,8 @@ public class SerToNetTransformer {
             ctrlrl3vpn.setFrr(l3Vpn.getFrr().toString());
         }
 
-        // if NE doesn't exist in the l3Vpn argument then read it from config file
-        // else create the NE from the Ac model (Ac -> NE).
+        // if NE doesn't exist in the l3Vpn argument then read it from configuration file
+        // else create the NE from the AC model (AC -> NE).
         List<Ne> nesList = new ArrayList<Ne>();
 
         if((l3Vpn.getAcs() != null) && (l3Vpn.getAcs().getL3Ac() != null) && (l3Vpn.getAcs().getL3Ac().size() > 0)) {
@@ -147,7 +147,7 @@ public class SerToNetTransformer {
             ctrlrl3vpn.setTunnelService(transformTunnelService(l3Vpn.getTunnelService()));
         }
 
-        // TODO: set mode From Config file
+        // TODO: set mode From Configuration file
 
         instances.add(ctrlrl3vpn);
         l3VpnInstances.setInstances(instances);
@@ -196,7 +196,7 @@ public class SerToNetTransformer {
                 ctrlrl3ac.setL2Access(l2access);
             }
 
-            // TODO: set Qos From Config file
+            // TODO: set QOS From Configuration file
 
             if(l3ac.getL3Access() != null) {
 
@@ -269,8 +269,8 @@ public class SerToNetTransformer {
                 ctrlrl3ac.setL3Access(l3Access);
             }
 
-            // vxlan-access is not present in the JSON input. Needs to be taken from the Conf files.
-            // TODO: set vxlanAccess from config file
+            // VXLAN-access is not present in the JSON input. Needs to be taken from the Conf files.
+            // TODO: set vxlanAccess from configuration file
 
             l3AcList.add(ctrlrl3ac);
         }
@@ -347,11 +347,11 @@ public class SerToNetTransformer {
     }
 
     /**
-     * Transform service mpls traffic engineering to network mpls traffic engineering model
+     * Transform service MPLS traffic engineering to network MPLS traffic engineering model
      * <br>
      *
      * @param mplsTe is uniform sbi's service model
-     * @return network instance of mpls traffic engineering
+     * @return network instance of MPLS traffic engineering
      * @since SDNO 0.5
      */
     private static MplsTe transformMplsTe(org.openo.sdno.model.uniformsbi.base.MplsTePolicy mplsTe) {

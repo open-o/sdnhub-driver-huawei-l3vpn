@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * PathConstraint class.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "path-constraint")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.openo.sdno.common.services;
 
 import java.util.Map;
@@ -24,13 +25,13 @@ import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 import org.openo.sdno.framework.container.util.JsonUtil;
 
 /**
- * Util class to access External system register(ESR).
+ * Utility class to access External system register(ESR).
  * <br/>
  * <p>
  * </p>
  *
  * @author
- * @version     SDNO 0.5  Sep 15, 2016
+ * @version SDNO 0.5 September 15, 2016
  */
 public class ESRutil {
 
@@ -41,7 +42,7 @@ public class ESRutil {
      * @param ctrlUuid controller uuid
      * @return the map of controller's properties
      * @throws ServiceException
-     * @since  SDNO 0.5
+     * @since SDNO 0.5
      */
     public static Map getControllerDetails(String ctrlUuid) throws ServiceException {
         String esrurl = "/openoapi/extsys/v1/sdncs/" + ctrlUuid;

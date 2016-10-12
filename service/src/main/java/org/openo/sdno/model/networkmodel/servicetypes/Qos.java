@@ -32,12 +32,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Qos class.<br>
+ * QOS class.<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "qos")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.map.annotate.JsonRootName;
 
 /**
- * The user auth information.<br>
+ * The user authentication information.<br>
  *
  * @author
  * @version SDNO 0.5 2016-6-2

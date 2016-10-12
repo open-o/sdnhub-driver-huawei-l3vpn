@@ -16,12 +16,11 @@
 
 package org.openo.sdno.wanservice.constants;
 
-
 /**
  * The constants of L3VPN service error code.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 2, 2016
+ * @version SDNO 0.5 August 2, 2016
  */
 public class L3VpnSvcErrorCode {
 

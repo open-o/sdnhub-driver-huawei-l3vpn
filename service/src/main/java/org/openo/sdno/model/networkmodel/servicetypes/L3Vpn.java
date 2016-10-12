@@ -33,7 +33,7 @@ import org.openo.sdno.model.networkmodel.NetModel;
  * L3vpn class.<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "instance")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -69,10 +69,10 @@ public class L3Vpn implements NetModel {
     @JsonProperty("label-apply-mode")
     private String labelApplyMode;
 
- // hub-spoke full-mesh
+    // hub-spoke full-mesh
     @XmlElement(name = "mode")
     @JsonProperty("mode")
-    private String mode; 
+    private String mode;
 
     @XmlElement(name = "frr")
     @JsonProperty("frr")

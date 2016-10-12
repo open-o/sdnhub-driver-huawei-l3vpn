@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * SBI model for difference service.<br>
  *
  * @author
- * @version SDNO 0.5 Aug 2, 2016
+ * @version SDNO 0.5 August 2, 2016
  */
 @XmlRootElement(name = "diff-serv")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -43,21 +43,21 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 public class DiffServ {
 
     /**
-     * DiffServMode enums
+     * DiffServMode enumerations
      */
     @XmlElement(name = "mode")
     @JsonProperty("mode")
     private String mode;
 
     /**
-     * DiffServClass enums
+     * DiffServClass enumerations
      */
     @XmlElement(name = "class")
     @JsonProperty("class")
     private String serviceClass;
 
     /**
-     * DiffServColor enums
+     * DiffServColor enumerations
      */
     @XmlElement(name = "color")
     @JsonProperty("color")

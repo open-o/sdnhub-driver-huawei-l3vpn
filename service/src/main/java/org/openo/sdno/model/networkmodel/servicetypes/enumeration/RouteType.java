@@ -30,7 +30,7 @@ public enum RouteType {
     private String name;
 
     /**
-     * Constructor to initialise the class.<br>
+     * Constructor to initialize the class.<br>
      *
      * @param value is a value
      * @param name is a type of routing

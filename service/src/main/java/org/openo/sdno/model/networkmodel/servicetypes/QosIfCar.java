@@ -31,12 +31,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
- * Qos If Car class<br>
+ * QOS If Car class<br>
  * <p>
  * </p>
  * 
  * @author
- * @version SDNO 0.5 Aug 17, 2016
+ * @version SDNO 0.5 August 17, 2016
  */
 @XmlRootElement(name = "qos-if-car")
 @XmlAccessorType(XmlAccessType.FIELD)

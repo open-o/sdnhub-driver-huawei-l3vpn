@@ -31,10 +31,10 @@ import org.openo.sdno.model.networkmodel.NetModel;
 import org.openo.sdno.model.servicemodel.tp.Tp;
 
 /**
- * Ac class<br>
+ * AC class<br>
  * 
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 @XmlRootElement(name = "ac")
 @XmlAccessorType(XmlAccessType.FIELD)

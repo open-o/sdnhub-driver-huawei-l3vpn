@@ -67,8 +67,8 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Create a L3VPN service.<br>
      *
-     * @param request Http servlet request with the service parameters information..
-     * @param ctrlUuidParam ctrl UUID parameter in header
+     * @param request HTTP servlet request with the service parameters information..
+     * @param ctrlUuidParam controller UUID parameter in header
      * @return response with L3VPN created object that contains the UUID generated.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5
@@ -87,8 +87,8 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Delete L3VPN service. <br>
      *
-     * @param ctrlUuidParam ctrl UUID parameter in header
-     * @param vpnId vpn ID
+     * @param ctrlUuidParam controller UUID parameter in header
+     * @param vpnId VPN ID
      * @return response of the delete operation.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5
@@ -106,9 +106,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Update the administration state of the L3Vpn service. <br>
      *
-     * @param request Http servlet request with the service parameters information..
-     * @param ctrlUuidParam ctrl UUID parameter in header
-     * @param vpdId vpn ID
+     * @param request HTTP servlet request with the service parameters information..
+     * @param ctrlUuidParam controller UUID parameter in header
+     * @param vpdId VPN ID
      * @return response of the update operation.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5
@@ -119,7 +119,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Produces({"application/json"})
     public Result<String> l3vpnStatusUpdate(@Context final HttpServletRequest request,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam, @PathParam("id") String vpdId)
-                    throws ServiceException {
+            throws ServiceException {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
         return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
@@ -128,9 +128,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Get the information of L3vpn.<br>
      *
-     * @param request Http servlet request with the service parameters information.
-     * @param vpnId vpn ID
-     * @param ctrlUuidParam ctrl UUID parameter in header
+     * @param request HTTP servlet request with the service parameters information.
+     * @param vpnId VPN ID
+     * @param ctrlUuidParam controller UUID parameter in header
      * @return required L3VPN object.
      * @throws ServiceException throws exception if the operation fails.
      * @since SDNO 0.5

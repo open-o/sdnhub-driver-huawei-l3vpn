@@ -20,7 +20,7 @@ package org.openo.sdno.acwanservice.config;
  * The configuration key constants. <br>
  * 
  * @author
- * @version SDNO 0.5 Jun 20, 2016
+ * @version SDNO 0.5 June 20, 2016
  */
 public class ConfigKeyConst {
 
@@ -43,19 +43,18 @@ public class ConfigKeyConst {
     public static final String SR_NEXT_HOP = "next-hop";
 
     public static final String SR_PREFERENCE = "preference";
-    
+
     public static final String SR_DESCRIPTION = "description";
-    
+
     public static final String SR_TRACK_BFD_ENABLE = "track-bfd-enable";
 
     public static final String BGP_REMOTE_AS = "bgp-remote-as";
 
     public static final String BGP_REMOTE_PEER = "bgp-remote-peer";
-    
+
     public static final String NE_ID_1 = "ne-id-1";
-    
+
     public static final String NE_ID_2 = "ne-id-2";
-    
 
     /**
      * Constructor<br>
