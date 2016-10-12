@@ -44,11 +44,11 @@ public class ESRutil {
      * @since  SDNO 0.5
      */
     public static Map getControllerDetails(String ctrlUuid) throws ServiceException {
-        String esrurl = "/openoapi/extsys/v1/sdncs/" + ctrlUuid;
+        String esrurl = "/openoapi/extsys/v1/sdncontrollers/" + ctrlUuid;
         final RestfulParametes restfulParametes = new RestfulParametes();
         RestfulResponse response = RestfulProxy.get(esrurl, restfulParametes);
 
-        return (Map)JsonUtil.fromJson(response.getResponseContent(), Map.class);
+        return JsonUtil.fromJson(response.getResponseContent(), Map.class);
 
     }
 
