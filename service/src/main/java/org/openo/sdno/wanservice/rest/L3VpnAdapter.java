@@ -26,13 +26,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.util.RestUtils;
-import org.openo.sdno.wanservice.inf.L3VpnService;
 import org.openo.sdno.framework.container.service.IResource;
 import org.openo.sdno.result.Result;
+import org.openo.sdno.wanservice.inf.L3VpnService;
 
 /**
  * Restful interface class of L3 VPN adapter resource.<br>
@@ -60,6 +61,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param service is l3vpn service information.
      * @since SDNO 0.5
      */
+    @Override
     public void setService(L3VpnService service) {
         this.service = service;
     }
@@ -132,7 +134,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param vpnId VPN ID
      * @param ctrlUuidParam controller UUID parameter in header
      * @return required L3VPN object.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNO 0.5
      */
     @GET
@@ -140,8 +142,17 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnGet(@Context final HttpServletRequest request, @PathParam("id") String vpnId,
-            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws ServiceException {
+            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws WebApplicationException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnGet(ctrlUuid, vpnId);
+
+        try {
+            return service.l3vpnGet(ctrlUuid, vpnId);
+        } catch(ServiceException e) {
+            // TODO: This is temporary solution to handle the ServiceException
+            // if we throw the ServiceException the web application will throw
+            // error code 500 this will not give proper clarity to client side.
+            throw new WebApplicationException(e.getId(), e.getHttpCode());
+        }
+
     }
 }
