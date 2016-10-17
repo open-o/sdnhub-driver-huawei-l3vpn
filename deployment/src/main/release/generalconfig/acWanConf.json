@@ -1,103 +1,103 @@
 [
-	{
-		"cfgkey": "label-apply-mode",
-		"cfgvalue": "per-instance",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "mode",
-		"cfgvalue": "per-preffix",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "nes",
-		"cfgvalue": "857",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "user-label",
-		"cfgvalue": "858",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "ip-address",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "mask-length",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "protocols",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "ip-prefix",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "description",
-		"cfgvalue": "description",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "next-hop",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "preference",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "track-bfd-enable",
-		"cfgvalue": "enable",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "bgp-remote-as",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "bgp-remote-peer",
-		"cfgvalue": "859",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "ne-id-1",
-		"cfgvalue": "56566",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "ne-id-2",
-		"cfgvalue": "56577",
-		"validator": "",
-		"encrypt": "false"
-	},
-	{
-		"cfgkey": "ESREnabled",
-		"cfgvalue": "false"
-	}
-	
+    {
+        "cfgkey": "label-apply-mode",
+        "cfgvalue": "per-instance",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "mode",
+        "cfgvalue": "per-preffix",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "nes",
+        "cfgvalue": "857",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "user-label",
+        "cfgvalue": "858",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "ip-address",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "mask-length",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "protocols",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "ip-prefix",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "description",
+        "cfgvalue": "description",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "next-hop",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "preference",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "track-bfd-enable",
+        "cfgvalue": "enable",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "bgp-remote-as",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "bgp-remote-peer",
+        "cfgvalue": "859",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "ne-id-1",
+        "cfgvalue": "56566",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "ne-id-2",
+        "cfgvalue": "56577",
+        "validator": "",
+        "encrypt": "false"
+    },
+    {
+        "cfgkey": "ESREnabled",
+        "cfgvalue": "true"
+    }
+
 ]
