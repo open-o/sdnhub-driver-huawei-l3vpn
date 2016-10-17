@@ -72,7 +72,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param request Http servlet request with the service parameters information..
      * @param ctrlUuidParam ctrl UUID parameter in header
      * @return response with L3VPN created object that contains the UUID generated.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNO 0.5
      */
     @POST
@@ -80,10 +80,14 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnCreate(@Context final HttpServletRequest request,
-            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws ServiceException {
+            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws WebApplicationException {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnCreate(req, ctrlUuid);
+        try {
+            return service.l3vpnCreate(req, ctrlUuid);
+        } catch(ServiceException e) {
+            throw new WebApplicationException(e.getId(), e.getHttpCode());
+        }
     }
 
     /**
@@ -92,7 +96,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam ctrl UUID parameter in header
      * @param vpnId vpn ID
      * @return response of the delete operation.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNO 0.5
      */
     @DELETE
@@ -100,9 +104,13 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnDelete(@HeaderParam("X-Driver-Parameter") String ctrlUuidParam,
-            @PathParam("id") String vpnId) throws ServiceException {
+            @PathParam("id") String vpnId) throws WebApplicationException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnDelete(ctrlUuid, vpnId);
+        try {
+            return service.l3vpnDelete(ctrlUuid, vpnId);
+        } catch(ServiceException e) {
+            throw new WebApplicationException(e.getId(), e.getHttpCode());
+        }
     }
 
     /**
@@ -112,7 +120,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam ctrl UUID parameter in header
      * @param vpdId vpn ID
      * @return response of the update operation.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNO 0.5
      */
     @PUT
@@ -121,10 +129,15 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Produces({"application/json"})
     public Result<String> l3vpnStatusUpdate(@Context final HttpServletRequest request,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam, @PathParam("id") String vpdId)
-                    throws ServiceException {
+            throws WebApplicationException {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
+
+        try {
+            return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
+        } catch(ServiceException e) {
+            throw new WebApplicationException(e.getId(), e.getHttpCode());
+        }
     }
 
     /**
@@ -148,9 +161,6 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
         try {
             return service.l3vpnGet(ctrlUuid, vpnId);
         } catch(ServiceException e) {
-            // TODO: This is temporary solution to handle the ServiceException
-            // if we throw the ServiceException the web application will throw
-            // error code 500 this will not give proper clarity to client side.
             throw new WebApplicationException(e.getId(), e.getHttpCode());
         }
 
