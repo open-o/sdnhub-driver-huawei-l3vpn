@@ -94,10 +94,5 @@
         "cfgvalue": "56577",
         "validator": "",
         "encrypt": "false"
-    },
-    {
-        "cfgkey": "ESREnabled",
-        "cfgvalue": "true"
     }
-
 ]

@@ -33,14 +33,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.common.restconf.HttpProxy;
-import org.openo.sdno.common.restconf.InventoryProxy;
+import org.openo.sdno.common.services.ESRutil;
 import org.openo.sdno.frame.ServiceParasInfo;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
 import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
 import org.openo.sdno.model.networkmodel.servicetypes.VpnOperStatus;
-import org.openo.sdno.model.servicemodel.brs.Device;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectPolicy;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnels;
@@ -190,13 +189,18 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        new MockUp<InventoryProxy>() {
+        new MockUp<ESRutil>() {
 
             @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
+            public Map getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
             }
         };
         new MockUp<HttpProxy>() {
@@ -242,15 +246,6 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -293,15 +288,6 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -342,15 +328,7 @@ public class L3vpnAcServiceTest {
                 return l3Vpnl;
             }
         };
-        new MockUp<InventoryProxy>() {
 
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -376,15 +354,7 @@ public class L3vpnAcServiceTest {
                 return l3Vpnl;
             }
         };
-        new MockUp<InventoryProxy>() {
 
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -407,15 +377,6 @@ public class L3vpnAcServiceTest {
     @Test
     public void testl3vpnDelete() throws ServiceException {
 
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -433,15 +394,6 @@ public class L3vpnAcServiceTest {
     @Test(expected = ServiceException.class)
     public void testl3vpnDeleteException() throws ServiceException {
 
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -466,13 +418,18 @@ public class L3vpnAcServiceTest {
                 return l3Vpn;
             }
         };
-        new MockUp<InventoryProxy>() {
+        new MockUp<ESRutil>() {
 
             @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
+            public Map getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
             }
         };
         new MockUp<HttpProxy>() {
@@ -500,15 +457,6 @@ public class L3vpnAcServiceTest {
                 return l3Vpn;
             }
         };
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -524,15 +472,6 @@ public class L3vpnAcServiceTest {
 
     @Test
     public void testl3vpnOperStatusGet() throws ServiceException {
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -558,15 +497,6 @@ public class L3vpnAcServiceTest {
 
     @Test
     public void testl3vpnOperStatusGetBranch() throws ServiceException {
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -585,15 +515,6 @@ public class L3vpnAcServiceTest {
 
     @Test(expected = ServiceException.class)
     public void testl3vpnOperStatusGetException() throws ServiceException {
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock
@@ -610,15 +531,6 @@ public class L3vpnAcServiceTest {
 
     @Test
     public void testl3vpnGet() throws ServiceException {
-        new MockUp<InventoryProxy>() {
-
-            @Mock
-            public Device getControllerDevice(String arg0) throws ServiceException {
-                Device device = new Device();
-                device.setPort(123);
-                return device;
-            }
-        };
         new MockUp<HttpProxy>() {
 
             @Mock

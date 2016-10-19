@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.sdno.acwanservice.config.Configuration;
 import org.openo.sdno.common.services.ESRutil;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.servicemodel.brs.Device;
@@ -138,26 +137,21 @@ public class RestConfProxy {
      * @since SDNO 0.5
      */
     public static Device getControllerDevice(String controller) throws ServiceException {
-        if(Configuration.getValues("ESREnabled") == null || "false".equals(Configuration.getValues("ESREnabled"))) {
-            return InventoryProxy.getControllerDevice(controller);
-        } else {
-            Device device = new Device();
-            try {
-                Map contentMap = ESRutil.getControllerDetails(controller);
-                device.setUser((String)contentMap.get("userName"));
-                device.setPwd((String)contentMap.get("password"));
+        Device device = new Device();
+        try {
+            Map contentMap = ESRutil.getControllerDetails(controller);
+            device.setUser((String)contentMap.get("userName"));
+            device.setPwd((String)contentMap.get("password"));
 
-                URL url = new URL((String)contentMap.get("url"));
-                device.setIp(url.getHost());
-                device.setPort(url.getPort());
-            } catch(Exception e) {
-                LOGGER.error("Error in getting controller", e);
-                throw new ServiceException("Error in getting controller", e);
-            }
-
-            return device;
-
+            URL url = new URL((String)contentMap.get("url"));
+            device.setIp(url.getHost());
+            device.setPort(url.getPort());
+        } catch(Exception e) {
+            LOGGER.error("Error in getting controller", e);
+            throw new ServiceException("Error in getting controller", e);
         }
+
+        return device;
     }
 
     /**
