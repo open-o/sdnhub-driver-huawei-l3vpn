@@ -16,6 +16,9 @@
 
 package org.openo.sdno.wanservice.rest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -32,8 +35,12 @@ import javax.ws.rs.core.Context;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.util.RestUtils;
 import org.openo.sdno.framework.container.service.IResource;
+import org.openo.sdno.framework.container.util.JsonUtil;
+import org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn;
 import org.openo.sdno.result.Result;
 import org.openo.sdno.wanservice.inf.L3VpnService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Restful interface class of L3 VPN adapter resource.<br>
@@ -43,6 +50,10 @@ import org.openo.sdno.wanservice.inf.L3VpnService;
  */
 @Path("/sbi-l3vpn/v1")
 public class L3VpnAdapter extends IResource<L3VpnService> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(L3VpnAdapter.class);
+
+    private final String l3vpn = "l3vpn";
 
     private L3VpnService service;
 
@@ -81,10 +92,14 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Produces({"application/json"})
     public Result<String> l3vpnCreate(@Context final HttpServletRequest request,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws WebApplicationException {
+
         String req = RestUtils.getRequestBody(request);
+        LOGGER.error("Create L3VPN request body: " + req);
+        Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
+
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
         try {
-            return service.l3vpnCreate(req, ctrlUuid);
+            return service.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
         } catch(ServiceException e) {
             throw new WebApplicationException(e.getId(), e.getHttpCode());
         }
