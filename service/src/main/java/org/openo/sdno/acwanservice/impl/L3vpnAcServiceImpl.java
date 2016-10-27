@@ -52,10 +52,6 @@ public class L3vpnAcServiceImpl implements L3VpnService {
 
     private static final ContentType CONTENT_TYPE = ContentType.XML;
 
-    private static final String ACTIVE_STATUS = "active";
-
-    private static final String INACTIVE_STATUS = "inactive";
-
     /**
      * Update the L3vpn information.<br>
      *
@@ -105,7 +101,8 @@ public class L3vpnAcServiceImpl implements L3VpnService {
                 JsonUtil.fromJson(spi, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
         L3VpnConfig ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
-        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
+        L3Vpn l3vpnJson = ctrlrl3vpn.getInstances().getInstances().get(0);
+        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, l3vpnJson);
         LOGGER.info(l3vpnMsg);
         final HTTPReturnMessage msg = RestConfProxy.post(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
         if(HttpCode.isSucess(msg.getStatus())) {
