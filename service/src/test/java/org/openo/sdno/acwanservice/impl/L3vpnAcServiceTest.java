@@ -38,7 +38,6 @@ import org.openo.sdno.frame.ServiceParasInfo;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
 import org.openo.sdno.model.networkmodel.servicetypes.VpnOperStatus;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectPolicy;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
@@ -172,7 +171,7 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
+        new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
     }
 
     @Test
@@ -306,7 +305,7 @@ public class L3vpnAcServiceTest {
             }
         };
 
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
+        new ServiceParasInfo("uuid", "resource", "serviceBody", null, "classPath");
         l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
     }
 
@@ -386,7 +385,7 @@ public class L3vpnAcServiceTest {
                 return httpReturnMessage;
             }
         };
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
+        new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
         Result<String> resultString = l3vpnAcService.l3vpnDelete("123", "121");
         assertEquals(resultString.getErrcode(), 0);
     }
@@ -403,7 +402,7 @@ public class L3vpnAcServiceTest {
                 return httpReturnMessage;
             }
         };
-        ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
+        new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
         l3vpnAcService.l3vpnDelete("123", "121");
     }
 
@@ -527,32 +526,6 @@ public class L3vpnAcServiceTest {
 
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
         l3vpnAcService.l3vpnOperStatusGet(spi);
-    }
-
-    @Test
-    public void testl3vpnGet() throws ServiceException {
-        new MockUp<HttpProxy>() {
-
-            @Mock
-            public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
-                HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
-                httpReturnMessage.setStatus(200);
-                httpReturnMessage.setBody("body");
-                return httpReturnMessage;
-            }
-        };
-
-        new MockUp<AbstractUnmarshallerImpl>() {
-
-            @Mock
-            public Object unmarshal(javax.xml.transform.Source source) {
-
-                return new L3VpnConfig();
-            }
-        };
-
-        Result<String> resultString = l3vpnAcService.l3vpnGet("vpcID", "ctrlID");
-        assertEquals(resultString.getErrcode(), 0);
     }
 
 }

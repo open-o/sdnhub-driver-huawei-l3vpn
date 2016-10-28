@@ -35,8 +35,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.L3Ac;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Access;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnInstances;
 import org.openo.sdno.model.networkmodel.servicetypes.MplsTe;
 import org.openo.sdno.model.networkmodel.servicetypes.Ne;
 import org.openo.sdno.model.networkmodel.servicetypes.Nes;
@@ -84,10 +82,7 @@ public class SerToNetTransformer {
      * @return network instance of VPN configuration
      * @since SDNO 0.5
      */
-    public static L3VpnConfig transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
-        L3VpnConfig l3VpnConfig = new L3VpnConfig();
-        L3VpnInstances l3VpnInstances = new L3VpnInstances();
-        List<L3Vpn> instances = new ArrayList<L3Vpn>();
+    public static L3Vpn transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
 
         L3Vpn ctrlrl3vpn = new L3Vpn();
 
@@ -147,13 +142,7 @@ public class SerToNetTransformer {
             ctrlrl3vpn.setTunnelService(transformTunnelService(l3Vpn.getTunnelService()));
         }
 
-        // TODO: set mode From Configuration file
-
-        instances.add(ctrlrl3vpn);
-        l3VpnInstances.setInstances(instances);
-        l3VpnConfig.setInstances(l3VpnInstances);
-
-        return l3VpnConfig;
+        return ctrlrl3vpn;
     }
 
     /**
@@ -218,7 +207,7 @@ public class SerToNetTransformer {
                                         Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
                                 staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
                                 staticRoute
-                                .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
+                                        .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
                                 staticRoutes.add(staticRoute);
                                 Protocol protocol = new Protocol();
                                 protocol.setType(RouteType.STATIC.getName());
@@ -312,7 +301,7 @@ public class SerToNetTransformer {
      * @since SDNO 0.5
      */
     private static TunnelService
-    transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
+            transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
         TunnelService ts = new TunnelService();
 
         ts.setType(tunnelService.getType());

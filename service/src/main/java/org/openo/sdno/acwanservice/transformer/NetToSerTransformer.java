@@ -24,7 +24,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.HubAc;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Ac;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
 import org.openo.sdno.model.networkmodel.servicetypes.MplsTe;
 import org.openo.sdno.model.networkmodel.servicetypes.Protocol;
 import org.openo.sdno.model.networkmodel.servicetypes.SpokeAc;
@@ -66,12 +65,8 @@ public class NetToSerTransformer {
      * @return service instance of uniform SBI
      * @since SDNO 0.5
      */
-    public static org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn transformModel(L3VpnConfig l3VpnConfig) {
+    public static org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn transformModel(L3Vpn l3Vpn) {
 
-        if(l3VpnConfig.getInstances() == null) {
-            return null;
-        }
-        L3Vpn l3Vpn = l3VpnConfig.getInstances().getInstances().get(0);
         org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
 
         nbil3Vpn.setUuid(l3Vpn.getId());

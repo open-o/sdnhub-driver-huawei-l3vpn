@@ -27,7 +27,6 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdno.acwanservice.transformer.SerToNetTransformer;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectPolicy;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnels;
@@ -291,8 +290,8 @@ public class SerToNetTransformerTest {
         diffServ.setColor("color");
         diffServ.setMode("mode");
         l3Vpn.setDiffServ(diffServ);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test(expected = Exception.class)
@@ -484,8 +483,8 @@ public class SerToNetTransformerTest {
         diffServ.setColor(null);
         diffServ.setMode(null);
         l3Vpn.setDiffServ(diffServ);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test
@@ -579,8 +578,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test
@@ -672,8 +671,8 @@ public class SerToNetTransformerTest {
         l3acs.setL3Ac(lsitL3Ac);
         l3Vpn.setAcs(l3acs);
         l3Vpn.setDiffServ(null);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test
@@ -783,8 +782,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test
@@ -866,8 +865,8 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(l3acs);
 
         l3Vpn.setDiffServ(null);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 
     @Test
@@ -895,7 +894,7 @@ public class SerToNetTransformerTest {
         l3Vpn.setAcs(null);
 
         l3Vpn.setDiffServ(null);
-        L3VpnConfig l3VpnConfig = SerToNetTransformer.transformModel(l3Vpn);
-        assertTrue(l3VpnConfig != null);
+        org.openo.sdno.model.networkmodel.servicetypes.L3Vpn svcL3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        assertTrue(svcL3vpn != null);
     }
 }
