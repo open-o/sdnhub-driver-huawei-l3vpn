@@ -35,8 +35,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.L3Ac;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Access;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnInstances;
 import org.openo.sdno.model.networkmodel.servicetypes.MplsTe;
 import org.openo.sdno.model.networkmodel.servicetypes.Ne;
 import org.openo.sdno.model.networkmodel.servicetypes.Nes;
@@ -67,7 +65,7 @@ import org.slf4j.LoggerFactory;
  * class for transforming service to network model<br>
  *
  * @author
- * @version SDNO 0.5 Aug 22, 2016
+ * @version SDNO 0.5 August 22, 2016
  */
 public class SerToNetTransformer {
 
@@ -80,14 +78,11 @@ public class SerToNetTransformer {
      * Transform service to network model
      * <br>
      *
-     * @param l3Vpn is a service model vpn configuration
-     * @return network instance of vpn configuration
+     * @param l3Vpn is a service model VPN configuration
+     * @return network instance of VPN configuration
      * @since SDNO 0.5
      */
-    public static L3VpnConfig transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
-        L3VpnConfig l3VpnConfig = new L3VpnConfig();
-        L3VpnInstances l3VpnInstances = new L3VpnInstances();
-        List<L3Vpn> instances = new ArrayList<L3Vpn>();
+    public static L3Vpn transformModel(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn) {
 
         L3Vpn ctrlrl3vpn = new L3Vpn();
 
@@ -103,8 +98,8 @@ public class SerToNetTransformer {
             ctrlrl3vpn.setFrr(l3Vpn.getFrr().toString());
         }
 
-        // if NE doesn't exist in the l3Vpn argument then read it from config file
-        // else create the NE from the Ac model (Ac -> NE).
+        // if NE doesn't exist in the l3Vpn argument then read it from configuration file
+        // else create the NE from the AC model (AC -> NE).
         List<Ne> nesList = new ArrayList<Ne>();
 
         if((l3Vpn.getAcs() != null) && (l3Vpn.getAcs().getL3Ac() != null) && (l3Vpn.getAcs().getL3Ac().size() > 0)) {
@@ -147,13 +142,7 @@ public class SerToNetTransformer {
             ctrlrl3vpn.setTunnelService(transformTunnelService(l3Vpn.getTunnelService()));
         }
 
-        // TODO: set mode From Config file
-
-        instances.add(ctrlrl3vpn);
-        l3VpnInstances.setInstances(instances);
-        l3VpnConfig.setInstances(l3VpnInstances);
-
-        return l3VpnConfig;
+        return ctrlrl3vpn;
     }
 
     /**
@@ -196,7 +185,7 @@ public class SerToNetTransformer {
                 ctrlrl3ac.setL2Access(l2access);
             }
 
-            // TODO: set Qos From Config file
+            // TODO: set QOS From Configuration file
 
             if(l3ac.getL3Access() != null) {
 
@@ -218,7 +207,7 @@ public class SerToNetTransformer {
                                         Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
                                 staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
                                 staticRoute
-                                .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
+                                        .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
                                 staticRoutes.add(staticRoute);
                                 Protocol protocol = new Protocol();
                                 protocol.setType(RouteType.STATIC.getName());
@@ -269,8 +258,8 @@ public class SerToNetTransformer {
                 ctrlrl3ac.setL3Access(l3Access);
             }
 
-            // vxlan-access is not present in the JSON input. Needs to be taken from the Conf files.
-            // TODO: set vxlanAccess from config file
+            // VXLAN-access is not present in the JSON input. Needs to be taken from the Conf files.
+            // TODO: set vxlanAccess from configuration file
 
             l3AcList.add(ctrlrl3ac);
         }
@@ -312,7 +301,7 @@ public class SerToNetTransformer {
      * @since SDNO 0.5
      */
     private static TunnelService
-    transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
+            transformTunnelService(org.openo.sdno.model.uniformsbi.base.TunnelService tunnelService) {
         TunnelService ts = new TunnelService();
 
         ts.setType(tunnelService.getType());
@@ -347,11 +336,11 @@ public class SerToNetTransformer {
     }
 
     /**
-     * Transform service mpls traffic engineering to network mpls traffic engineering model
+     * Transform service MPLS traffic engineering to network MPLS traffic engineering model
      * <br>
      *
      * @param mplsTe is uniform sbi's service model
-     * @return network instance of mpls traffic engineering
+     * @return network instance of MPLS traffic engineering
      * @since SDNO 0.5
      */
     private static MplsTe transformMplsTe(org.openo.sdno.model.uniformsbi.base.MplsTePolicy mplsTe) {

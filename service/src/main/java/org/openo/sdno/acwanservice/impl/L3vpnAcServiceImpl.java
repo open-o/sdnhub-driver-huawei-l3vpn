@@ -31,7 +31,6 @@ import org.openo.sdno.exception.HttpCode;
 import org.openo.sdno.frame.ServiceParasInfo;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
-import org.openo.sdno.model.networkmodel.servicetypes.L3VpnConfig;
 import org.openo.sdno.model.networkmodel.servicetypes.VpnOperStatus;
 import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPReturnMessage;
@@ -56,8 +55,8 @@ public class L3vpnAcServiceImpl implements L3VpnService {
      * Update the L3vpn information.<br>
      *
      * @param request request
-     * @param vpdId vpn ID
-     * @param ctrlUuid ctrl UUID
+     * @param vpdId VPN ID
+     * @param ctrlUuid controller UUID
      * @return the result of the operation
      * @throws ServiceException
      * @since SDNO 0.5
@@ -68,7 +67,7 @@ public class L3vpnAcServiceImpl implements L3VpnService {
         final org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn =
                 JsonUtil.fromJson(request, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
-        L3VpnConfig ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        L3Vpn ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
         final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
 
@@ -88,7 +87,7 @@ public class L3vpnAcServiceImpl implements L3VpnService {
      * Create L3vpn.<br>
      *
      * @param spi the service parameters information
-     * @param ctrlUuid ctrl UUID
+     * @param ctrlUuid controller UUID
      * @return the result of L3vpn creation
      * @throws ServiceException
      * @since SDNO 0.5
@@ -100,9 +99,9 @@ public class L3vpnAcServiceImpl implements L3VpnService {
         final org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn =
                 JsonUtil.fromJson(spi, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
-        L3VpnConfig ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
-        L3Vpn l3vpnJson = ctrlrl3vpn.getInstances().getInstances().get(0);
-        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, l3vpnJson);
+        L3Vpn ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
+
+        final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
         final HTTPReturnMessage msg = RestConfProxy.post(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
         if(HttpCode.isSucess(msg.getStatus())) {
@@ -117,8 +116,8 @@ public class L3vpnAcServiceImpl implements L3VpnService {
     /**
      * Delete the L3vpn.<br>
      *
-     * @param ctrlId ctrl ID
-     * @param vpnId vpn ID
+     * @param ctrlId controller ID
+     * @param vpnId VPN ID
      * @return the result of L3vpn deletion
      * @throws ServiceException
      * @since SDNO 0.5
@@ -189,8 +188,8 @@ public class L3vpnAcServiceImpl implements L3VpnService {
     /**
      * Get the information of L3vpn.<br>
      *
-     * @param vpnId vpn ID
-     * @param ctrlUuid ctrl UUID
+     * @param vpnId VPN ID
+     * @param ctrlUuid controller UUID
      * @return the result of getting L3vpn information
      * @throws ServiceException
      * @since SDNO 0.5
@@ -201,10 +200,11 @@ public class L3vpnAcServiceImpl implements L3VpnService {
         final String url = "/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/" + vpnId;
         final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid);
         if(HttpCode.isSucess(msg.getStatus())) {
-            String str = msg.getBody().replaceAll("\\\\", "");
-            final L3VpnConfig l3Vpn = SerializeUtil.deSerialize(L3vpnAcServiceImpl.CONTENT_TYPE, str, L3VpnConfig.class);
-            org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbiL3vpn = NetToSerTransformer.transformModel(l3Vpn);
             LOGGER.info("doGetL3vpnOperStatus success:" + msg.getBody());
+            String str = msg.getBody().replaceAll("\\\\", "");
+            final L3Vpn l3Vpn = SerializeUtil.deSerialize(L3vpnAcServiceImpl.CONTENT_TYPE, str, L3Vpn.class);
+            org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbiL3vpn = NetToSerTransformer.transformModel(l3Vpn);
+
             return new Result<>(ErrorCode.OPERATION_SUCCESS, JsonUtil.toJson(nbiL3vpn));
         } else {
             LOGGER.error("doGetL3vpn failed:" + msg.getBody());

@@ -20,7 +20,6 @@ import java.net.URL;
 import java.util.Map;
 
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.sdno.acwanservice.config.Configuration;
 import org.openo.sdno.common.services.ESRutil;
 import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.model.servicemodel.brs.Device;
@@ -31,7 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Restconf proxy class.<br>
+ * Rest conf proxy class.<br>
  *
  * @author
  * @version SDNO 0.5 2016-6-2
@@ -53,12 +52,12 @@ public class RestConfProxy {
     }
 
     /**
-     * Call the get method through the url.<br>
+     * Call the get method through the URL.<br>
      *
-     * @param contentType the enum of contents type
-     * @param url the url to be called
+     * @param contentType the enumeration of contents type
+     * @param url the URL to be called
      * @param controller the uuid of controller
-     * @return the HTTP response message from restconf
+     * @return the HTTP response message from rest conf
      * @throws ServiceException
      * @since SDNO 0.5
      */
@@ -71,13 +70,13 @@ public class RestConfProxy {
     }
 
     /**
-     * Call the post method through the url.<br>
+     * Call the post method through the URL.<br>
      *
-     * @param contentType the enum of contents type
-     * @param url the url to be called
+     * @param contentType the enumeration of contents type
+     * @param url the URL to be called
      * @param controller the uuid of controller
      * @param body the request body
-     * @return the HTTP response message from restconf
+     * @return the HTTP response message from rest conf
      * @throws ServiceException
      * @since SDNO 0.5
      */
@@ -91,12 +90,12 @@ public class RestConfProxy {
     }
 
     /**
-     * Call the delete method through the url.<br>
+     * Call the delete method through the URL.<br>
      *
-     * @param contentType the enum of contents type
-     * @param url the url to be called
+     * @param contentType the enumeration of contents type
+     * @param url the URL to be called
      * @param controller the uuid of controller
-     * @return the HTTP response message from restconf
+     * @return the HTTP response message from rest conf
      * @throws ServiceException
      * @since SDNO 0.5
      */
@@ -110,13 +109,13 @@ public class RestConfProxy {
     }
 
     /**
-     * Call the put method through the url.<br>
+     * Call the put method through the URL.<br>
      *
-     * @param contentType the enum of contents type
-     * @param url the url to be called
+     * @param contentType the enumeration of contents type
+     * @param url the URL to be called
      * @param controller the uuid of controller
      * @param body the request body
-     * @return the HTTP response message from restconf
+     * @return the HTTP response message from rest conf
      * @throws ServiceException
      * @since SDNO 0.5
      */
@@ -138,32 +137,27 @@ public class RestConfProxy {
      * @since SDNO 0.5
      */
     public static Device getControllerDevice(String controller) throws ServiceException {
-        if(Configuration.getValues("ESREnabled") == null || "false".equals(Configuration.getValues("ESREnabled"))) {
-            return InventoryProxy.getControllerDevice(controller);
-        } else {
-            Device device = new Device();
-            try {
-                Map contentMap = ESRutil.getControllerDetails(controller);
-                device.setUser((String)contentMap.get("userName"));
-                device.setPwd((String)contentMap.get("password"));
+        Device device = new Device();
+        try {
+            Map contentMap = ESRutil.getControllerDetails(controller);
+            device.setUser((String)contentMap.get("userName"));
+            device.setPwd((String)contentMap.get("password"));
 
-                URL url = new URL((String)contentMap.get("url"));
-                device.setIp(url.getHost());
-                device.setPort(url.getPort());
-            } catch(Exception e) {
-                LOGGER.error("Error in getting controller", e);
-                throw new ServiceException("Error in getting controller", e);
-            }
-
-            return device;
-
+            URL url = new URL((String)contentMap.get("url"));
+            device.setIp(url.getHost());
+            device.setPort(url.getPort());
+        } catch(Exception e) {
+            LOGGER.error("Error in getting controller", e);
+            throw new ServiceException("Error in getting controller", e);
         }
+
+        return device;
     }
 
     /**
-     * Builder function for http.<br>
+     * Builder function for HTTP.<br>
      *
-     * @param contentType the enum of contents type
+     * @param contentType the enumeration of contents type
      * @return the HTTPSender
      * @throws ServiceException
      * @since SDNO 0.5
@@ -184,9 +178,9 @@ public class RestConfProxy {
     }
 
     /**
-     * Builder function for http authentication parameters.<br>
+     * Builder function for HTTP authentication parameters.<br>
      *
-     * @param contentType the enum of contents type
+     * @param contentType the enumeration of contents type
      * @param dev is a device
      * @return the HTTPRequestMessage
      * @throws ServiceException
@@ -203,12 +197,12 @@ public class RestConfProxy {
     }
 
     /**
-     * Builder function for http parameters.<br>
+     * Builder function for HTTP parameters.<br>
      *
-     * @param contentType the enum of contents type
-     * @param url is a url string
+     * @param contentType the enumeration of contents type
+     * @param url is a URL string
      * @param dev is a device
-     * @param body http body
+     * @param body HTTP body
      * @param action type of action
      * @return the HTTPRequestMessage
      * @throws ServiceException
@@ -225,10 +219,10 @@ public class RestConfProxy {
     }
 
     /**
-     * get the url prefix.<br>
+     * get the URL prefix.<br>
      *
      * @param dev is a device
-     * @return the url string
+     * @return the URL string
      * @since SDNO 0.5
      */
     private static String getUrlPrefix(final Device dev) {
@@ -243,7 +237,7 @@ public class RestConfProxy {
     /**
      * Builder function for authentication context.<br>
      *
-     * @param contentType the enum of contents type
+     * @param contentType the enumeration of contents type
      * @param dev is a device
      * @return the authentication context information
      * @throws ServiceException
