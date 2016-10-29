@@ -308,6 +308,10 @@ public class NetToSerTransformer {
     private static org.openo.sdno.model.uniformsbi.l3vpn.TopologyService
             transformTopoService(TopoService topologyService) {
 
+        if(topologyService == null) {
+            return null;
+        }
+
         org.openo.sdno.model.uniformsbi.l3vpn.TopologyService topoService =
                 new org.openo.sdno.model.uniformsbi.l3vpn.TopologyService();
         org.openo.sdno.model.uniformsbi.l3vpn.HubGroups hubGroup =
