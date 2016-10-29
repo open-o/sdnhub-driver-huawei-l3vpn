@@ -685,7 +685,7 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        l3Vpn.setAdminStatus(null);
+        l3Vpn.setAdminStatus(AdminStatus.ADMIN_UP);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
 
@@ -796,7 +796,7 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        l3Vpn.setAdminStatus(null);
+        l3Vpn.setAdminStatus(AdminStatus.ADMIN_UP);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
 
@@ -879,7 +879,7 @@ public class SerToNetTransformerTest {
             }
         };
         L3Vpn l3Vpn = new L3Vpn();
-        l3Vpn.setAdminStatus(null);
+        l3Vpn.setAdminStatus(AdminStatus.ADMIN_UP);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
 
