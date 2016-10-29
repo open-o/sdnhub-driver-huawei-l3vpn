@@ -30,7 +30,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.SpokeAc;
 import org.openo.sdno.model.networkmodel.servicetypes.StaticRoute;
 import org.openo.sdno.model.networkmodel.servicetypes.TopoService;
 import org.openo.sdno.model.networkmodel.servicetypes.TunnelService;
-import org.openo.sdno.model.uniformsbi.comnontypes.enums.AdminStatus;
 import org.openo.sdno.model.uniformsbi.comnontypes.enums.RouteType;
 import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoutes;
@@ -71,7 +70,7 @@ public class NetToSerTransformer {
 
         nbil3Vpn.setUuid(l3Vpn.getId());
         nbil3Vpn.setName(l3Vpn.getName());
-        nbil3Vpn.setAdminStatus(AdminStatus.valueOf(l3Vpn.getAdminStatus()));
+        nbil3Vpn.setAdminStatusFromString(l3Vpn.getAdminStatus());
 
         // Topology set to hubSpoke as controller model does not support topology
         nbil3Vpn.setDescription(l3Vpn.getName());
