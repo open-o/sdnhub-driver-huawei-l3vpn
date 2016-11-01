@@ -52,6 +52,7 @@ import org.openo.sdno.model.networkmodel.servicetypes.Vrrp;
 import org.openo.sdno.model.networkmodel.servicetypes.Vxlan;
 import org.openo.sdno.model.networkmodel.servicetypes.enumeration.RouteType;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
+import org.openo.sdno.model.uniformsbi.comnontypes.enums.AdminStatus;
 import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoutes;
 import org.openo.sdno.model.uniformsbi.l3vpn.HubGroup;
@@ -90,8 +91,15 @@ public class SerToNetTransformer {
         ctrlrl3vpn.setName(l3Vpn.getName());
         ctrlrl3vpn.setUserLabel(Configuration.getValues(ConfigKeyConst.USER_LABEL));
         if(l3Vpn.getAdminStatus() != null) {
-            ctrlrl3vpn.setAdminStatus(l3Vpn.getAdminStatus().getName());
+            if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_UP) {
+                ctrlrl3vpn.setAdminStatus("admin-up");
+            } else if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_DOWN) {
+                ctrlrl3vpn.setAdminStatus("admin-down");
+            }
         }
+
+        ctrlrl3vpn.setMode(l3Vpn.getTopology());
+
         ctrlrl3vpn.setIpMtu(l3Vpn.getIpMtu());
         ctrlrl3vpn.setLabelApplyMode(Configuration.getValues(ConfigKeyConst.LABEL_APPLY_MODE));
         if(l3Vpn.getFrr() != null) {
