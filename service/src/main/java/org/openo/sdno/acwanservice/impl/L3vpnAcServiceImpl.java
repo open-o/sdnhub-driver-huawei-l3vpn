@@ -68,9 +68,9 @@ public class L3vpnAcServiceImpl implements L3VpnService {
                 JsonUtil.fromJson(request, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
         L3Vpn ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
+        ctrlrl3vpn.setMode("full-mesh");
         String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
-        l3vpnMsg = l3vpnMsg.replace("fullMesh", "full-mesh");
         final String url =
                 MessageFormat.format("/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances/instance/{0}", vpdId);
         final HTTPReturnMessage msg = RestConfProxy.put(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
@@ -100,7 +100,7 @@ public class L3vpnAcServiceImpl implements L3VpnService {
                 JsonUtil.fromJson(spi, org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn.class);
 
         L3Vpn ctrlrl3vpn = SerToNetTransformer.transformModel(l3Vpn);
-
+        ctrlrl3vpn.setMode("full-mesh");
         final String l3vpnMsg = SerializeUtil.serialize(L3vpnAcServiceImpl.CONTENT_TYPE, ctrlrl3vpn);
         LOGGER.info(l3vpnMsg);
         final HTTPReturnMessage msg = RestConfProxy.post(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid, l3vpnMsg);
