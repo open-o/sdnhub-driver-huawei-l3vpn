@@ -61,13 +61,13 @@
     },
     {
         "cfgkey": "preference",
-        "cfgvalue": "859",
+        "cfgvalue": "60",
         "validator": "",
         "encrypt": "false"
     },
     {
         "cfgkey": "track-bfd-enable",
-        "cfgvalue": "enable",
+        "cfgvalue": "false",
         "validator": "",
         "encrypt": "false"
     },
