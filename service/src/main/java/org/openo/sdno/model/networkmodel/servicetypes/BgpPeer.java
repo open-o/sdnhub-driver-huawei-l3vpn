@@ -27,7 +27,7 @@ import org.codehaus.jackson.annotate.JsonPropertyOrder;
 import org.codehaus.jackson.map.annotate.JsonRootName;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
-import org.openo.sdno.model.paradesc.NoPrintField;
+import org.openo.sdno.wanvpn.util.paradesc.NoPrintField;
 
 /**
  * <br>
