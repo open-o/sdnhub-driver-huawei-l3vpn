@@ -49,7 +49,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn;
 import org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.Route;
 import org.openo.sdno.model.uniformsbi.l3vpn.Routes;
-import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs;
+import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc;
 import org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
@@ -102,11 +102,11 @@ public class SerToNetTransformerTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
-        spokeGroup.setSpokeAcs(listSpokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
         TunnelService tunnelService = new TunnelService();
@@ -146,7 +146,6 @@ public class SerToNetTransformerTest {
         Vrrp vrrp = new Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        l3Vpn.setProtectGroup(protectGroup);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -224,10 +223,10 @@ public class SerToNetTransformerTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeAcs.add(spokeAc);
         spokeGroup.setSpokeAcs(null);
         topologyService.setSpokeGroup(null);
         l3Vpn.setTopologyService(topologyService);
@@ -268,7 +267,6 @@ public class SerToNetTransformerTest {
         Vrrp vrrp = new Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(null);
-        l3Vpn.setProtectGroup(protectGroup);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -321,10 +319,10 @@ public class SerToNetTransformerTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeAcs.add(spokeAc);
         spokeGroup.setSpokeAcs(null);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
@@ -365,7 +363,6 @@ public class SerToNetTransformerTest {
         Vrrp vrrp = new Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        l3Vpn.setProtectGroup(protectGroup);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -417,10 +414,10 @@ public class SerToNetTransformerTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeAcs.add(spokeAc);
         spokeGroup.setSpokeAcs(null);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
@@ -461,7 +458,6 @@ public class SerToNetTransformerTest {
         Vrrp vrrp = new Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        l3Vpn.setProtectGroup(protectGroup);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -536,7 +532,6 @@ public class SerToNetTransformerTest {
         l3Vpn.setTunnelService(tunnelService);
 
         l3Vpn.setFrr(null);
-        l3Vpn.setProtectGroup(null);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -630,8 +625,6 @@ public class SerToNetTransformerTest {
         l3Vpn.setTunnelService(tunnelService);
         l3Vpn.setFrr(null);
 
-        l3Vpn.setProtectGroup(null);
-
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         l3Ac.setUuid("uuid");
@@ -700,11 +693,11 @@ public class SerToNetTransformerTest {
         topologyService.setHubGroups(hubGroups);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
-        spokeGroup.setSpokeAcs(listSpokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
 
@@ -739,8 +732,6 @@ public class SerToNetTransformerTest {
         l3Vpn.setTunnelService(tunnelService);
 
         l3Vpn.setFrr(null);
-
-        l3Vpn.setProtectGroup(null);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -812,18 +803,16 @@ public class SerToNetTransformerTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        spokeGroup.setSpokeAcs(listSpokeAcs);
+        List<SpokeAc> spokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        spokeGroup.setSpokeAcs(spokeAcs);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
 
         l3Vpn.setTunnelService(null);
 
         l3Vpn.setFrr(null);
-
-        l3Vpn.setProtectGroup(null);
 
         L3Acs l3acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
@@ -888,8 +877,6 @@ public class SerToNetTransformerTest {
         l3Vpn.setTunnelService(null);
 
         l3Vpn.setFrr(null);
-
-        l3Vpn.setProtectGroup(null);
 
         l3Vpn.setAcs(null);
 

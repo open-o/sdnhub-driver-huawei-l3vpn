@@ -47,7 +47,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.Qos;
 import org.openo.sdno.model.networkmodel.servicetypes.QosIfPhb;
 import org.openo.sdno.model.networkmodel.servicetypes.QosIfQueueProfile;
 import org.openo.sdno.model.networkmodel.servicetypes.QosIfTrafficPolicy;
-import org.openo.sdno.model.networkmodel.servicetypes.SpokeAc;
 import org.openo.sdno.model.networkmodel.servicetypes.TopoService;
 import org.openo.sdno.model.networkmodel.servicetypes.Vrrp;
 import org.openo.sdno.model.networkmodel.servicetypes.Vxlan;
@@ -76,7 +75,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.L3Acs;
 import org.openo.sdno.model.uniformsbi.l3vpn.L3LoopbackIfs;
 import org.openo.sdno.model.uniformsbi.l3vpn.Route;
 import org.openo.sdno.model.uniformsbi.l3vpn.Routes;
-import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs;
+import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc;
 import org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
@@ -177,7 +176,6 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setName("name");
         OperStatus operStatus = OperStatus.OPERATE_UP;
         nbil3Vpn.setOperStatus(operStatus);
-        nbil3Vpn.setProtectGroup(protectGroup);
         nbil3Vpn.setTenantId("tenantId");
         nbil3Vpn.setTopology(TOPOLOGY_TYPE);
         return nbil3Vpn;
@@ -345,11 +343,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -410,17 +410,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -436,7 +436,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -688,11 +687,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -747,17 +748,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -773,7 +774,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         createL2Access();
@@ -1025,11 +1025,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -1084,17 +1086,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -1110,7 +1112,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -1362,11 +1363,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -1421,17 +1424,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -1447,7 +1450,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -1699,11 +1701,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(null);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -1759,17 +1763,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(null);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -1785,7 +1789,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -2038,11 +2041,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -2098,17 +2103,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(null);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -2124,7 +2129,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -2377,11 +2381,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(null);
@@ -2438,17 +2444,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(null);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -2464,7 +2470,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -2714,11 +2719,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -2775,17 +2782,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -2801,7 +2808,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -3051,11 +3057,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -3111,17 +3119,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -3137,7 +3145,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -3386,11 +3393,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -3446,17 +3455,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -3472,7 +3481,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -3722,11 +3730,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -3782,17 +3792,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -3808,7 +3818,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -3870,7 +3879,6 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setName("name");
         OperStatus operStatus = OperStatus.OPERATE_UP;
         nbil3Vpn.setOperStatus(operStatus);
-        nbil3Vpn.setProtectGroup(protectGroup);
         nbil3Vpn.setTenantId("tenantId");
         nbil3Vpn.setTopology(TOPOLOGY_TYPE);
         TopologyService topologyService = new TopologyService();
@@ -4077,11 +4085,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -4137,17 +4147,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -4163,7 +4173,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -4423,11 +4432,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -4483,17 +4494,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -4509,7 +4520,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -4767,11 +4777,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -4827,17 +4839,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -4853,7 +4865,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();
@@ -5111,11 +5122,13 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdno.model.networkmodel.servicetypes.SpokeGroup();
         spokeGroup1.setLocalBridge(true);
-        List<SpokeAc> spokeAcsList1 = new ArrayList<SpokeAc>();
-        SpokeAc element = new SpokeAc();
+        List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs1 =
+                new ArrayList<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc>();
+        org.openo.sdno.model.networkmodel.servicetypes.SpokeAc element =
+                new org.openo.sdno.model.networkmodel.servicetypes.SpokeAc();
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         TopoService topoService = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
@@ -5171,17 +5184,17 @@ public class NetToSerTransformerTest {
         hubSpoke.setHubGroup(hubGroup);
         spokeGroup1.setLocalBridge(true);
         element.setAcId("acId");
-        spokeAcsList1.add(0, element);
-        spokeGroup1.setSpokeAcs(spokeAcsList1);
+        spokeAcs1.add(0, element);
+        spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acId");
-        List<SpokeAcs> spokeAcsList = new ArrayList<SpokeAcs>();
-        spokeAcsList.add(spokeAcs);
-        spokeGroup.setSpokeAcs(spokeAcsList);
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acId");
+        List<SpokeAc> spokeAcs = new ArrayList<SpokeAc>();
+        spokeAcs.add(spokeAc);
+        spokeGroup.setSpokeAcs(spokeAcs);
         org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
                 new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
         protectGroup.setBackupAc("backUpAc");
@@ -5197,7 +5210,6 @@ public class NetToSerTransformerTest {
         l3Ac.setDescription("description");
         QosIfCar downstreamBandwidth = downstream();
         l3Ac.setDownstreamBandwidth(downstreamBandwidth);
-        l3Ac.setExternalQosPolicyId("externalQosPolicyId");
         l3Ac.setInboundQosPolicyId("inboundQosPolicyId");
         l3Ac.setInboundQueuePolicyId("inboundQueuePolicyId");
         L2Access l2Access = createL2Access();

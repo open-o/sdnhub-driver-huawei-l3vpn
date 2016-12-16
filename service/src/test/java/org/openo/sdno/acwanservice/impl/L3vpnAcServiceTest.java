@@ -48,12 +48,10 @@ import org.openo.sdno.model.uniformsbi.l3vpn.HubGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.HubGroups;
 import org.openo.sdno.model.uniformsbi.l3vpn.L2Access;
 import org.openo.sdno.model.uniformsbi.l3vpn.L3Access;
-import org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.Routes;
-import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs;
+import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc;
 import org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
-import org.openo.sdno.model.uniformsbi.l3vpn.Vrrp;
 import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
@@ -90,10 +88,10 @@ public class L3vpnAcServiceTest {
 
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
-        List<SpokeAcs> listSpokeAcs = new ArrayList<>();
-        SpokeAcs spokeAcs = new SpokeAcs();
-        spokeAcs.setAcId("acID");
-        listSpokeAcs.add(spokeAcs);
+        List<SpokeAc> listSpokeAcs = new ArrayList<>();
+        SpokeAc spokeAc = new SpokeAc();
+        spokeAc.setAcId("acID");
+        listSpokeAcs.add(spokeAc);
         spokeGroup.setSpokeAcs(listSpokeAcs);
         topologyService.setSpokeGroup(spokeGroup);
         l3Vpn.setTopologyService(topologyService);
@@ -131,13 +129,6 @@ public class L3vpnAcServiceTest {
         tunnelService.setMplsTe(mplsTe);
         l3Vpn.setTunnelService(tunnelService);
         l3Vpn.setFrr(true);
-        ProtectGroup protectGroup = new ProtectGroup();
-        protectGroup.setBackupAc("backUpAc");
-        protectGroup.setMasterAc("masterAc");
-        Vrrp vrrp = new Vrrp();
-        vrrp.setVirtualIp("virtualIp");
-        protectGroup.setVrrp(vrrp);
-        l3Vpn.setProtectGroup(protectGroup);
 
         org.openo.sdno.model.uniformsbi.l3vpn.L3Acs l3acs = new org.openo.sdno.model.uniformsbi.l3vpn.L3Acs();
         org.openo.sdno.model.uniformsbi.l3vpn.L3Ac l3Ac = new org.openo.sdno.model.uniformsbi.l3vpn.L3Ac();

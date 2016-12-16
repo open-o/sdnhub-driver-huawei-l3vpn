@@ -26,7 +26,6 @@ import org.openo.sdno.model.networkmodel.servicetypes.L3Acs;
 import org.openo.sdno.model.networkmodel.servicetypes.L3Vpn;
 import org.openo.sdno.model.networkmodel.servicetypes.MplsTe;
 import org.openo.sdno.model.networkmodel.servicetypes.Protocol;
-import org.openo.sdno.model.networkmodel.servicetypes.SpokeAc;
 import org.openo.sdno.model.networkmodel.servicetypes.StaticRoute;
 import org.openo.sdno.model.networkmodel.servicetypes.TopoService;
 import org.openo.sdno.model.networkmodel.servicetypes.TunnelService;
@@ -37,10 +36,9 @@ import org.openo.sdno.model.uniformsbi.l3vpn.HubGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.IsisRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.Route;
 import org.openo.sdno.model.uniformsbi.l3vpn.Routes;
-import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs;
+import org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc;
 import org.openo.sdno.model.uniformsbi.l3vpn.SpokeGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
-import org.openo.sdno.model.uniformsbi.l3vpn.Vrrp;
 
 /**
  * class for transforming network to service model<br>
@@ -86,22 +84,6 @@ public class NetToSerTransformer {
             diffServ.setServiceClass(l3Vpn.getDiffServ().getServiceClass());
         }
         nbil3Vpn.setDiffServ(diffServ);
-
-        org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup =
-                new org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup();
-        if(l3Vpn.getAcProtectGroups() != null && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null) {
-            protectGroup.setBackupAc(l3Vpn.getAcProtectGroups().getAcprotectGroup().getBackAcId());
-        }
-        if(l3Vpn.getAcProtectGroups() != null && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null) {
-            protectGroup.setMasterAc(l3Vpn.getAcProtectGroups().getAcprotectGroup().getMasterAcId());
-        }
-        if(l3Vpn.getAcProtectGroups() != null && l3Vpn.getAcProtectGroups().getAcprotectGroup() != null
-                && l3Vpn.getAcProtectGroups().getAcprotectGroup().getVrrp() != null) {
-            Vrrp vrrp = new Vrrp();
-            vrrp.setVirtualIp(l3Vpn.getAcProtectGroups().getAcprotectGroup().getVrrp().getVirtualIp());
-            protectGroup.setVrrp(vrrp);
-        }
-        nbil3Vpn.setProtectGroup(protectGroup);
 
         org.openo.sdno.model.uniformsbi.l3vpn.TopologyService topologyService =
                 transformTopoService(l3Vpn.getTopoService());
@@ -344,11 +326,12 @@ public class NetToSerTransformer {
      * @return service instance of uniform sbi's spoke attachment circuits
      * @since SDNO 0.5
      */
-    private static List<SpokeAcs> transformSpokeGroup(List<SpokeAc> spokeAcs) {
+    private static List<SpokeAc>
+            transformSpokeGroup(List<org.openo.sdno.model.networkmodel.servicetypes.SpokeAc> spokeAcs) {
 
-        List<SpokeAcs> nbispokeAcs = new ArrayList<>();
-        for(SpokeAc spokeAc : spokeAcs) {
-            SpokeAcs acs = new SpokeAcs();
+        List<SpokeAc> nbispokeAcs = new ArrayList<>();
+        for(org.openo.sdno.model.networkmodel.servicetypes.SpokeAc spokeAc : spokeAcs) {
+            SpokeAc acs = new SpokeAc();
             acs.setAcId(spokeAc.getAcId());
             nbispokeAcs.add(acs);
         }

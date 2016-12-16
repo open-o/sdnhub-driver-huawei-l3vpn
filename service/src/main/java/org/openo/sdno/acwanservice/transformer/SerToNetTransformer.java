@@ -140,9 +140,6 @@ public class SerToNetTransformer {
         if(l3Vpn.getTopologyService() != null) {
             ctrlrl3vpn.setTopoService(transformTopoService(l3Vpn.getTopologyService()));
         }
-        if(l3Vpn.getProtectGroup() != null) {
-            ctrlrl3vpn.setAcProtectGroups(transformProtectGroup(l3Vpn.getProtectGroup()));
-        }
         if(l3Vpn.getDiffServ() != null) {
             ctrlrl3vpn.setDiffServ(transformDiffServ(l3Vpn.getDiffServ()));
         }
@@ -442,9 +439,9 @@ public class SerToNetTransformer {
         sg.setLocalBridge(spokeGroup.isLocalBridge());
         List<SpokeAc> ctrlSpokeAcs = new ArrayList<>();
 
-        List<org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs> spokeAcs = spokeGroup.getSpokeAcs();
+        List<org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc> spokeAcs = spokeGroup.getSpokeAcs();
         if(spokeAcs != null) {
-            for(org.openo.sdno.model.uniformsbi.l3vpn.SpokeAcs spokeAc : spokeAcs) {
+            for(org.openo.sdno.model.uniformsbi.l3vpn.SpokeAc spokeAc : spokeAcs) {
                 SpokeAc sa = new SpokeAc();
                 sa.setAcId(spokeAc.getAcId());
                 ctrlSpokeAcs.add(sa);
