@@ -91,18 +91,14 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnCreate(@Context final HttpServletRequest request,
-            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws WebApplicationException {
+            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws ServiceException {
 
         String req = RestUtils.getRequestBody(request);
         LOGGER.error("Create L3VPN request body: " + req);
         Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
 
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        try {
-            return service.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
-        } catch(ServiceException e) {
-            throw new WebApplicationException(e.getId(), e.getHttpCode());
-        }
+        return service.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
     }
 
     /**
@@ -119,13 +115,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnDelete(@HeaderParam("X-Driver-Parameter") String ctrlUuidParam,
-            @PathParam("id") String vpnId) throws WebApplicationException {
+            @PathParam("id") String vpnId) throws ServiceException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        try {
-            return service.l3vpnDelete(ctrlUuid, vpnId);
-        } catch(ServiceException e) {
-            throw new WebApplicationException(e.getId(), e.getHttpCode());
-        }
+        return service.l3vpnDelete(ctrlUuid, vpnId);
     }
 
     /**
@@ -144,15 +136,11 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Produces({"application/json"})
     public Result<String> l3vpnStatusUpdate(@Context final HttpServletRequest request,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam, @PathParam("id") String vpdId)
-            throws WebApplicationException {
+            throws ServiceException {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
 
-        try {
-            return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
-        } catch(ServiceException e) {
-            throw new WebApplicationException(e.getId(), e.getHttpCode());
-        }
+        return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
     }
 
     /**
@@ -170,14 +158,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     public Result<String> l3vpnGet(@Context final HttpServletRequest request, @PathParam("id") String vpnId,
-            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws WebApplicationException {
+            @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws ServiceException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
 
-        try {
-            return service.l3vpnGet(ctrlUuid, vpnId);
-        } catch(ServiceException e) {
-            throw new WebApplicationException(e.getId(), e.getHttpCode());
-        }
-
+        return service.l3vpnGet(ctrlUuid, vpnId);
     }
 }
