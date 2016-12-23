@@ -38,7 +38,5 @@ public class AcWanRestModule extends IRoaModule {
     @Override
     protected void init() {
         LOGGER.info("=====start adapter roa module=====");
-
-        // register to Driver Manager
     }
 }
