@@ -147,7 +147,7 @@ public class NetToSerTransformer {
                     for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
                         org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
                                 new org.openo.sdno.model.uniformsbi.l3vpn.Route();
-                        nbiRoute.setRouteType(RouteType.STATIC.getName());
+                        nbiRoute.setRouteType(RouteType.STATIC.getAlias());
 
                         org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr =
                                 new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
