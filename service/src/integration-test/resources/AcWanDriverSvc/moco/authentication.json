@@ -1,21 +1,21 @@
 {
-	"request": {
-		"uri": "/controller/v2/tokens",
-		"method": "post",
-		"headers": {
-			"Content-Type": "application/json;charset=UTF-8"
-		},
-		"json": {
-			"userName": null,
-			"password": null
-		}
-	},
-	"response": {
-		"status": 200,
-		"json": {
-			"data": {
-				"token_id": "12345"
-			}
-		}
-	}
+    "request": {
+        "uri": "/controller/v2/tokens",
+        "method": "post",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8"
+        },
+        "json": {
+            "userName": null,
+            "password": null
+        }
+    },
+    "response": {
+        "status": 200,
+        "json": {
+            "data": {
+                "token_id": "12345"
+            }
+        }
+    }
 }

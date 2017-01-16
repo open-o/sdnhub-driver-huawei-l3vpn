@@ -2,11 +2,11 @@
     "request": {
         "uri": "/restconf/config/huawei-ac-net-l3vpn:l3vpn-cfg/instances",
         "method": "post"
-    },    
+    },
     "response": {
         "status": 200,
         "json": {
-            
+
         }
     }
 },
@@ -14,7 +14,7 @@
     "request": {
         "uri": "/controller/v2/tokens",
         "method": "post",
-    
+
         "json": {
             "userName": "admin",
             "password": "admin"
@@ -37,7 +37,7 @@
     "response": {
         "status": 200,
         "json": {
-            
+
         }
     }
 },

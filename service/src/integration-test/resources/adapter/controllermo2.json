@@ -1,23 +1,23 @@
 {
-	"request": {
-		"uri": "/rest/accessobjectmgmt/v1/access-objects/",
-		"method": "get",
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	},
-	"response": {
-		"status": 200,
-		"json": {
-			"objectId": "12345",
-			"name": "test",
-			"category": "l3vpn",
-			"productName": "test/project1",
-			"version": "v1",
-			"hostName": "127.0.0.1",
-			"slaveHostName": "127.0.0.1",
-			"description": "test",
-			"vendor": "huawei"
-		}
-	}
+    "request": {
+        "uri": "/rest/accessobjectmgmt/v1/access-objects/",
+        "method": "get",
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    },
+    "response": {
+        "status": 200,
+        "json": {
+            "objectId": "12345",
+            "name": "test",
+            "category": "l3vpn",
+            "productName": "test/project1",
+            "version": "v1",
+            "hostName": "127.0.0.1",
+            "slaveHostName": "127.0.0.1",
+            "description": "test",
+            "vendor": "huawei"
+        }
+    }
 }

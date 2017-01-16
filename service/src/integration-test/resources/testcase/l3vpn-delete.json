@@ -1,13 +1,13 @@
 {
-	"request": {
-		"uri": "/openoapi/sbi-l3vpn/v1/l3vpns/test123",
-		"method": "delete",
-		"headers": {
-			"Content-Type": "application/json;charset=UTF-8",
-			"X-Driver-Parameter": "extSysID=123"
-		}
-	},
-	"response": {
-		"status": 200
-	}
+    "request": {
+        "uri": "/openoapi/sbi-l3vpn/v1/l3vpns/test123",
+        "method": "delete",
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8",
+            "X-Driver-Parameter": "extSysID=123"
+        }
+    },
+    "response": {
+        "status": 200
+    }
 }
