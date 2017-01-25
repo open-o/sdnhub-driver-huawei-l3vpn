@@ -24,7 +24,7 @@
 
     <artifactId>l3vpndriver-service</artifactId>
     <packaging>war</packaging>
-    <name>sdno-driver-huawei-l3vpn/service</name>
+    <name>sdnhub-driver-huawei-l3vpn/service</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
