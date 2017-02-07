@@ -142,7 +142,7 @@ public class DriverRegistrationListener implements ServletContextListener {
                 }
             } catch(ServiceException e) {
                 LOGGER.warn("Driver registration failed with driver manager, connection will be reattempted after "
-                        + DRIVER_REGISTRATION_DELAY + "seconds : " + e.toString());
+                        + DRIVER_REGISTRATION_DELAY + "seconds : " + e);
             }
         }, DRIVER_REGISTRATION_INITIAL_DELAY, DRIVER_REGISTRATION_DELAY, TimeUnit.SECONDS);
     }
