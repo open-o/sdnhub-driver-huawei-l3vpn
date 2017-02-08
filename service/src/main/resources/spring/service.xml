@@ -34,6 +34,7 @@
         <!-- registering beans -->
         <jaxrs:serviceBeans>
             <ref bean="L3VpnAdapter"></ref>
+            <ref bean="healthCheckRoaResource"></ref>
         </jaxrs:serviceBeans>
         <!-- registering providers -->
         <jaxrs:providers>
@@ -53,5 +54,8 @@
     <bean id="AcWanRestModule" class="org.openo.sdnhub.wanservice.rest.AcWanRestModule"
         init-method="start" destroy-method="stop">
     </bean>
+ 
+    <bean id="healthCheckRoaResource" class="org.openo.sdno.healthcheck.rest.HealthCheckRoaResource" />
+    <bean id="checker" class="org.openo.sdno.healthcheck.service.DefaultHealthChecker" />
 
 </beans>

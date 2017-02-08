@@ -1,0 +1,17 @@
+{
+    "request": {
+        "uri": "http://localhost:8088/l3vpndriverservice/openoapi/healthcheck",
+        "method": "get",
+        "headers": {
+            "Content-Type": "application/json",
+            "X-Driver-Parameter": "extSysID=123"
+        },
+        "json": {
+
+        }
+    },
+    "response": {
+        "status": 200,
+        "json": {"MSB":"UP"}
+    }
+}
