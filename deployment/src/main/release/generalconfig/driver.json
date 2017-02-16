@@ -1,13 +1,22 @@
 {
     "driverInfo": {
-        "driverName": "sdnol3vpndriver-0-1",
-        "instanceID": "sdnol3vpndriver-0-1",
+        "driverName": "sdnhubl3vpndriver-0-1",
+        "instanceID": "sdnhubl3vpndriver-0-1",
         "ip": "",
         "port": "8533",
         "protocol": "http",
         "services": [
             {
                 "service_url": "/openoapi/sbi-l3vpn/v1",
+                "support_sys": [
+                    {
+                        "type": "Agile Controller-WAN",
+                        "version": "V300R001C00"
+                    }
+                ]
+            },
+			{
+                "service_url": "/openoapi/sdnhubl3vpndriver",
                 "support_sys": [
                     {
                         "type": "Agile Controller-WAN",

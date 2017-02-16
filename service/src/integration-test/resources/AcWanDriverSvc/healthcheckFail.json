@@ -1,6 +1,6 @@
 {
     "request": {
-        "uri": "http://localhost:8088/l3vpndriverservice/openoapi/sdnhubl3vpndriver/healthcheck",
+        "uri": "http://localhost:8088/openstackdriverservice/openoapi/sdnhubopenstackdriver/healthcheck",
         "method": "get",
         "headers": {
             "Content-Type": "application/json"
@@ -11,6 +11,6 @@
     },
     "response": {
         "status": 200,
-        "json": {"MSB":"UP"}
+        "json": {"MSB":"DOWN"}
     }
 }

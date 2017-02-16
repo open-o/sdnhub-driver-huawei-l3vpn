@@ -48,7 +48,7 @@ public class ITHealthCheckFailTest extends TestManager {
 
     @Test
     public void test() throws ServiceException {
-        File createFile = new File("src/integration-test/resources/AcWanDriverSvc/healthcheck.json");
+        File createFile = new File("src/integration-test/resources/AcWanDriverSvc/healthcheckFail.json");
         HttpRquestResponse createHttpObject =
                 HttpModelUtils.praseHttpRquestResponse(FileUtils.readFromJson(createFile));
         HttpResponse createResponse = execTestCase(createFile, new RegularExpChecker(createHttpObject.getResponse()));
