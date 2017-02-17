@@ -48,7 +48,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
  */
 public class NetToSerTransformer {
 
-    private static String TOPOLOGY_TYPE = "fullMesh";
+    private static String TOPOLOGYTYPE = "fullMesh";
 
     private NetToSerTransformer() {
 
@@ -88,7 +88,7 @@ public class NetToSerTransformer {
         org.openo.sdno.model.uniformsbi.l3vpn.TopologyService topologyService =
                 transformTopoService(l3Vpn.getTopoService());
         nbil3Vpn.setTopologyService(topologyService);
-        nbil3Vpn.setTopology(TOPOLOGY_TYPE);
+        nbil3Vpn.setTopology(TOPOLOGYTYPE);
 
         org.openo.sdno.model.uniformsbi.l3vpn.L3LoopbackIfs l3Loopbackifs =
                 new org.openo.sdno.model.uniformsbi.l3vpn.L3LoopbackIfs();
@@ -301,7 +301,7 @@ public class NetToSerTransformer {
         SpokeGroup spokeGroup = new SpokeGroup();
 
         if(topologyService.getHubSpoke() != null) {
-            TOPOLOGY_TYPE = "hubSpoke";
+            TOPOLOGYTYPE = "hubSpoke";
             if(topologyService.getHubSpoke().getHubGroup() != null) {
                 hubGroup.setHubGroup(transformHubGroup(topologyService.getHubSpoke().getHubGroup()));
             }

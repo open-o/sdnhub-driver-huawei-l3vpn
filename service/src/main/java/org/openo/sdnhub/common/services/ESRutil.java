@@ -44,6 +44,11 @@ public class ESRutil {
      * @throws ServiceException
      * @since SDNHUB 0.5
      */
+
+    private ESRutil(){
+
+    }
+
     public static Map getControllerDetails(String ctrlUuid) throws ServiceException {
         String esrurl = "/openoapi/extsys/v1/sdncontrollers/" + ctrlUuid;
         final RestfulParametes restfulParametes = new RestfulParametes();

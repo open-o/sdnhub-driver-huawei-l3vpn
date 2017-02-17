@@ -67,7 +67,7 @@ public class HttpProxy extends HTTPSender {
             super.setHttpAccept(MediaType.APPLICATION_JSON);
             authConn = sendMsg(authReq, null, authResponse, true);
             if(HttpCode.isSucess(authResponse.getStatus())) {
-                Map<String, String> tokenMap = new HashMap<String, String>();
+                Map<String, String> tokenMap = new HashMap<>();
                 tokenMap.put(ACCESS_TOKEN, authResponse.getToken());
 
                 super.setHttpContentType(contentType);

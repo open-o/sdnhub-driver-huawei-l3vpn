@@ -151,6 +151,7 @@ public class SerializeUtil {
      * @since SDNHUB 0.5
      */
     public static String toXml(Object obj) throws ServiceException {
+        String sError="toXml failed.";
         try {
             JAXBContext context = JAXBContext.newInstance(obj.getClass());
             Marshaller marshaller = context.createMarshaller();
@@ -160,12 +161,9 @@ public class SerializeUtil {
             StringWriter writer = new StringWriter();
             marshaller.marshal(obj, writer);
             return writer.toString();
-        } catch(PropertyException e) {
-            LOGGER.error("toXml failed.", e);
-            throw new ServiceException("toXml failed.", e);
         } catch(JAXBException e) {
-            LOGGER.error("toXml failed.", e);
-            throw new ServiceException("toXml failed.", e);
+            LOGGER.error(sError, e);
+            throw new ServiceException(sError, e);
         }
     }
 
@@ -179,6 +177,7 @@ public class SerializeUtil {
      * @since SDNHUB 0.5
      */
     public static <T> T fromXml(String xml, Class<T> clazz) throws ServiceException {
+        String sError="formXml failed.";
         if(StringUtils.isEmpty(xml)) {
             return null;
         }
@@ -195,20 +194,12 @@ public class SerializeUtil {
             sax.setFeature(feature, false);
             feature = "http://xml.org/sax/features/external-parameter-entities";
             sax.setFeature(feature, false);
-            // sax.setXIncludeAware(false);
-
             XMLReader xmlReader = sax.newSAXParser().getXMLReader();
             Source source = new SAXSource(xmlReader, new InputSource(reader));
             return (T)unmarshaller.unmarshal(source);
-        } catch(JAXBException e) {
-            LOGGER.error("formXml failed.", e);
-            throw new ServiceException("formXml failed.", e);
-        } catch(SAXException e) {
-            LOGGER.error("formXml failed.", e);
-            throw new ServiceException("formXml failed.", e);
-        } catch(ParserConfigurationException e) {
-            LOGGER.error("formXml failed.", e);
-            throw new ServiceException("formXml failed.", e);
+        } catch(JAXBException|SAXException|ParserConfigurationException e) {
+            LOGGER.error(sError, e);
+            throw new ServiceException(sError, e);
         }
     }
 

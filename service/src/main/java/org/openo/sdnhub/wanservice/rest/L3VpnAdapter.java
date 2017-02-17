@@ -53,12 +53,12 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(L3VpnAdapter.class);
 
-    private final String l3vpn = "l3vpn";
+    private static final String l3vpn = "l3vpn";
 
-    private L3VpnService service;
+    private L3VpnService vpnService;
 
     public L3VpnService getService() {
-        return service;
+        return vpnService;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      */
     @Override
     public void setService(L3VpnService service) {
-        this.service = service;
+        this.vpnService = service;
     }
 
     /**
@@ -95,10 +95,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
 
         String req = RestUtils.getRequestBody(request);
         LOGGER.error("Create L3VPN request body: " + req);
-        Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
 
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
+        return vpnService.l3vpnCreate(req, ctrlUuid);
     }
 
     /**
@@ -117,7 +116,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     public Result<String> l3vpnDelete(@HeaderParam("X-Driver-Parameter") String ctrlUuidParam,
             @PathParam("id") String vpnId) throws ServiceException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return service.l3vpnDelete(ctrlUuid, vpnId);
+        return vpnService.l3vpnDelete(ctrlUuid, vpnId);
     }
 
     /**
@@ -140,7 +139,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
         String req = RestUtils.getRequestBody(request);
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
 
-        return service.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
+        return vpnService.l3vpnStatusUpdate(req, vpdId, ctrlUuid);
     }
 
     /**
@@ -157,10 +156,10 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     @Path("/l3vpns/{id}")
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public Result<String> l3vpnGet(@Context final HttpServletRequest request, @PathParam("id") String vpnId,
+    public Result<String> l3vpnGet(@PathParam("id") String vpnId,
             @HeaderParam("X-Driver-Parameter") String ctrlUuidParam) throws ServiceException {
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
 
-        return service.l3vpnGet(ctrlUuid, vpnId);
+        return vpnService.l3vpnGet(ctrlUuid, vpnId);
     }
 }

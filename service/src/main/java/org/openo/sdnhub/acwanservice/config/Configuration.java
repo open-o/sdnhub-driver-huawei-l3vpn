@@ -57,7 +57,7 @@ public class Configuration {
     public static String getValues(String label) {
         List<Map<String, String>> values = null;
         try {
-            values = getJsonFileData(DOMAIN);
+            values = getJsonFileData();
         } catch(ServiceException e) {
             // TODO Auto-generated catch block
             LOGGER.warn("ServiceException generated" + e);
@@ -95,7 +95,7 @@ public class Configuration {
      * @throws ServiceException
      * @since SDNHUB 0.5
      */
-    private static List<Map<String, String>> getJsonFileData(String domain) throws ServiceException {
+    private static List<Map<String, String>> getJsonFileData() throws ServiceException {
         try {
             String content = IOUtils.toString(
                     Configuration.class.getClassLoader().getResourceAsStream("/generalconfig/acWanConf.json"));
@@ -104,6 +104,6 @@ public class Configuration {
         } catch(IOException e) {
             LOGGER.warn("Get json file failed!", e);
         }
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 }

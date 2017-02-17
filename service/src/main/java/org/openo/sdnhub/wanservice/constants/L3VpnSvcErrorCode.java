@@ -18,7 +18,7 @@ package org.openo.sdnhub.wanservice.constants;
 
 /**
  * The constants of L3VPN service error code.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 2, 2016
  */
@@ -26,17 +26,19 @@ public class L3VpnSvcErrorCode {
 
     public static final String APP_NAME = "l3vpnsvc";
 
+    public static final String VPN="l3vpn";
+
     public static final String L3VPN_GET_CONTROLLER_FAIL =
-            ErrorCodeUtils.getErrorCode(APP_NAME, "l3vpn", "get_vpn_controller_fail");
+            ErrorCodeUtils.getErrorCode(APP_NAME, VPN, "get_vpn_controller_fail");
 
     public static final String L3VPN_CREATE_CONTROLLER_FAIL =
-            ErrorCodeUtils.getErrorCode(APP_NAME, "l3vpn", "create_vpn_controller_fail");
+            ErrorCodeUtils.getErrorCode(APP_NAME, VPN, "create_vpn_controller_fail");
 
     public static final String L3VPN_DELETE_CONTROLLER_FAIL =
-            ErrorCodeUtils.getErrorCode(APP_NAME, "l3vpn", "delete_vpn_controller_fail");
+            ErrorCodeUtils.getErrorCode(APP_NAME, VPN, "delete_vpn_controller_fail");
 
     public static final String L3VPN_UPDATE_STATUS_CONTROLLER_FAIL =
-            ErrorCodeUtils.getErrorCode(APP_NAME, "l3vpn", "update_vpn_status_controller_fail");
+            ErrorCodeUtils.getErrorCode(APP_NAME, VPN, "update_vpn_status_controller_fail");
 
     public static final String UPDATEDESC_CONTROLLER_FAIL = null;
 

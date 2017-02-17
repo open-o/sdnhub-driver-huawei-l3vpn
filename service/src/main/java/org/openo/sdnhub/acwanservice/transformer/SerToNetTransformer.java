@@ -108,9 +108,9 @@ public class SerToNetTransformer {
 
         // if NE doesn't exist in the l3Vpn argument then read it from configuration file
         // else create the NE from the AC model (AC -> NE).
-        List<Ne> nesList = new ArrayList<Ne>();
+        List<Ne> nesList = new ArrayList<>();
 
-        if((l3Vpn.getAcs() != null) && (l3Vpn.getAcs().getL3Ac() != null) && (l3Vpn.getAcs().getL3Ac().size() > 0)) {
+        if((l3Vpn.getAcs() != null) && (l3Vpn.getAcs().getL3Ac() != null) && (!l3Vpn.getAcs().getL3Ac().isEmpty())) {
 
             List<org.openo.sdno.model.uniformsbi.l3vpn.L3Ac> l3Acs = l3Vpn.getAcs().getL3Ac();
 
@@ -198,7 +198,7 @@ public class SerToNetTransformer {
                 l3Access.setAddress(l3ac.getL3Access().getIpv4Address());
 
                 if(l3ac.getL3Access().getRoutes() != null) {
-                    List<Protocol> protocols = new ArrayList<Protocol>();
+                    List<Protocol> protocols = new ArrayList<>();
 
                     List<StaticRoute> staticRoutes = new ArrayList<>();
                     for(org.openo.sdno.model.uniformsbi.l3vpn.Route route : l3ac.getL3Access().getRoutes().getRoute()) {
@@ -226,7 +226,7 @@ public class SerToNetTransformer {
                         if(route.getBgpRoutes() != null) {
                             BgpRoutes bgpRoutes = route.getBgpRoutes();
                             Protocol protocol = new Protocol();
-                            List<BgpPeer> bgpPeers = new ArrayList<BgpPeer>();
+                            List<BgpPeer> bgpPeers = new ArrayList<>();
                             for(BgpRoute bgpRoute : bgpRoutes.getBgpRoute()) {
                                 BgpPeer bgpPeer = new BgpPeer();
                                 bgpPeer.setAdvertiseCommunity(bgpRoute.isAdvertiseCommunity());
@@ -273,29 +273,6 @@ public class SerToNetTransformer {
         return l3Acs;
     }
 
-    /**
-     * Transform service attachment circuit's protection group to network protection group model
-     * <br>
-     *
-     * @param protectGroup is uniform sbi's attachment circuit's protection group service model
-     * @return network instance of attachment circuit's protection group
-     * @since SDNHUB 0.5
-     */
-    private static AcProtectGroups transformProtectGroup(ProtectGroup protectGroup) {
-        AcProtectGroups apgs = new AcProtectGroups();
-
-        AcProtectGroup apg = new AcProtectGroup();
-        apg.setBackAcId(protectGroup.getBackupAc());
-        apg.setMasterAcId(protectGroup.getMasterAc());
-
-        if(protectGroup.getVrrp() != null) {
-            Vrrp vrrp = new Vrrp();
-            vrrp.setVirtualIp(protectGroup.getVrrp().getVirtualIp());
-            apg.setVrrp(vrrp);
-        }
-        apgs.setAcprotectGroup(apg);
-        return apgs;
-    }
 
     /**
      * Transform from service tunnel services to network tunnel service model
@@ -316,7 +293,7 @@ public class SerToNetTransformer {
 
             autoSelect.setLoadBalanceNumber(tunnelService.getAutoSelect().getLoadBalanceNumber());
 
-            List<SelectTunnel> ctrlrselectTunnels = new ArrayList<SelectTunnel>();
+            List<SelectTunnel> ctrlrselectTunnels = new ArrayList<>();
 
             if(tunnelService.getAutoSelect().getAutoSelectTunnels() != null) {
                 List<AutoSelectTunnel> selectTunnels =
@@ -462,7 +439,7 @@ public class SerToNetTransformer {
      * @since SDNHUB 0.5
      */
     private static List<HubAc> transformHubGroup(List<HubGroup> hubGroup) {
-        List<HubAc> hubAcs = new ArrayList<HubAc>();
+        List<HubAc> hubAcs = new ArrayList<>();
 
         for(HubGroup hubgrp : hubGroup) {
             HubAc hubac = new HubAc();

@@ -66,7 +66,7 @@ public class RestConfProxy {
         LOGGER.info("url:" + url);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, null, "GET"));
+        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, null, "GET"));
     }
 
     /**
@@ -86,7 +86,7 @@ public class RestConfProxy {
         LOGGER.info("body:" + body);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, body, "POST"));
+        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, body, "POST"));
     }
 
     /**
@@ -105,7 +105,7 @@ public class RestConfProxy {
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
         return httpSender.restInvoke(buildAuthParam(contentType, dev),
-                buildParam(contentType, url, dev, null, "DELETE"));
+                buildParam(url, dev, null, "DELETE"));
     }
 
     /**
@@ -125,7 +125,7 @@ public class RestConfProxy {
         LOGGER.info("body:" + body);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(contentType, url, dev, body, "PUT"));
+        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, body, "PUT"));
     }
 
     /**
@@ -192,7 +192,7 @@ public class RestConfProxy {
         final String urlPrefix = getUrlPrefix(dev);
         message.setUrl(urlPrefix + AUTH_URL);
         message.setAction("POST");
-        message.setBody(buildAuthContext(contentType, dev));
+        message.setBody(buildAuthContext(dev));
         return message;
     }
 
@@ -208,7 +208,7 @@ public class RestConfProxy {
      * @throws ServiceException
      * @since SDNHUB 0.5
      */
-    private static HTTPRequestMessage buildParam(final ContentType contentType, final String url, final Device dev,
+    private static HTTPRequestMessage buildParam(final String url, final Device dev,
             final String body, final String action) throws ServiceException {
         final HTTPRequestMessage message = new HTTPRequestMessage();
         final String urlPrefix = getUrlPrefix(dev);
@@ -243,7 +243,7 @@ public class RestConfProxy {
      * @throws ServiceException
      * @since SDNHUB 0.5
      */
-    private static String buildAuthContext(final ContentType contentType, final Device dev) throws ServiceException {
+    private static String buildAuthContext(final Device dev) throws ServiceException {
         final UserAuthInfo userAuth = new UserAuthInfo();
         userAuth.setUserName(dev.getUser());
         userAuth.setPassword(dev.getPwd());
