@@ -146,6 +146,7 @@ public class RestConfProxy {
             URL url = new URL((String)contentMap.get("url"));
             device.setIp(url.getHost());
             device.setPort(url.getPort());
+            device.setProtocol(url.getProtocol());
         } catch(Exception e) {
             LOGGER.error("Error in getting controller", e);
             throw new ServiceException("Error in getting controller", e);
@@ -226,7 +227,7 @@ public class RestConfProxy {
      * @since SDNHUB 0.5
      */
     private static String getUrlPrefix(final Device dev) {
-        final StringBuilder sb = new StringBuilder(PROTOCOL);
+        final StringBuilder sb = new StringBuilder(dev.getProtocol() + "://");
         sb.append(dev.getIp());
         if(dev.getPort() > 0) {
             sb.append(':').append(dev.getPort());
