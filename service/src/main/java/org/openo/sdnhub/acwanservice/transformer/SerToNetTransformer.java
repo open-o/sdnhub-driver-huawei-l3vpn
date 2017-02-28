@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.openo.sdnhub.acwanservice.config.ConfigKeyConst;
 import org.openo.sdnhub.acwanservice.config.Configuration;
-import org.openo.sdnhub.model.networkmodel.servicetypes.AcProtectGroup;
-import org.openo.sdnhub.model.networkmodel.servicetypes.AcProtectGroups;
 import org.openo.sdnhub.model.networkmodel.servicetypes.AutoSelect;
 import org.openo.sdnhub.model.networkmodel.servicetypes.BgpPeer;
 import org.openo.sdnhub.model.networkmodel.servicetypes.DiffServ;
@@ -48,7 +46,6 @@ import org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup;
 import org.openo.sdnhub.model.networkmodel.servicetypes.StaticRoute;
 import org.openo.sdnhub.model.networkmodel.servicetypes.TopoService;
 import org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService;
-import org.openo.sdnhub.model.networkmodel.servicetypes.Vrrp;
 import org.openo.sdnhub.model.networkmodel.servicetypes.Vxlan;
 import org.openo.sdnhub.model.networkmodel.servicetypes.enumeration.RouteType;
 import org.openo.sdno.model.uniformsbi.base.AutoSelectTunnel;
@@ -57,7 +54,6 @@ import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.BgpRoutes;
 import org.openo.sdno.model.uniformsbi.l3vpn.HubGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.IsisRoute;
-import org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup;
 import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,73 +186,14 @@ public class SerToNetTransformer {
                 ctrlrl3ac.setL2Access(l2access);
             }
 
-            // TODO: set QOS From Configuration file
+            // Need to set QOS From Configuration file
 
             if(l3ac.getL3Access() != null) {
 
                 L3Access l3Access = new L3Access();
                 l3Access.setAddress(l3ac.getL3Access().getIpv4Address());
 
-                if(l3ac.getL3Access().getRoutes() != null) {
-                    List<Protocol> protocols = new ArrayList<>();
-
-                    List<StaticRoute> staticRoutes = new ArrayList<>();
-                    for(org.openo.sdno.model.uniformsbi.l3vpn.Route route : l3ac.getL3Access().getRoutes().getRoute()) {
-                        if(route.getStaticRoutes() != null) {
-                            for(org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr : route.getStaticRoutes()
-                                    .getStaticRoute()) {
-                                StaticRoute staticRoute = new StaticRoute();
-                                staticRoute.setIpPrefix(sr.getIpPrefix());
-                                staticRoute.setNextHop(sr.getNextHop());
-                                staticRoute.setPreference(
-                                        Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
-                                staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
-                                staticRoute
-                                        .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
-                                staticRoutes.add(staticRoute);
-                                Protocol protocol = new Protocol();
-                                protocol.setType(RouteType.STATIC.getName());
-
-                            }
-                        }
-                        l3Access.setStaticRoutes(staticRoutes);
-
-                        // Populate Network model protocols of type BGP AND ISIS to the Network
-                        // model protocol list
-                        if(route.getBgpRoutes() != null) {
-                            BgpRoutes bgpRoutes = route.getBgpRoutes();
-                            Protocol protocol = new Protocol();
-                            List<BgpPeer> bgpPeers = new ArrayList<>();
-                            for(BgpRoute bgpRoute : bgpRoutes.getBgpRoute()) {
-                                BgpPeer bgpPeer = new BgpPeer();
-                                bgpPeer.setAdvertiseCommunity(bgpRoute.isAdvertiseCommunity());
-                                bgpPeer.setAdvertiseExtCommunity(bgpRoute.isAdvertiseExtCommunity());
-                                bgpPeer.setHoldTime(bgpRoute.getHoldTime());
-                                bgpPeer.setKeepAliveTime(bgpRoute.getKeepaliveTime());
-                                bgpPeer.setPassword(bgpRoute.getPassword());
-                                bgpPeer.setPeerIp(bgpRoute.getPeerIp());
-                                bgpPeer.setRemoteAs(bgpRoute.getRemoteAs());
-                                bgpPeers.add(bgpPeer);
-                            }
-                            protocol.setBgp(bgpPeers);
-                            protocol.setType(RouteType.BGP.getName());
-                            protocols.add(protocol);
-
-                        }
-
-                        if(route.getIsisRoute() != null) {
-                            IsisRoute isis = route.getIsisRoute();
-                            Protocol protocol = new Protocol();
-                            ISIS ctlIsis = new ISIS();
-                            ctlIsis.setNetworkEntity(isis.getNetworkEntity());
-                            protocol.setIsis(ctlIsis);
-                            protocol.setType(RouteType.BGP.getName());
-                            protocols.add(protocol);
-                        }
-                        l3Access.setProtocols(protocols);
-                    }
-
-                }
+                procRoutesTransformAcs(l3ac, l3Access);
 
                 // TODO: SBI does not consists OSPF today.
 
@@ -273,6 +210,75 @@ public class SerToNetTransformer {
         return l3Acs;
     }
 
+    /**
+     * Transform service attachment circuits associated with the VPN to network model on routes.
+     * <br>
+     *
+     * @param l3ac is uniform sbi's service model
+     * @param l3Access l3access
+     * @since SDNHUB 0.5
+     */
+    private static void procRoutesTransformAcs(org.openo.sdno.model.uniformsbi.l3vpn.L3Ac l3ac, L3Access l3Access) {
+        if(l3ac.getL3Access().getRoutes() != null) {
+            List<Protocol> protocols = new ArrayList<>();
+
+            List<StaticRoute> staticRoutes = new ArrayList<>();
+            for(org.openo.sdno.model.uniformsbi.l3vpn.Route route : l3ac.getL3Access().getRoutes().getRoute()) {
+                if(route.getStaticRoutes() != null) {
+                    for(org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr : route.getStaticRoutes()
+                            .getStaticRoute()) {
+                        StaticRoute staticRoute = new StaticRoute();
+                        staticRoute.setIpPrefix(sr.getIpPrefix());
+                        staticRoute.setNextHop(sr.getNextHop());
+                        staticRoute.setPreference(
+                                Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
+                        staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
+                        staticRoute
+                                .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
+                        staticRoutes.add(staticRoute);
+                        Protocol protocol = new Protocol();
+                        protocol.setType(RouteType.STATIC.getName());
+
+                    }
+                }
+                l3Access.setStaticRoutes(staticRoutes);
+
+                // Populate Network model protocols of type BGP AND ISIS to the Network
+                // model protocol list
+                if(route.getBgpRoutes() != null) {
+                    BgpRoutes bgpRoutes = route.getBgpRoutes();
+                    Protocol protocol = new Protocol();
+                    List<BgpPeer> bgpPeers = new ArrayList<>();
+                    for(BgpRoute bgpRoute : bgpRoutes.getBgpRoute()) {
+                        BgpPeer bgpPeer = new BgpPeer();
+                        bgpPeer.setAdvertiseCommunity(bgpRoute.isAdvertiseCommunity());
+                        bgpPeer.setAdvertiseExtCommunity(bgpRoute.isAdvertiseExtCommunity());
+                        bgpPeer.setHoldTime(bgpRoute.getHoldTime());
+                        bgpPeer.setKeepAliveTime(bgpRoute.getKeepaliveTime());
+                        bgpPeer.setPassword(bgpRoute.getPassword());
+                        bgpPeer.setPeerIp(bgpRoute.getPeerIp());
+                        bgpPeer.setRemoteAs(bgpRoute.getRemoteAs());
+                        bgpPeers.add(bgpPeer);
+                    }
+                    protocol.setBgp(bgpPeers);
+                    protocol.setType(RouteType.BGP.getName());
+                    protocols.add(protocol);
+
+                }
+
+                if(route.getIsisRoute() != null) {
+                    IsisRoute isis = route.getIsisRoute();
+                    Protocol protocol = new Protocol();
+                    ISIS ctlIsis = new ISIS();
+                    ctlIsis.setNetworkEntity(isis.getNetworkEntity());
+                    protocol.setIsis(ctlIsis);
+                    protocol.setType(RouteType.BGP.getName());
+                    protocols.add(protocol);
+                }
+                l3Access.setProtocols(protocols);
+            }
+        }
+    }
 
     /**
      * Transform from service tunnel services to network tunnel service model

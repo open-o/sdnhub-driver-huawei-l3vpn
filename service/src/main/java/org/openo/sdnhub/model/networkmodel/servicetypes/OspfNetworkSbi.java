@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * OSPF network south bound class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */

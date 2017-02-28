@@ -18,7 +18,7 @@ package org.openo.sdnhub.common.restconf;
 
 /**
  * The enumeration of contents type.<br>
- * 
+ *
  * @author
  * @version SDNHUB 0.5 2016-6-2
  */

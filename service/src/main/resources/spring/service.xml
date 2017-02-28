@@ -54,7 +54,7 @@
     <bean id="AcWanRestModule" class="org.openo.sdnhub.wanservice.rest.AcWanRestModule"
         init-method="start" destroy-method="stop">
     </bean>
- 
+
     <bean id="healthCheckRoaResource" class="org.openo.sdno.healthcheck.rest.HealthCheckRoaResource" />
     <bean id="checker" class="org.openo.sdno.healthcheck.service.DefaultHealthChecker" />
 

@@ -35,7 +35,7 @@ import org.openo.sdnhub.model.networkmodel.NetModel;
  * VPN OperStatus class<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 22, 2016
  */

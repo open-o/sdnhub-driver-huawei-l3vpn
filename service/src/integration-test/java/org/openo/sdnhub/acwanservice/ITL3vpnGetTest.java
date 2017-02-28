@@ -56,12 +56,12 @@ public class ITL3vpnGetTest extends TestManager {
         acwanHttpsServer.stop();
     }
 
-	@Test
-	public void test() throws ServiceException {
-		File l3vpnGetFile = new File("src/integration-test/resources/AcWanDriverSvc/l3vpnGet.json");
-	    HttpRquestResponse createHttpObject = HttpModelUtils.praseHttpRquestResponse(FileUtils.readFromJson(l3vpnGetFile));
-	    HttpResponse createResponse = execTestCase(l3vpnGetFile, new RegularExpChecker(createHttpObject.getResponse()));
-	    
-	}
+    @Test
+    public void test() throws ServiceException {
+        File l3vpnGetFile = new File("src/integration-test/resources/AcWanDriverSvc/l3vpnGet.json");
+        HttpRquestResponse createHttpObject = HttpModelUtils.praseHttpRquestResponse(FileUtils.readFromJson(l3vpnGetFile));
+        HttpResponse createResponse = execTestCase(l3vpnGetFile, new RegularExpChecker(createHttpObject.getResponse()));
+
+    }
 
 }

@@ -21,8 +21,8 @@ import org.openo.sdno.testframework.moco.MocoHttpServer;
 import org.openo.sdno.testframework.moco.responsehandler.MocoResponseHandler;
 
 public class L3VpnUpdateSuccessServer extends MocoHttpServer{
-	
-	public L3VpnUpdateSuccessServer() {
+
+    public L3VpnUpdateSuccessServer() {
         super();
     }
 

@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * QOS If Queue Profile class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */
@@ -58,7 +58,7 @@ public class QosIfQueueProfile {
 
     /**
      * QOS If Queue Profile Constructor<br>
-     * 
+     *
      * @param direction
      * @param queueProfileId
      * @since SDNHUB 0.5

@@ -41,10 +41,7 @@ public class Configuration {
 
     private static final String CF_VALUE = "cfgvalue";
 
-    private static final String DOMAIN = "acWanConf";
-
     private Configuration() {
-
     }
 
     /**
@@ -59,7 +56,6 @@ public class Configuration {
         try {
             values = getJsonFileData();
         } catch(ServiceException e) {
-            // TODO Auto-generated catch block
             LOGGER.warn("ServiceException generated" + e);
         }
         return getValue(values, label);

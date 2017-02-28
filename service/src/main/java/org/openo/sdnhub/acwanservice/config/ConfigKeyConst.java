@@ -18,7 +18,7 @@ package org.openo.sdnhub.acwanservice.config;
 
 /**
  * The configuration key constants. <br>
- * 
+ *
  * @author
  * @version SDNO 0.5 June 20, 2016
  */
@@ -58,7 +58,7 @@ public class ConfigKeyConst {
 
     /**
      * Constructor<br>
-     * 
+     *
      * @since SDNHUB 0.5
      */
     private ConfigKeyConst() {

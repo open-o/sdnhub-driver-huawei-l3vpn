@@ -18,24 +18,21 @@ package org.openo.sdnhub.common.restconf;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.util.HashMap;
-import java.util.Map;
+import mockit.Mock;
+import mockit.MockUp;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdnhub.common.restconf.HttpProxy;
-import org.openo.sdno.framework.container.util.JsonUtil;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 import org.openo.sdno.util.http.HTTPSender;
 
-import mockit.Mock;
-import mockit.MockUp;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.util.Map;
 
 public class HttpProxyTest {
 
@@ -48,15 +45,6 @@ public class HttpProxyTest {
 
     @Test
     public void testRestInvoke() {
-        new MockUp<JsonUtil>() {
-
-            @Mock
-            public Map<String, String> fromJson(String arg0, Class<T> arg1) {
-                Map<String, String> map = new HashMap<>();
-                map.put("key", "value");
-                return map;
-            }
-        };
 
         new MockUp<HTTPSender>() {
 
@@ -75,16 +63,25 @@ public class HttpProxyTest {
     }
 
     @Test
-    public void testRestInvokeException() {
-        new MockUp<JsonUtil>() {
+    public void testRestInvokeHttpError() {
+        new MockUp<HTTPSender>() {
 
             @Mock
-            public Map<String, String> fromJson(String arg0, Class<T> arg1) {
-                Map<String, String> map = new HashMap<>();
-                map.put("key", "value");
-                return map;
+            protected HttpURLConnection sendMsg(HTTPRequestMessage requst, Map<String, String> authInfo,
+                    HTTPReturnMessage response, boolean isAuth)
+                    throws IOException, NoSuchProviderException, NoSuchAlgorithmException, ServiceException {
+                response.setStatus(500);
+                return null;
             }
         };
+        HTTPRequestMessage authReq = new HTTPRequestMessage();
+        HTTPRequestMessage request = new HTTPRequestMessage();
+        HTTPReturnMessage response = httpProxy.restInvoke(authReq, request);
+        assertEquals(response.getStatus(), 500);
+    }
+
+    @Test
+    public void testRestInvokeException() {
         new MockUp<HTTPSender>() {
 
             @Mock

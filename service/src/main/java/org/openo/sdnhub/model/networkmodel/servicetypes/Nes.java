@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * NE's class<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 22, 2016
  */

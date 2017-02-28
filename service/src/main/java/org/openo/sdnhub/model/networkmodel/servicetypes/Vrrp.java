@@ -30,7 +30,7 @@ import org.openo.sdnhub.model.networkmodel.NetModel;
  * <br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */

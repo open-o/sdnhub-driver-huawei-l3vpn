@@ -18,10 +18,6 @@ package org.openo.sdnhub.model.networkmodel.util;
 
 import static org.junit.Assert.assertTrue;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdnhub.acwanservice.transformer.NetToSerTransformer;
@@ -81,11 +77,15 @@ import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute;
 import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
 import org.openo.sdno.model.uniformsbi.l3vpn.TopologyService;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+
 public class NetToSerTransformerTest {
 
     private static final String TOPOLOGY_TYPE = "fullMesh";
 
-    public PathProtectPolicy pathProtPolicy() {
+    private PathProtectPolicy pathProtPolicy() {
         PathProtectPolicy pathProtectPolicy = new PathProtectPolicy();
         pathProtectPolicy.setBandwidthMode("bandwidthMode");
         pathProtectPolicy.setHotStandbyEnable(true);
@@ -95,7 +95,7 @@ public class NetToSerTransformerTest {
         return pathProtectPolicy;
     }
 
-    public BgpPeer constructBgpPeer() {
+    private BgpPeer constructBgpPeer() {
         BgpPeer bgpPeer = new BgpPeer();
         bgpPeer.setAdvertiseCommunity(true);
         bgpPeer.setAdvertiseExtCommunity(true);
@@ -107,7 +107,7 @@ public class NetToSerTransformerTest {
         return bgpPeer;
     }
 
-    public BgpRoute constructBgpRoute() {
+    private BgpRoute constructBgpRoute() {
         BgpRoute bgpRoute = new BgpRoute();
         bgpRoute.setAdvertiseCommunity(true);
         bgpRoute.setAdvertiseExtCommunity(true);
@@ -121,7 +121,7 @@ public class NetToSerTransformerTest {
         return bgpRoute;
     }
 
-    public QosIfCar downstream() {
+    private QosIfCar downstream() {
         QosIfCar downstreamBandwidth = new QosIfCar();
         downstreamBandwidth.setCbs(1111111111);
         downstreamBandwidth.setCir(1111111111);
@@ -134,7 +134,7 @@ public class NetToSerTransformerTest {
         return downstreamBandwidth;
     }
 
-    public QosIfCar upstream() {
+    private QosIfCar upstream() {
         QosIfCar upstreamBandwidth = new QosIfCar();
         upstreamBandwidth.setCbs(1111111111);
         upstreamBandwidth.setCir(1111111111);
@@ -147,7 +147,7 @@ public class NetToSerTransformerTest {
         return upstreamBandwidth;
     }
 
-    public L2Access createL2Access() {
+    private L2Access createL2Access() {
         L2Access l2Access = new L2Access();
         AccessAction accessAction = AccessAction.PUSH;
         l2Access.setAccessAction(accessAction);
@@ -160,7 +160,7 @@ public class NetToSerTransformerTest {
         return l2Access;
     }
 
-    public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn createNbil3Vpn(
+    private org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn createNbil3Vpn(
             org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn, L3Acs acs,
             org.openo.sdno.model.uniformsbi.l3vpn.ProtectGroup protectGroup) {
         nbil3Vpn.setAcs(acs);
@@ -181,7 +181,7 @@ public class NetToSerTransformerTest {
         return nbil3Vpn;
     }
 
-    public CarServiceClass createCarServiceClass() {
+    private CarServiceClass createCarServiceClass() {
         CarServiceClass carServiceClass = new CarServiceClass();
         carServiceClass.setColor("color");
         carServiceClass.setFlowColor("flowColor");
@@ -193,28 +193,24 @@ public class NetToSerTransformerTest {
     @Test
     public void testTransformModel() throws ServiceException {
 
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -243,17 +239,18 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
+
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -277,7 +274,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -295,6 +291,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -318,7 +315,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -332,13 +333,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -351,22 +351,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -402,6 +400,8 @@ public class NetToSerTransformerTest {
         tunnelService.setType("type");
         tunnelService.setUuid("uuid");
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
         hubAc.setAcId("acId");
@@ -413,6 +413,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -428,8 +429,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -442,7 +441,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -454,16 +452,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -483,16 +482,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubgroup = new HubGroup();
+        hubgroup.setAcId("acId");
+        hubgroup.setHubDirection("hubDirection");
+        hubGroupList.add(hubgroup);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -537,28 +538,24 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullL2Access() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -587,17 +584,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -621,7 +618,7 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
+
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -639,6 +636,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -662,7 +660,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -676,13 +678,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -695,22 +696,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -740,6 +739,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
         hubAc.setAcId("acId");
@@ -751,6 +752,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -766,8 +768,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -780,7 +780,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(null);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -792,16 +791,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -821,16 +821,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -875,28 +877,26 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullL3Access() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
+
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
+
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -925,17 +925,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -959,7 +959,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(null);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -977,6 +976,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -1000,7 +1000,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -1014,13 +1018,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -1033,22 +1036,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -1078,6 +1079,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
         hubAc.setAcId("acId");
@@ -1089,6 +1092,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -1104,8 +1108,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -1118,7 +1120,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -1130,16 +1131,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(null);
@@ -1159,16 +1161,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup2 = new HubGroup();
+        hubGroup2.setAcId("acId");
+        hubGroup2.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup2);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -1213,28 +1217,24 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullStaticRoutes() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -1263,17 +1263,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -1297,7 +1297,7 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(null);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
+
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -1315,6 +1315,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -1338,7 +1339,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -1352,13 +1357,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -1371,22 +1375,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -1416,6 +1418,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
         hubAc.setAcId("acId");
@@ -1427,6 +1431,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -1442,8 +1447,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -1456,7 +1459,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -1468,16 +1470,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -1497,16 +1500,20 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
+
+
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup3 = new HubGroup();
+        hubGroup3.setAcId("acId");
+        hubGroup3.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup3);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -1551,28 +1558,24 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullSpokeGroup() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -1601,17 +1604,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -1635,7 +1638,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -1653,6 +1655,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -1676,7 +1679,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -1690,13 +1697,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -1709,22 +1715,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(null);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -1754,6 +1758,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
 
@@ -1766,6 +1772,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(null);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -1781,8 +1788,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -1795,7 +1800,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -1807,16 +1811,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -1836,16 +1841,19 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
+
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup4 = new HubGroup();
+        hubGroup4.setAcId("acId");
+        hubGroup4.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup4);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -1890,29 +1898,24 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullHubGroup() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -1941,17 +1944,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -1975,7 +1978,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -1993,6 +1995,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -2016,7 +2019,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -2030,13 +2037,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(null);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -2049,22 +2055,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -2094,6 +2098,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
 
@@ -2106,6 +2112,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -2121,8 +2128,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -2135,7 +2140,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -2147,16 +2151,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -2176,16 +2181,19 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
+
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup5 = new HubGroup();
+        hubGroup5.setAcId("acId");
+        hubGroup5.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup5);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -2230,29 +2238,24 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullHubSpoke() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
-        AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         Vrrp vrrp1 = new Vrrp();
         vrrp1.setVirtualIp("virtualIp");
         acprotectGroup.setVrrp(vrrp1);
+        AcProtectGroups acProtectGroups = new AcProtectGroups();
         acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -2281,17 +2284,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -2315,7 +2318,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -2333,6 +2335,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -2356,7 +2359,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -2370,13 +2377,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -2389,22 +2395,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(null);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -2418,7 +2422,6 @@ public class NetToSerTransformerTest {
         pathConstraint.setSetupPriority(1);
         mplsTe.setPathConstraint(pathConstraint);
         PathProtectPolicy pathProtectPolicy = pathProtPolicy();
-
         mplsTe.setPathProtectPolicy(pathProtectPolicy);
         mplsTe.setSharing(true);
         mplsTe.setSignalType("signalType");
@@ -2435,9 +2438,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -2447,6 +2451,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(null);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -2462,8 +2467,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -2476,7 +2479,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -2488,16 +2490,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -2517,16 +2520,19 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
+
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -2571,12 +2577,11 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullVrrp() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -2587,10 +2592,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -2619,17 +2620,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -2653,7 +2654,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -2671,6 +2671,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -2694,7 +2695,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -2708,13 +2713,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -2727,22 +2731,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -2756,7 +2758,6 @@ public class NetToSerTransformerTest {
         pathConstraint.setSetupPriority(1);
         mplsTe.setPathConstraint(pathConstraint);
         PathProtectPolicy pathProtectPolicy = pathProtPolicy();
-
         mplsTe.setPathProtectPolicy(pathProtectPolicy);
         mplsTe.setSharing(true);
         mplsTe.setSignalType("signalType");
@@ -2773,9 +2774,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -2785,6 +2787,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -2800,8 +2803,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -2814,7 +2815,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -2826,16 +2826,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -2855,16 +2856,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -2909,12 +2912,11 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullL3VpnConfig() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -2925,10 +2927,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -2957,17 +2955,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -2991,7 +2989,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -3009,6 +3006,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -3032,7 +3030,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -3046,13 +3048,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -3065,22 +3066,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -3110,9 +3109,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -3122,6 +3122,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -3137,8 +3138,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -3151,7 +3150,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -3163,16 +3161,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -3192,16 +3191,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -3245,12 +3246,11 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelNullProtocols() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -3261,10 +3261,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -3293,17 +3289,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -3327,7 +3323,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -3345,6 +3340,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -3368,7 +3364,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -3382,13 +3382,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -3401,22 +3400,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -3446,9 +3443,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -3458,6 +3456,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -3473,8 +3472,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -3487,7 +3484,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -3499,16 +3495,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -3528,16 +3525,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -3582,26 +3581,20 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelBranch1() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
-        // l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
         acProtectGroups.setAcprotectGroup(acprotectGroup);
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -3630,17 +3623,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -3664,7 +3657,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -3682,6 +3674,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -3705,6 +3698,10 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
@@ -3719,13 +3716,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -3738,22 +3734,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -3783,9 +3777,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -3795,6 +3790,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -3810,8 +3806,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -3824,7 +3818,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -3836,16 +3829,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -3865,6 +3859,8 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
         nbil3Vpn.setAcs(acs);
         AdminStatus adminStatus1 = AdminStatus.ADMIN_UP;
@@ -3881,13 +3877,13 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setOperStatus(operStatus);
         nbil3Vpn.setTenantId("tenantId");
         nbil3Vpn.setTopology(TOPOLOGY_TYPE);
+        List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
         TopologyService topologyService = new TopologyService();
         HubGroups hubGroups = new HubGroups();
-        List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
         hubGroups.setHubGroup(hubGroupList);
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
@@ -3928,22 +3924,19 @@ public class NetToSerTransformerTest {
         nbil3Vpn.setUuid("uuid");
         nbil3Vpn.setValue4Po("poFieldName", val);
         l3vpn.setDiffServ(null);
-
         l3vpn.setAcProtectGroups(null);
         l3vpn.setFrr(null);
-
         org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3VpnSbi = NetToSerTransformer.transformModel(l3vpn);
         assertTrue(l3VpnSbi != null);
     }
 
     @Test
     public void testTransformModelBranch2() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -3953,10 +3946,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -3985,17 +3974,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -4019,7 +4008,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -4037,6 +4025,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -4060,7 +4049,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -4074,13 +4067,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -4093,22 +4085,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -4138,9 +4128,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -4150,6 +4141,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -4165,8 +4157,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -4179,7 +4169,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -4191,16 +4180,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -4220,16 +4210,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -4284,26 +4276,20 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelBranch2NullIsis() throws ServiceException {
-
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
         acprotectGroup.setBackAcId("backAcId");
         acprotectGroup.setMasterAcId("masterAcId");
-        // acProtectGroups.setAcprotectGroup(acprotectGroup);
         l3vpn.setAcProtectGroups(acProtectGroups);
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -4332,17 +4318,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(null);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -4366,7 +4352,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -4384,6 +4369,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -4407,7 +4393,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -4421,13 +4411,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -4440,22 +4429,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -4485,9 +4472,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -4497,6 +4485,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -4512,8 +4501,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -4526,7 +4513,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -4538,16 +4524,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -4567,16 +4554,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -4631,11 +4620,11 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelBranch2NullAutoSelect() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -4645,10 +4634,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -4677,17 +4662,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -4711,7 +4696,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -4729,6 +4713,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -4752,7 +4737,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -4766,13 +4755,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -4785,22 +4773,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(null);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -4830,9 +4816,10 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
-
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         hubGroup.add(hubAc);
@@ -4842,6 +4829,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -4857,8 +4845,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -4871,7 +4857,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -4883,16 +4868,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -4912,16 +4898,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);
@@ -4976,11 +4964,11 @@ public class NetToSerTransformerTest {
 
     @Test
     public void testTransformModelBranch2NullBgp() throws ServiceException {
-        L3Vpn l3vpn = new L3Vpn();
         DiffServ diffServ = new DiffServ();
         diffServ.setColor("color");
         diffServ.setMode("mode");
         diffServ.setServiceClass("servieClass");
+        L3Vpn l3vpn = new L3Vpn();
         l3vpn.setDiffServ(diffServ);
         AcProtectGroups acProtectGroups = new AcProtectGroups();
         AcProtectGroup acprotectGroup = new AcProtectGroup();
@@ -4990,10 +4978,6 @@ public class NetToSerTransformerTest {
         l3vpn.setAdminStatus("ADMIN_UP");
         l3vpn.setName("name");
         l3vpn.setFrr("1");
-        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
-        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
-                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac l3ac1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac();
         l3ac1.setId("id");
@@ -5022,17 +5006,17 @@ public class NetToSerTransformerTest {
         ISIS isis = new ISIS();
         isis.setNetworkEntity("networkEntity");
         protocol1.setIsis(isis);
-        Ospf ospf = new Ospf();
         OspfArea ospfArea = new OspfArea();
         ospfArea.setId("id");
         OspfNetworkSbi ospfNetworkSbi = new OspfNetworkSbi();
         ospfNetworkSbi.setIpPrefix("ipPrefix");
-        List<OspfNetworkSbi> OspfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
-        OspfNetworkSbiList.add(ospfNetworkSbi);
-        ospfArea.setNetworks(OspfNetworkSbiList);
-        List<OspfArea> OspfAreaList = new ArrayList<OspfArea>();
-        OspfAreaList.add(ospfArea);
-        ospf.setArea(OspfAreaList);
+        List<OspfNetworkSbi> ospfNetworkSbiList = new ArrayList<OspfNetworkSbi>();
+        ospfNetworkSbiList.add(ospfNetworkSbi);
+        ospfArea.setNetworks(ospfNetworkSbiList);
+        List<OspfArea> ospfAreaList = new ArrayList<OspfArea>();
+        ospfAreaList.add(ospfArea);
+        Ospf ospf = new Ospf();
+        ospf.setArea(ospfAreaList);
         ImportRoute importRoute = new ImportRoute();
         importRoute.setType("type");
         List<ImportRoute> importRoutesList = new ArrayList<ImportRoute>();
@@ -5056,7 +5040,6 @@ public class NetToSerTransformerTest {
         l3Access1.setStaticRoutes(staticRoutesList);
         l3ac1.setL3Access(l3Access1);
         l3ac1.setNeId("neId");
-        Qos qos = new Qos();
         org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar qosIfCar =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar();
         CarServiceClass carServiceClass = createCarServiceClass();
@@ -5074,6 +5057,7 @@ public class NetToSerTransformerTest {
         List<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar> qosIfCarList =
                 new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.QosIfCar>();
         qosIfCarList.add(qosIfCar);
+        Qos qos = new Qos();
         qos.setQosIfCars(qosIfCarList);
         QosIfPhb qosIfPhb = new QosIfPhb();
         qosIfPhb.setDirection("direction");
@@ -5097,7 +5081,11 @@ public class NetToSerTransformerTest {
         qos.setQosIfTrafficPolicys(qosIfTrafficPolicyList);
         l3ac1.setQos(qos);
         l3ac1.setUserLabel("userLabel");
+        List<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac> l3AcList1 =
+                new ArrayList<org.openo.sdnhub.model.networkmodel.servicetypes.L3Ac>();
         l3AcList1.add(l3ac1);
+        org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs acs1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs();
         acs1.setL3Ac(l3AcList1);
         l3vpn.setAcs(acs1);
         l3vpn.setId("id");
@@ -5111,13 +5099,12 @@ public class NetToSerTransformerTest {
         neList.add(ne);
         nes.setNes(neList);
         l3vpn.setNes(nes);
-        TopoService topoService1 = new TopoService();
-        HubSpoke hubSpoke = new HubSpoke();
         HubAc hubAc = new HubAc();
         hubAc.setAcId("acId");
         hubAc.setHubDirection("hubDirection");
         List<HubAc> hubGroup = new ArrayList<HubAc>();
         hubGroup.add(hubAc);
+        HubSpoke hubSpoke = new HubSpoke();
         hubSpoke.setHubGroup(hubGroup);
         org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup spokeGroup1 =
                 new org.openo.sdnhub.model.networkmodel.servicetypes.SpokeGroup();
@@ -5130,22 +5117,20 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
-        TopoService topoService = new TopoService();
+        TopoService topoService1 = new TopoService();
         topoService1.setHubSpoke(hubSpoke);
         l3vpn.setTopoService(topoService1);
-        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
-                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
-        TunnelService tunnelService = new TunnelService();
-        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> autoSelectTunnelList = new ArrayList<AutoSelectTunnel>();
         autoSelectTunnelList.add(autoSelectTunnel);
+        AutoSelectPolicy autoSelect = new AutoSelectPolicy();
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(autoSelectTunnelList);
         autoSelect.setAutoSelectTunnels(autoSelectTunnels);
         autoSelect.setLoadBalanceNumber(1);
+        TunnelService tunnelService = new TunnelService();
         tunnelService.setAutoSelect(autoSelect);
         MplsTePolicy mplsTe = new MplsTePolicy();
         mplsTe.setBandwidth(1);
@@ -5176,6 +5161,8 @@ public class NetToSerTransformerTest {
         tunnelService.setUuid("uuid");
         Object val = new Object();
         tunnelService.setValue4Po("poFieldName", val);
+        org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService tunnelService1 =
+                new org.openo.sdnhub.model.networkmodel.servicetypes.TunnelService();
         l3vpn.setTunnelService(tunnelService1);
         l3vpn.setUserLabel("userLabel");
         hubAc.setAcId("acId");
@@ -5187,6 +5174,7 @@ public class NetToSerTransformerTest {
         spokeAcs1.add(0, element);
         spokeGroup1.setSpokeAcs(spokeAcs1);
         hubSpoke.setSpokeGroup(spokeGroup1);
+        TopoService topoService = new TopoService();
         topoService.setHubSpoke(hubSpoke);
         SpokeGroup spokeGroup = new SpokeGroup();
         spokeGroup.setLocalBridge(true);
@@ -5202,8 +5190,6 @@ public class NetToSerTransformerTest {
         org.openo.sdno.model.uniformsbi.l3vpn.Vrrp vrrp = new org.openo.sdno.model.uniformsbi.l3vpn.Vrrp();
         vrrp.setVirtualIp("virtualIp");
         protectGroup.setVrrp(vrrp);
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-        L3Acs acs = new L3Acs();
         L3Ac l3Ac = new L3Ac();
         AdminStatus adminStatus = AdminStatus.ADMIN_UP;
         l3Ac.setAdminStatus(adminStatus);
@@ -5216,7 +5202,6 @@ public class NetToSerTransformerTest {
         l3Ac.setL2Access(l2Access);
         L3Access l3Access = new L3Access();
         l3Access.setIpv4Address("ipv4Address");
-        Routes routes = new Routes();
         Route route = new Route();
         BgpRoutes bgpRoutes = new BgpRoutes();
         BgpRoute bgpRoute = constructBgpRoute();
@@ -5228,16 +5213,17 @@ public class NetToSerTransformerTest {
         isisRoute.setNetworkEntity("networkEntity");
         route.setIsisRoute(isisRoute);
         route.setRouteType("type");
-        StaticRoutes staticRoutes = new StaticRoutes();
         StaticRoute staticRoute = new StaticRoute();
         staticRoute.setIpPrefix("ipPrefix");
         staticRoute.setNextHop("nextHop");
         List<StaticRoute> staticRouteList = new ArrayList<StaticRoute>();
         staticRouteList.add(staticRoute);
+        StaticRoutes staticRoutes = new StaticRoutes();
         staticRoutes.setStaticRoute(staticRouteList);
         route.setStaticRoutes(staticRoutes);
         List<Route> routeList = new ArrayList<Route>();
         routeList.add(route);
+        Routes routes = new Routes();
         routes.setRoute(routeList);
         l3Access.setRoutes(routes);
         l3Ac.setL3Access(l3Access);
@@ -5257,16 +5243,18 @@ public class NetToSerTransformerTest {
         l3Ac.setValue4Po("poFieldName", val2);
         List<L3Ac> l3AcList = new ArrayList<L3Ac>();
         l3AcList.add(l3Ac);
+        L3Acs acs = new L3Acs();
         acs.setL3Ac(l3AcList);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn nbil3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
         nbil3Vpn = createNbil3Vpn(nbil3Vpn, acs, protectGroup);
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> hubGroupList = new ArrayList<HubGroup>();
-        HubGroup e = new HubGroup();
-        e.setAcId("acId");
-        e.setHubDirection("hubDirection");
-        hubGroupList.add(e);
+        HubGroup hubGroup1 = new HubGroup();
+        hubGroup1.setAcId("acId");
+        hubGroup1.setHubDirection("hubDirection");
+        hubGroupList.add(hubGroup1);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(hubGroupList);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
         topologyService.setSpokeGroup(spokeGroup);
         nbil3Vpn.setTopologyService(topologyService);

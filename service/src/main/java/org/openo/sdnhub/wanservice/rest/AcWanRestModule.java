@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * AcWanAdapter Rest Module Class. <br>
- * 
+ *
  * @author
  * @version SDNO 0.5 July 14, 2016
  */

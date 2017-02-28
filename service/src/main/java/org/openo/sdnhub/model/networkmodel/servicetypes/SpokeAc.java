@@ -31,7 +31,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * SpokeAc class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */

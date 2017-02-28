@@ -16,9 +16,6 @@
 
 package org.openo.sdnhub.wanservice.rest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -36,8 +33,6 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.util.RestUtils;
 import org.openo.sdnhub.wanservice.inf.L3VpnService;
 import org.openo.sdno.framework.container.service.IResource;
-import org.openo.sdno.framework.container.util.JsonUtil;
-import org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn;
 import org.openo.sdno.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,14 +41,12 @@ import org.slf4j.LoggerFactory;
  * Restful interface class of L3 VPN adapter resource.<br>
  *
  * @author
- * @version SDNO 0.5 2016-5-30
+ * @version SDNHUB 0.5 2016-5-30
  */
 @Path("/sbi-l3vpn/v1")
 public class L3VpnAdapter extends IResource<L3VpnService> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(L3VpnAdapter.class);
-
-    private static final String l3vpn = "l3vpn";
 
     private L3VpnService vpnService;
 
@@ -83,7 +76,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param request HTTP servlet request with the service parameters information..
      * @param ctrlUuidParam controller UUID parameter in header
      * @return response with L3VPN created object that contains the UUID generated.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @POST
@@ -95,10 +88,9 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
 
         String req = RestUtils.getRequestBody(request);
         LOGGER.error("Create L3VPN request body: " + req);
-        Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
 
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return vpnService.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
+        return vpnService.l3vpnCreate(req, ctrlUuid);
     }
 
     /**
@@ -107,7 +99,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam controller UUID parameter in header
      * @param vpnId VPN ID
      * @return response of the delete operation.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @DELETE
@@ -127,7 +119,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam controller UUID parameter in header
      * @param vpdId VPN ID
      * @return response of the update operation.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @PUT
@@ -146,10 +138,11 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Get the information of L3vpn.<br>
      *
+     * @param request HTTP servlet request with the service parameters information.
      * @param vpnId VPN ID
      * @param ctrlUuidParam controller UUID parameter in header
      * @return required L3VPN object.
-     * @throws ServiceException throws exception if the operation fails.
+     * @throws WebApplicationException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @GET

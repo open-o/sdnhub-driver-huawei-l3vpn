@@ -18,15 +18,8 @@ package org.openo.sdnhub.acwanservice.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.helpers.AbstractMarshallerImpl;
-import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
+import mockit.Mock;
+import mockit.MockUp;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
@@ -57,8 +50,15 @@ import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 
-import mockit.Mock;
-import mockit.MockUp;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.helpers.AbstractMarshallerImpl;
+import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
 
 public class L3vpnAcServiceTest {
 
@@ -70,6 +70,12 @@ public class L3vpnAcServiceTest {
 
     String[] string = {"1", "2"};
 
+    /**
+     * Initial setup for test
+     * <br/>
+     *
+     * @since  SDNHUB 0.5
+     */
     @Before
     public void create() {
 
@@ -77,14 +83,14 @@ public class L3vpnAcServiceTest {
         l3Vpn.setAdminStatus(adminStatus);
         l3Vpn.setUuid("uuid");
         l3Vpn.setName("name");
-        TopologyService topologyService = new TopologyService();
-        HubGroups hubGroups = new HubGroups();
         List<HubGroup> listHubGroup = new ArrayList<>();
         HubGroup hubGroup = new HubGroup();
         hubGroup.setAcId("acID");
         hubGroup.setHubDirection("hubDirection");
         listHubGroup.add(hubGroup);
+        HubGroups hubGroups = new HubGroups();
         hubGroups.setHubGroup(listHubGroup);
+        TopologyService topologyService = new TopologyService();
         topologyService.setHubGroups(hubGroups);
 
         SpokeGroup spokeGroup = new SpokeGroup();
@@ -101,12 +107,12 @@ public class L3vpnAcServiceTest {
         tunnelService.setType("type");
         AutoSelectPolicy autoSelectPolicy = new AutoSelectPolicy();
         autoSelectPolicy.setLoadBalanceNumber(1);
-        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         AutoSelectTunnel autoSelectTunnel = new AutoSelectTunnel();
         autoSelectTunnel.setPriority(1);
         autoSelectTunnel.setType("type");
         List<AutoSelectTunnel> list = new ArrayList<>();
         list.add(autoSelectTunnel);
+        AutoSelectTunnels autoSelectTunnels = new AutoSelectTunnels();
         autoSelectTunnels.setAutoSelectTunnel(list);
         autoSelectPolicy.setAutoSelectTunnels(autoSelectTunnels);
         tunnelService.setAutoSelect(autoSelectPolicy);
@@ -131,7 +137,6 @@ public class L3vpnAcServiceTest {
         l3Vpn.setTunnelService(tunnelService);
         l3Vpn.setFrr(true);
 
-        org.openo.sdno.model.uniformsbi.l3vpn.L3Acs l3acs = new org.openo.sdno.model.uniformsbi.l3vpn.L3Acs();
         org.openo.sdno.model.uniformsbi.l3vpn.L3Ac l3Ac = new org.openo.sdno.model.uniformsbi.l3vpn.L3Ac();
         l3Ac.setUuid("uuid");
         L2Access l2Access = new L2Access();
@@ -144,6 +149,7 @@ public class L3vpnAcServiceTest {
         l3Ac.setL3Access(l3Access);
         List<org.openo.sdno.model.uniformsbi.l3vpn.L3Ac> lsitL3Ac = new ArrayList<>();
         lsitL3Ac.add(l3Ac);
+        org.openo.sdno.model.uniformsbi.l3vpn.L3Acs l3acs = new org.openo.sdno.model.uniformsbi.l3vpn.L3Acs();
         l3acs.setL3Ac(lsitL3Ac);
         l3Vpn.setAcs(l3acs);
         map.put("l3VpnId", string);
@@ -157,8 +163,8 @@ public class L3vpnAcServiceTest {
         new MockUp<AbstractMarshallerImpl>() {
 
             @Mock
-            public void marshal(Object obj, java.io.Writer w) throws IOException {
-                w.write(obj.toString());
+            public void marshal(Object obj, java.io.Writer writer) throws IOException {
+                writer.write(obj.toString());
 
             }
         };
@@ -183,8 +189,10 @@ public class L3vpnAcServiceTest {
         new MockUp<ESRutil>() {
 
             @Mock
-            public Map getControllerDetails(String arg0) throws ServiceException {
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
                 return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
 
                     {
                         put("userName", "admin");
@@ -206,8 +214,8 @@ public class L3vpnAcServiceTest {
         new MockUp<AbstractMarshallerImpl>() {
 
             @Mock
-            public void marshal(Object obj, java.io.Writer w) throws IOException {
-                w.write(obj.toString());
+            public void marshal(Object obj, java.io.Writer writer) throws IOException {
+                writer.write(obj.toString());
 
             }
         };
@@ -249,8 +257,8 @@ public class L3vpnAcServiceTest {
         new MockUp<AbstractMarshallerImpl>() {
 
             @Mock
-            public void marshal(Object obj, java.io.Writer w) throws IOException {
-                w.write(obj.toString());
+            public void marshal(Object obj, java.io.Writer writer) throws IOException {
+                writer.write(obj.toString());
 
             }
         };
@@ -291,8 +299,8 @@ public class L3vpnAcServiceTest {
         new MockUp<AbstractMarshallerImpl>() {
 
             @Mock
-            public void marshal(Object obj, java.io.Writer w) throws IOException {
-                w.write(obj.toString());
+            public void marshal(Object obj, java.io.Writer writer) throws IOException {
+                writer.write(obj.toString());
 
             }
         };
@@ -412,8 +420,9 @@ public class L3vpnAcServiceTest {
         new MockUp<ESRutil>() {
 
             @Mock
-            public Map getControllerDetails(String arg0) throws ServiceException {
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
                 return new HashMap<String, String>() {
+                    private static final long serialVersionUID = 1L;
 
                     {
                         put("userName", "admin");
@@ -519,5 +528,4 @@ public class L3vpnAcServiceTest {
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
         l3vpnAcService.l3vpnOperStatusGet(spi);
     }
-
 }

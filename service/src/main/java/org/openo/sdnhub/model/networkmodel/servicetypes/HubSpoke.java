@@ -35,7 +35,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * HubSpoke class<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */

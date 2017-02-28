@@ -48,7 +48,7 @@ import org.openo.sdno.model.uniformsbi.l3vpn.StaticRoutes;
  */
 public class NetToSerTransformer {
 
-    private static String TOPOLOGYTYPE = "fullMesh";
+    private static String topology = "fullMesh";
 
     private NetToSerTransformer() {
 
@@ -88,7 +88,7 @@ public class NetToSerTransformer {
         org.openo.sdno.model.uniformsbi.l3vpn.TopologyService topologyService =
                 transformTopoService(l3Vpn.getTopoService());
         nbil3Vpn.setTopologyService(topologyService);
-        nbil3Vpn.setTopology(TOPOLOGYTYPE);
+        nbil3Vpn.setTopology(topology);
 
         org.openo.sdno.model.uniformsbi.l3vpn.L3LoopbackIfs l3Loopbackifs =
                 new org.openo.sdno.model.uniformsbi.l3vpn.L3LoopbackIfs();
@@ -139,65 +139,8 @@ public class NetToSerTransformer {
                 Routes routes = new Routes();
                 List<Route> routeList = new ArrayList<>();
 
-                if(l3ac.getL3Access().getStaticRoutes() != null) {
-                    Route route = new Route();
-                    StaticRoutes sroutes = new StaticRoutes();
-                    List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> staticRouteList = new ArrayList<>();
-
-                    for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
-                        org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
-                                new org.openo.sdno.model.uniformsbi.l3vpn.Route();
-                        nbiRoute.setRouteType(RouteType.STATIC.getAlias());
-
-                        org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr =
-                                new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
-                        sr.setIpPrefix(staticRoute.getIpPrefix());
-                        sr.setNextHop(staticRoute.getNextHop());
-                        staticRouteList.add(sr);
-                    }
-                    sroutes.setStaticRoute(staticRouteList);
-
-                    route.setStaticRoutes(sroutes);
-                    route.setRouteType("static");
-                    routeList.add(route);
-                }
-
-                if(l3ac.getL3Access().getProtocols() != null) {
-                    for(Protocol protocol : l3ac.getL3Access().getProtocols()) {
-                        if(protocol.getBgp() != null) {
-                            Route route = new Route();
-                            BgpRoutes bgps = new BgpRoutes();
-                            List<BgpRoute> bgpRouteList = new ArrayList<>();
-                            for(BgpPeer bgp : protocol.getBgp()) {
-                                BgpRoute bgproute = new BgpRoute();
-                                bgproute.setAdvertiseCommunity(bgp.getAdvertiseCommunity());
-                                bgproute.setAdvertiseExtCommunity(bgp.getAdvertiseExtCommunity());
-                                bgproute.setHoldTime(bgp.getHoldTime());
-                                bgproute.setKeepaliveTime(bgp.getKeepAliveTime());
-                                bgproute.setPassword(bgp.getPassword());
-                                bgproute.setPeerIp(bgp.getPeerIp());
-                                bgproute.setRemoteAs(bgp.getRemoteAs());
-                                bgpRouteList.add(bgproute);
-                            }
-                            bgps.setBgpRoute(bgpRouteList);
-                            route.setBgpRoutes(bgps);
-                            routeList.add(route);
-                        }
-
-                        if(protocol.getIsis() != null) {
-                            Route route = new Route();
-                            IsisRoute isis = new IsisRoute();
-                            isis.setNetworkEntity(protocol.getIsis().getNetworkEntity());
-                            route.setIsisRoute(isis);
-                            routeList.add(route);
-                        }
-
-                        if(protocol.getOspf() != null) {
-                            // TODO OSPF
-                        }
-
-                    }
-                }
+                procStaticRoutesTransformAcs(l3ac, routeList);
+                procProtocolsTransformAcs(l3ac, routeList);
                 routes.setRoute(routeList);
 
                 l3Access.setRoutes(routes);
@@ -207,6 +150,85 @@ public class NetToSerTransformer {
         }
         l3Acs.setL3Ac(listL3Ac);
         return l3Acs;
+    }
+
+    /**
+     * Transform attachment circuits associated with the VPN from network to service on Static Routes.
+     * <br>
+     *
+     * @param l3ac is a network attachment circuits
+     * @param routeList collection of routing information
+     * @since SDNHUB 0.5
+     */
+    private static void procStaticRoutesTransformAcs(L3Ac l3ac, List<Route> routeList) {
+        if(l3ac.getL3Access().getStaticRoutes() != null) {
+            Route route = new Route();
+            StaticRoutes sroutes = new StaticRoutes();
+            List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> staticRouteList = new ArrayList<>();
+
+            for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
+                org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
+                        new org.openo.sdno.model.uniformsbi.l3vpn.Route();
+                nbiRoute.setRouteType(RouteType.STATIC.getAlias());
+
+                org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr =
+                        new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
+                sr.setIpPrefix(staticRoute.getIpPrefix());
+                sr.setNextHop(staticRoute.getNextHop());
+                staticRouteList.add(sr);
+            }
+            sroutes.setStaticRoute(staticRouteList);
+
+            route.setStaticRoutes(sroutes);
+            route.setRouteType("static");
+            routeList.add(route);
+        }
+    }
+
+    /**
+     * Transform attachment circuits associated with the VPN from network to service on protocols.
+     * <br>
+     *
+     * @param l3ac is a network attachment circuits
+     * @param routeList collection of routing information
+     * @since SDNHUB 0.5
+     */
+    private static void procProtocolsTransformAcs(L3Ac l3ac, List<Route> routeList) {
+        if(l3ac.getL3Access().getProtocols() != null) {
+            for(Protocol protocol : l3ac.getL3Access().getProtocols()) {
+                if(protocol.getBgp() != null) {
+                    Route route = new Route();
+                    BgpRoutes bgps = new BgpRoutes();
+                    List<BgpRoute> bgpRouteList = new ArrayList<>();
+                    for(BgpPeer bgp : protocol.getBgp()) {
+                        BgpRoute bgproute = new BgpRoute();
+                        bgproute.setAdvertiseCommunity(bgp.getAdvertiseCommunity());
+                        bgproute.setAdvertiseExtCommunity(bgp.getAdvertiseExtCommunity());
+                        bgproute.setHoldTime(bgp.getHoldTime());
+                        bgproute.setKeepaliveTime(bgp.getKeepAliveTime());
+                        bgproute.setPassword(bgp.getPassword());
+                        bgproute.setPeerIp(bgp.getPeerIp());
+                        bgproute.setRemoteAs(bgp.getRemoteAs());
+                        bgpRouteList.add(bgproute);
+                    }
+                    bgps.setBgpRoute(bgpRouteList);
+                    route.setBgpRoutes(bgps);
+                    routeList.add(route);
+                }
+
+                if(protocol.getIsis() != null) {
+                    Route route = new Route();
+                    IsisRoute isis = new IsisRoute();
+                    isis.setNetworkEntity(protocol.getIsis().getNetworkEntity());
+                    route.setIsisRoute(isis);
+                    routeList.add(route);
+                }
+
+                if(protocol.getOspf() != null) {
+                    // OSPF related
+                }
+            }
+        }
     }
 
     /**
@@ -301,7 +323,7 @@ public class NetToSerTransformer {
         SpokeGroup spokeGroup = new SpokeGroup();
 
         if(topologyService.getHubSpoke() != null) {
-            TOPOLOGYTYPE = "hubSpoke";
+            topology = "hubSpoke";
             if(topologyService.getHubSpoke().getHubGroup() != null) {
                 hubGroup.setHubGroup(transformHubGroup(topologyService.getHubSpoke().getHubGroup()));
             }

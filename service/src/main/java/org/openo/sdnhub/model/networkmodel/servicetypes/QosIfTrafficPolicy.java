@@ -32,7 +32,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  * QOS If Traffic Policy class.<br>
  * <p>
  * </p>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 17, 2016
  */
@@ -58,7 +58,7 @@ public class QosIfTrafficPolicy {
 
     /**
      * QOS If Traffic Policy Constructor<br>
-     * 
+     *
      * @param direction
      * @param trafficPolicyId
      * @since SDNHUB 0.5

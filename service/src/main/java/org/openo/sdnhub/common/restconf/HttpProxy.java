@@ -58,21 +58,19 @@ public class HttpProxy extends HTTPSender {
     public HTTPReturnMessage restInvoke(HTTPRequestMessage authReq, HTTPRequestMessage request) {
         HTTPReturnMessage authResponse = new HTTPReturnMessage();
         HTTPReturnMessage response = new HTTPReturnMessage();
-        HttpURLConnection authConn = null;
-        HttpURLConnection conn = null;
         BufferedReader br = null;
         try {
             // Parse out the token_id, and put into the response
             super.setHttpContentType(MediaType.APPLICATION_JSON);
             super.setHttpAccept(MediaType.APPLICATION_JSON);
-            authConn = sendMsg(authReq, null, authResponse, true);
+            HttpURLConnection authConn = sendMsg(authReq, null, authResponse, true);
             if(HttpCode.isSucess(authResponse.getStatus())) {
                 Map<String, String> tokenMap = new HashMap<>();
                 tokenMap.put(ACCESS_TOKEN, authResponse.getToken());
 
                 super.setHttpContentType(contentType);
                 super.setHttpAccept(contentType);
-                conn = sendMsg(request, tokenMap, response, false);
+                HttpURLConnection conn = sendMsg(request, tokenMap, response, false);
                 LOGGER.info("HttpSender::restInvoke controller status:" + response.getStatus());
                 if(HttpCode.isSucess(response.getStatus())) {
                     br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -92,8 +90,6 @@ public class HttpProxy extends HTTPSender {
             response.setBody("\"HttpSender::restInvoke controller error! \"");
             LOGGER.warn("HttpSender::restInvoke controller error! ", e);
         } finally {
-            close(authConn);
-            close(conn);
             IOUtils.closeQuietly(br);
         }
         return response;

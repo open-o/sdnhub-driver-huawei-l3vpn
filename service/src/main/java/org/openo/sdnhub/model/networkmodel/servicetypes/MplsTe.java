@@ -31,7 +31,7 @@ import org.openo.sdnhub.model.networkmodel.NetModel;
 
 /**
  * MplsTe class.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 22, 2016
  */

@@ -57,7 +57,7 @@ public class L3Ac extends Ac {
      */
     @Override
     public void inject(Tp tp) {
-        // TODO set Ltp Id
+        // Need to set Ltp Id
         setId(tp.getId());
         setNeId(tp.getNeId());
     }

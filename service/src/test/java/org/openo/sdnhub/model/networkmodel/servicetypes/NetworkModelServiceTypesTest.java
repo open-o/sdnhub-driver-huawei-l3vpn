@@ -18,9 +18,6 @@ package org.openo.sdnhub.model.networkmodel.servicetypes;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import org.junit.Test;
 import org.openo.sdnhub.model.networkmodel.servicetypes.Ac;
 import org.openo.sdnhub.model.networkmodel.servicetypes.AcOperStatus;
@@ -62,6 +59,9 @@ import org.openo.sdnhub.model.networkmodel.servicetypes.Vxlan;
 import org.openo.sdnhub.model.networkmodel.servicetypes.VxlanAccess;
 import org.openo.sdno.model.servicemodel.tp.Tp;
 
+import java.math.BigInteger;
+import java.util.List;
+
 public class NetworkModelServiceTypesTest {
 
     Vxlan vxlan = new Vxlan();
@@ -95,13 +95,13 @@ public class NetworkModelServiceTypesTest {
     @Test
     public void testAcOperStatus() {
         AcOperStatus acOperStatus = new AcOperStatus();
-        String id = "id";
         acOperStatus.setId("id");
         String name = "name";
         acOperStatus.setName(name);
         String operStatus = "operStatus";
         acOperStatus.setOperStatus(operStatus);
         acOperStatus.setIsactive(true);
+        String id = "id";
         assertEquals(acOperStatus.getId(), id);
         assertEquals(acOperStatus.getName(), name);
         assertEquals(acOperStatus.getOperStatus(), operStatus);
@@ -140,7 +140,6 @@ public class NetworkModelServiceTypesTest {
         BgpPeer obj = new BgpPeer();
         String remote = "remote";
         obj.setRemoteAs(remote);
-        String peerID = "neID";
         obj.setPeerIp("neID");
         Integer keepAliveTime = 1;
         obj.setKeepAliveTime(keepAliveTime);
@@ -151,7 +150,8 @@ public class NetworkModelServiceTypesTest {
         obj.setAdvertiseCommunity(true);
         obj.setAdvertiseExtCommunity(true);
         assertEquals(obj.getRemoteAs(), remote);
-        assertEquals(obj.getPeerIp(), peerID);
+        String peerId = "neID";
+        assertEquals(obj.getPeerIp(), peerId);
         assertEquals(obj.getKeepAliveTime(), keepAliveTime);
         assertEquals(obj.getHoldTime(), holdAliveTime);
         assertEquals(obj.getPassword(), password);
@@ -182,7 +182,6 @@ public class NetworkModelServiceTypesTest {
         assertEquals(obj.getPassOrDiscard(), passOrDiscard);
         assertEquals(obj.getServiceClass(), serviceClass);
         assertEquals(obj.getColor(), color);
-
     }
 
     @Test
@@ -219,7 +218,7 @@ public class NetworkModelServiceTypesTest {
     }
 
     @Test
-    public void testISIS() {
+    public void testIsis() {
         ISIS obj = new ISIS();
         obj.getNetworkEntity();
         String networkEntity = null;
@@ -411,7 +410,6 @@ public class NetworkModelServiceTypesTest {
     @Test
     public void testQosIfQueueProfile() {
         QosIfQueueProfile obj = new QosIfQueueProfile();
-        QosIfQueueProfile obj1 = new QosIfQueueProfile("test", "test");
         String direction = "direction";
         obj.setDirection(direction);
         String profileId = "profileId";
@@ -423,7 +421,6 @@ public class NetworkModelServiceTypesTest {
     @Test
     public void testQosIfTrafficPolicy() {
         QosIfTrafficPolicy obj = new QosIfTrafficPolicy();
-        QosIfTrafficPolicy obj1 = new QosIfTrafficPolicy("test", "test");
         String direction = "direction";
         obj.setDirection(direction);
         String trafficPolicyId = "trafficPolicyId";

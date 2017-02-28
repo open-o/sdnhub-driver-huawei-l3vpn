@@ -18,12 +18,8 @@ package org.openo.sdnhub.model.networkmodel.util;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import mockit.Mock;
+import mockit.MockUp;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonParseException;
@@ -33,8 +29,12 @@ import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.sdnhub.acwanservice.config.Configuration;
 
-import mockit.Mock;
-import mockit.MockUp;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigurationTest {
 

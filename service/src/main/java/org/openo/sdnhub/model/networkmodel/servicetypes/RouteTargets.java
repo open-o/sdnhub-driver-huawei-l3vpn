@@ -30,7 +30,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
  * RouteTargets class.<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 22, 2016
  */

@@ -32,15 +32,15 @@ import org.openo.sdno.testframework.testmanager.TestManager;
 import org.openo.sdno.testframework.util.file.FileUtils;
 
 public class ITL3vpnUpdateTest extends TestManager {
-	
-	L3VpnUpdateSuccessServer mocoServer = new L3VpnUpdateSuccessServer();
-	private AcwanCreateHttpsServer acwanHttpsServer = new AcwanCreateHttpsServer();
-	
-	@Before
-	public void setup() throws ServiceException {
-		mocoServer.start();
-		acwanHttpsServer.start();
-	}
+
+    L3VpnUpdateSuccessServer mocoServer = new L3VpnUpdateSuccessServer();
+    private AcwanCreateHttpsServer acwanHttpsServer = new AcwanCreateHttpsServer();
+
+    @Before
+    public void setup() throws ServiceException {
+        mocoServer.start();
+        acwanHttpsServer.start();
+    }
 
     @After
     public void tearDown() {
@@ -48,12 +48,12 @@ public class ITL3vpnUpdateTest extends TestManager {
         acwanHttpsServer.stop();
     }
 
-	@Test
-	public void test() throws ServiceException {
-		File createFile = new File("src/integration-test/resources/AcWanDriverSvc/l3VpnUpdate.json");
-		HttpRquestResponse createHttpObject = HttpModelUtils
-				.praseHttpRquestResponse(FileUtils.readFromJson(createFile));
-		HttpResponse createResponse = execTestCase(createFile, new RegularExpChecker(createHttpObject.getResponse()));
-	}
-	
+    @Test
+    public void test() throws ServiceException {
+        File createFile = new File("src/integration-test/resources/AcWanDriverSvc/l3VpnUpdate.json");
+        HttpRquestResponse createHttpObject = HttpModelUtils
+                .praseHttpRquestResponse(FileUtils.readFromJson(createFile));
+        HttpResponse createResponse = execTestCase(createFile, new RegularExpChecker(createHttpObject.getResponse()));
+    }
+
 }

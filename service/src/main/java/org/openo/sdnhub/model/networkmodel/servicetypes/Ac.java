@@ -32,7 +32,7 @@ import org.openo.sdno.model.servicemodel.tp.Tp;
 
 /**
  * AC class<br>
- * 
+ *
  * @author
  * @version SDNO 0.5 August 22, 2016
  */
@@ -122,7 +122,7 @@ public class Ac implements NetModel {
 
     /**
      * inject ID/NeId of termination point.<br>
-     * 
+     *
      * @param tp
      * @since SDNHUB 0.5
      */

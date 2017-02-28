@@ -22,8 +22,8 @@ import java.net.URL;
 
 public class HttpsURLConnectionImpl extends HttpURLConnection {
 
-    public HttpsURLConnectionImpl(URL u) {
-        super(u);
+    public HttpsURLConnectionImpl(URL url) {
+        super(url);
         // TODO Auto-generated constructor stub
     }
 

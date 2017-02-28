@@ -41,8 +41,6 @@ public class RestConfProxy {
 
     private static final String AUTH_URL = "/controller/v2/tokens";
 
-    private static final String PROTOCOL = "https://";
-
     private static final int DEFAULT_CON_TIMEOUT = 5000;
 
     private static final int DEFAULT_READ_TIMEOUT = 120000;
@@ -66,7 +64,7 @@ public class RestConfProxy {
         LOGGER.info("url:" + url);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, null, "GET"));
+        return httpSender.restInvoke(buildAuthParam(dev), buildParam(url, dev, null, "GET"));
     }
 
     /**
@@ -86,7 +84,7 @@ public class RestConfProxy {
         LOGGER.info("body:" + body);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, body, "POST"));
+        return httpSender.restInvoke(buildAuthParam(dev), buildParam(url, dev, body, "POST"));
     }
 
     /**
@@ -104,7 +102,7 @@ public class RestConfProxy {
         LOGGER.info("url:" + url);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev),
+        return httpSender.restInvoke(buildAuthParam(dev),
                 buildParam(url, dev, null, "DELETE"));
     }
 
@@ -125,7 +123,7 @@ public class RestConfProxy {
         LOGGER.info("body:" + body);
         final Device dev = getControllerDevice(controller);
         final HTTPSender httpSender = buildHTTPSender(contentType);
-        return httpSender.restInvoke(buildAuthParam(contentType, dev), buildParam(url, dev, body, "PUT"));
+        return httpSender.restInvoke(buildAuthParam(dev), buildParam(url, dev, body, "PUT"));
     }
 
     /**
@@ -181,13 +179,12 @@ public class RestConfProxy {
     /**
      * Builder function for HTTP authentication parameters.<br>
      *
-     * @param contentType the enumeration of contents type
      * @param dev is a device
      * @return the HTTPRequestMessage
      * @throws ServiceException
      * @since SDNHUB 0.5
      */
-    private static HTTPRequestMessage buildAuthParam(final ContentType contentType, final Device dev)
+    private static HTTPRequestMessage buildAuthParam(final Device dev)
             throws ServiceException {
         final HTTPRequestMessage message = new HTTPRequestMessage();
         final String urlPrefix = getUrlPrefix(dev);
@@ -200,7 +197,6 @@ public class RestConfProxy {
     /**
      * Builder function for HTTP parameters.<br>
      *
-     * @param contentType the enumeration of contents type
      * @param url is a URL string
      * @param dev is a device
      * @param body HTTP body
@@ -238,7 +234,6 @@ public class RestConfProxy {
     /**
      * Builder function for authentication context.<br>
      *
-     * @param contentType the enumeration of contents type
      * @param dev is a device
      * @return the authentication context information
      * @throws ServiceException
@@ -249,6 +244,5 @@ public class RestConfProxy {
         userAuth.setUserName(dev.getUser());
         userAuth.setPassword(dev.getPwd());
         return JsonUtil.toJson(userAuth);
-
     }
 }
