@@ -83,7 +83,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param request HTTP servlet request with the service parameters information..
      * @param ctrlUuidParam controller UUID parameter in header
      * @return response with L3VPN created object that contains the UUID generated.
-     * @throws WebApplicationException throws exception if the operation fails.
+     * @throws ServiceException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @POST
@@ -95,9 +95,10 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
 
         String req = RestUtils.getRequestBody(request);
         LOGGER.error("Create L3VPN request body: " + req);
+        Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
 
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return vpnService.l3vpnCreate(req, ctrlUuid);
+        return vpnService.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
     }
 
     /**
@@ -106,7 +107,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam controller UUID parameter in header
      * @param vpnId VPN ID
      * @return response of the delete operation.
-     * @throws WebApplicationException throws exception if the operation fails.
+     * @throws ServiceException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @DELETE
@@ -126,7 +127,7 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
      * @param ctrlUuidParam controller UUID parameter in header
      * @param vpdId VPN ID
      * @return response of the update operation.
-     * @throws WebApplicationException throws exception if the operation fails.
+     * @throws ServiceException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @PUT
@@ -145,11 +146,10 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Get the information of L3vpn.<br>
      *
-     * @param request HTTP servlet request with the service parameters information.
      * @param vpnId VPN ID
      * @param ctrlUuidParam controller UUID parameter in header
      * @return required L3VPN object.
-     * @throws WebApplicationException throws exception if the operation fails.
+     * @throws ServiceException throws exception if the operation fails.
      * @since SDNHUB 0.5
      */
     @GET
