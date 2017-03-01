@@ -198,7 +198,6 @@ public class L3vpnAcServiceImpl implements L3VpnService {
      */
     @Override
     public Result<String> l3vpnGet(String ctrlUuid, String vpnId) throws ServiceException {
-
         final String url = URL + vpnId;
         final HTTPReturnMessage msg = RestConfProxy.get(L3vpnAcServiceImpl.CONTENT_TYPE, url, ctrlUuid);
         if(HttpCode.isSucess(msg.getStatus())) {
