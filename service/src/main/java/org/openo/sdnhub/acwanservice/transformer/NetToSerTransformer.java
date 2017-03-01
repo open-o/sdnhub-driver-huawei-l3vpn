@@ -58,7 +58,7 @@ public class NetToSerTransformer {
      * Transform model from network to service
      * <br>
      *
-     * @param l3VpnConfig is a network model VPN configuration
+     * @param l3Vpn is a network model VPN configuration
      * @return service instance of uniform SBI
      * @since SDNHUB 0.5
      */
@@ -153,7 +153,7 @@ public class NetToSerTransformer {
     }
 
     /**
-     * Transform attachment circuits associated with the VPN from network to service on Static Routes.
+     * Transforms attachment circuits associated with the VPN from network to service on Static Routes.
      * <br>
      *
      * @param l3ac is a network attachment circuits
@@ -164,21 +164,7 @@ public class NetToSerTransformer {
         if(l3ac.getL3Access().getStaticRoutes() != null) {
             Route route = new Route();
             StaticRoutes sroutes = new StaticRoutes();
-            List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> staticRouteList = new ArrayList<>();
-
-            for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
-                org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
-                        new org.openo.sdno.model.uniformsbi.l3vpn.Route();
-                nbiRoute.setRouteType(RouteType.STATIC.getAlias());
-
-                org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr =
-                        new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
-                sr.setIpPrefix(staticRoute.getIpPrefix());
-                sr.setNextHop(staticRoute.getNextHop());
-                staticRouteList.add(sr);
-            }
-            sroutes.setStaticRoute(staticRouteList);
-
+            sroutes.setStaticRoute(setStaticRouteCollection(l3ac));
             route.setStaticRoutes(sroutes);
             route.setRouteType("static");
             routeList.add(route);
@@ -186,7 +172,31 @@ public class NetToSerTransformer {
     }
 
     /**
-     * Transform attachment circuits associated with the VPN from network to service on protocols.
+     * Sets collection of static route by l3ac.
+     * <br>
+     *
+     * @param l3ac is a network attachment circuits
+     * @return collection of static routing information
+     * @since SDNHUB 0.5
+     */
+    private static List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> setStaticRouteCollection(L3Ac l3ac) {
+        List<org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute> staticRouteList = new ArrayList<>();
+        for(StaticRoute staticRoute : l3ac.getL3Access().getStaticRoutes()) {
+            org.openo.sdno.model.uniformsbi.l3vpn.Route nbiRoute =
+                    new org.openo.sdno.model.uniformsbi.l3vpn.Route();
+            nbiRoute.setRouteType(RouteType.STATIC.getAlias());
+
+            org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr =
+                    new org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute();
+            sr.setIpPrefix(staticRoute.getIpPrefix());
+            sr.setNextHop(staticRoute.getNextHop());
+            staticRouteList.add(sr);
+        }
+        return staticRouteList;
+    }
+
+    /**
+     * Transforms attachment circuits associated with the VPN from network to service on protocols.
      * <br>
      *
      * @param l3ac is a network attachment circuits
@@ -199,19 +209,7 @@ public class NetToSerTransformer {
                 if(protocol.getBgp() != null) {
                     Route route = new Route();
                     BgpRoutes bgps = new BgpRoutes();
-                    List<BgpRoute> bgpRouteList = new ArrayList<>();
-                    for(BgpPeer bgp : protocol.getBgp()) {
-                        BgpRoute bgproute = new BgpRoute();
-                        bgproute.setAdvertiseCommunity(bgp.getAdvertiseCommunity());
-                        bgproute.setAdvertiseExtCommunity(bgp.getAdvertiseExtCommunity());
-                        bgproute.setHoldTime(bgp.getHoldTime());
-                        bgproute.setKeepaliveTime(bgp.getKeepAliveTime());
-                        bgproute.setPassword(bgp.getPassword());
-                        bgproute.setPeerIp(bgp.getPeerIp());
-                        bgproute.setRemoteAs(bgp.getRemoteAs());
-                        bgpRouteList.add(bgproute);
-                    }
-                    bgps.setBgpRoute(bgpRouteList);
+                    bgps.setBgpRoute(setBgpRouteCollection(protocol));
                     route.setBgpRoutes(bgps);
                     routeList.add(route);
                 }
@@ -232,7 +230,31 @@ public class NetToSerTransformer {
     }
 
     /**
-     * Transform tunnel service of l3vpn from network to service model
+     * Sets collection of BGP route information by protocol.
+     * <br>
+     *
+     * @param protocol protocol
+     * @return collection of BGP route information
+     * @since SDNHUB 0.5
+     */
+    private static List<BgpRoute> setBgpRouteCollection(Protocol protocol) {
+        List<BgpRoute> bgpRouteList = new ArrayList<>();
+        for(BgpPeer bgp : protocol.getBgp()) {
+            BgpRoute bgproute = new BgpRoute();
+            bgproute.setAdvertiseCommunity(bgp.getAdvertiseCommunity());
+            bgproute.setAdvertiseExtCommunity(bgp.getAdvertiseExtCommunity());
+            bgproute.setHoldTime(bgp.getHoldTime());
+            bgproute.setKeepaliveTime(bgp.getKeepAliveTime());
+            bgproute.setPassword(bgp.getPassword());
+            bgproute.setPeerIp(bgp.getPeerIp());
+            bgproute.setRemoteAs(bgp.getRemoteAs());
+            bgpRouteList.add(bgproute);
+        }
+        return bgpRouteList;
+    }
+
+    /**
+     * Transforms tunnel service of l3vpn from network to service model
      * <br>
      *
      * @param tunnelService is a network tunnel service
@@ -261,7 +283,7 @@ public class NetToSerTransformer {
     }
 
     /**
-     * Transform MPLS traffic engineering data from network to service model
+     * Transforms MPLS traffic engineering data from network to service model
      * <br>
      *
      * @param mplsTe is a network MPLS traffic engineering data
@@ -302,7 +324,7 @@ public class NetToSerTransformer {
     }
 
     /**
-     * Transform topology service from network to service model
+     * Transforms topology service from network to service model
      * <br>
      *
      * @param topologyService is a network topology service

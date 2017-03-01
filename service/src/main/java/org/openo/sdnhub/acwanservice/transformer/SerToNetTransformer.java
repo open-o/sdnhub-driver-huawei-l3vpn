@@ -72,7 +72,7 @@ public class SerToNetTransformer {
     }
 
     /**
-     * Transform service to network model
+     * Transform service to network model.
      * <br>
      *
      * @param l3Vpn is a service model VPN configuration
@@ -87,11 +87,7 @@ public class SerToNetTransformer {
         ctrlrl3vpn.setName(l3Vpn.getName());
         ctrlrl3vpn.setUserLabel(Configuration.getValues(ConfigKeyConst.USER_LABEL));
         if(l3Vpn.getAdminStatus() != null) {
-            if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_UP) {
-                ctrlrl3vpn.setAdminStatus("admin-up");
-            } else if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_DOWN) {
-                ctrlrl3vpn.setAdminStatus("admin-down");
-            }
+            setAdminStatus(l3Vpn, ctrlrl3vpn);
         }
 
         ctrlrl3vpn.setMode(l3Vpn.getTopology());
@@ -147,6 +143,22 @@ public class SerToNetTransformer {
     }
 
     /**
+     * Sets l3Vpn admin status.
+     * <br>
+     *
+     * @param l3Vpn is a service model VPN configuration
+     * @return network instance of VPN configuration
+     * @since SDNHUB 0.5
+     */
+    private static void setAdminStatus(org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn, L3Vpn ctrlrl3vpn) {
+        if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_UP) {
+            ctrlrl3vpn.setAdminStatus("admin-up");
+        } else if(l3Vpn.getAdminStatus() == AdminStatus.ADMIN_DOWN) {
+            ctrlrl3vpn.setAdminStatus("admin-down");
+        }
+    }
+
+    /**
      * Transform service attachment circuits associated with the VPN to network model.
      * <br>
      *
@@ -195,17 +207,17 @@ public class SerToNetTransformer {
 
                 procRoutesTransformAcs(l3ac, l3Access);
 
-                // TODO: SBI does not consists OSPF today.
+                // As now, SBI does not consists OSPF, may need to consider it in future.
 
                 ctrlrl3ac.setL3Access(l3Access);
             }
 
             // VXLAN-access is not present in the JSON input. Needs to be taken from the Conf files.
-            // TODO: set vxlanAccess from configuration file
+            // Need to set vxlanAccess from configuration file
 
             l3AcList.add(ctrlrl3ac);
         }
-        // TODO : Add from Conf file Particular-constraint.
+        // Add from Conf file Particular-constraint.
         l3Acs.setL3Ac(l3AcList);
         return l3Acs;
     }
@@ -225,45 +237,17 @@ public class SerToNetTransformer {
             List<StaticRoute> staticRoutes = new ArrayList<>();
             for(org.openo.sdno.model.uniformsbi.l3vpn.Route route : l3ac.getL3Access().getRoutes().getRoute()) {
                 if(route.getStaticRoutes() != null) {
-                    for(org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr : route.getStaticRoutes()
-                            .getStaticRoute()) {
-                        StaticRoute staticRoute = new StaticRoute();
-                        staticRoute.setIpPrefix(sr.getIpPrefix());
-                        staticRoute.setNextHop(sr.getNextHop());
-                        staticRoute.setPreference(
-                                Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
-                        staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
-                        staticRoute
-                                .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
-                        staticRoutes.add(staticRoute);
-                        Protocol protocol = new Protocol();
-                        protocol.setType(RouteType.STATIC.getName());
-
-                    }
+                    setStaticRoute(route, staticRoutes);
                 }
                 l3Access.setStaticRoutes(staticRoutes);
 
                 // Populate Network model protocols of type BGP AND ISIS to the Network
                 // model protocol list
                 if(route.getBgpRoutes() != null) {
-                    BgpRoutes bgpRoutes = route.getBgpRoutes();
                     Protocol protocol = new Protocol();
-                    List<BgpPeer> bgpPeers = new ArrayList<>();
-                    for(BgpRoute bgpRoute : bgpRoutes.getBgpRoute()) {
-                        BgpPeer bgpPeer = new BgpPeer();
-                        bgpPeer.setAdvertiseCommunity(bgpRoute.isAdvertiseCommunity());
-                        bgpPeer.setAdvertiseExtCommunity(bgpRoute.isAdvertiseExtCommunity());
-                        bgpPeer.setHoldTime(bgpRoute.getHoldTime());
-                        bgpPeer.setKeepAliveTime(bgpRoute.getKeepaliveTime());
-                        bgpPeer.setPassword(bgpRoute.getPassword());
-                        bgpPeer.setPeerIp(bgpRoute.getPeerIp());
-                        bgpPeer.setRemoteAs(bgpRoute.getRemoteAs());
-                        bgpPeers.add(bgpPeer);
-                    }
-                    protocol.setBgp(bgpPeers);
+                    protocol.setBgp(setBgpPeer(route));
                     protocol.setType(RouteType.BGP.getName());
                     protocols.add(protocol);
-
                 }
 
                 if(route.getIsisRoute() != null) {
@@ -277,6 +261,57 @@ public class SerToNetTransformer {
                 }
                 l3Access.setProtocols(protocols);
             }
+        }
+    }
+
+    /**
+     * Sets BGP peer information by routing information.
+     * <br>
+     *
+     * @param route routing information
+     * @return collection of BGP peers
+     * @since SDNHUB 0.5
+     */
+    private static List<BgpPeer> setBgpPeer(org.openo.sdno.model.uniformsbi.l3vpn.Route route) {
+        BgpRoutes bgpRoutes = route.getBgpRoutes();
+        List<BgpPeer> bgpPeers = new ArrayList<>();
+        for(BgpRoute bgpRoute : bgpRoutes.getBgpRoute()) {
+            BgpPeer bgpPeer = new BgpPeer();
+            bgpPeer.setAdvertiseCommunity(bgpRoute.isAdvertiseCommunity());
+            bgpPeer.setAdvertiseExtCommunity(bgpRoute.isAdvertiseExtCommunity());
+            bgpPeer.setHoldTime(bgpRoute.getHoldTime());
+            bgpPeer.setKeepAliveTime(bgpRoute.getKeepaliveTime());
+            bgpPeer.setPassword(bgpRoute.getPassword());
+            bgpPeer.setPeerIp(bgpRoute.getPeerIp());
+            bgpPeer.setRemoteAs(bgpRoute.getRemoteAs());
+            bgpPeers.add(bgpPeer);
+        }
+        return bgpPeers;
+    }
+
+    /**
+     * Sets static route information by routing information.
+     * <br>
+     *
+     * @param route routing information
+     * @param staticRoutes collection of static route informations
+     * @since SDNHUB 0.5
+     */
+    private static void setStaticRoute(org.openo.sdno.model.uniformsbi.l3vpn.Route route,
+                                       List<StaticRoute> staticRoutes) {
+        for(org.openo.sdno.model.uniformsbi.l3vpn.StaticRoute sr : route.getStaticRoutes()
+                .getStaticRoute()) {
+            StaticRoute staticRoute = new StaticRoute();
+            staticRoute.setIpPrefix(sr.getIpPrefix());
+            staticRoute.setNextHop(sr.getNextHop());
+            staticRoute.setPreference(
+                    Integer.valueOf(Configuration.getValues(ConfigKeyConst.SR_PREFERENCE)));
+            staticRoute.setDescription(Configuration.getValues(ConfigKeyConst.SR_DESCRIPTION));
+            staticRoute
+                    .setTrackBfdEnable(Configuration.getValues(ConfigKeyConst.SR_TRACK_BFD_ENABLE));
+            staticRoutes.add(staticRoute);
+            Protocol protocol = new Protocol();
+            protocol.setType(RouteType.STATIC.getName());
         }
     }
 
