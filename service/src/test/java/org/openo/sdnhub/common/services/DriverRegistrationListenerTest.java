@@ -16,24 +16,32 @@
 
 package org.openo.sdnhub.common.services;
 
+import mockit.Mock;
+import mockit.MockUp;
+
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.openo.baseservice.roa.util.restclient.RestfulParametes;
 import org.openo.baseservice.roa.util.restclient.RestfulResponse;
 import org.openo.sdno.framework.container.resthelper.RestfulProxy;
 
-import mockit.Mock;
-import mockit.MockUp;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverRegistrationListenerTest {
 
     DriverRegistrationListener listener = new DriverRegistrationListener();
 
     @Test
-    public void contextDestroyedTestNormal(){
+    public void contextDestroyedTestNormal() {
 
         new MockUp<RestfulProxy>() {
+
             @Mock
-            public RestfulResponse delete(String url, RestfulParametes restParametes){
+            public RestfulResponse delete(String url, RestfulParametes restParametes) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(200);
                 return resp;
@@ -43,11 +51,12 @@ public class DriverRegistrationListenerTest {
     }
 
     @Test
-    public void contextDestroyedTestAbnormal(){
+    public void contextDestroyedTestAbnormal() {
 
         new MockUp<RestfulProxy>() {
+
             @Mock
-            public RestfulResponse delete(String url, RestfulParametes restParametes){
+            public RestfulResponse delete(String url, RestfulParametes restParametes) {
                 RestfulResponse resp = new RestfulResponse();
                 resp.setStatus(500);
                 return resp;
@@ -57,7 +66,111 @@ public class DriverRegistrationListenerTest {
     }
 
     @Test
-    public void contextInitializedTestNormal(){
+    public void contextInitializedTestNormal() {
+        new MockUp<File>() {
+
+            @Mock
+            public boolean exists() {
+                return false;
+            }
+        };
+        listener.contextInitialized(null);
+    }
+
+    @Test
+    public void contextInitializedTestNormalCaseIpNull() {
+
+        new MockUp<RestfulProxy>() {
+
+            @Mock
+            public RestfulResponse post(String url, RestfulParametes restParametes) {
+                RestfulResponse resp = new RestfulResponse();
+                resp.setStatus(200);
+                return resp;
+            }
+        };
+
+        new MockUp<File>() {
+
+            @Mock
+            public boolean exists() {
+                return true;
+            }
+        };
+
+        new MockUp<Files>() {
+
+            @Mock
+            public byte[] readAllBytes(Path path) {
+                byte[] myvar = "Value".getBytes();
+                return myvar;
+
+            }
+        };
+
+        new MockUp<ObjectMapper>() {
+
+            @SuppressWarnings("unchecked")
+            @Mock
+            public <T> T readValue(byte[] src, Class<T> valueType) {
+
+                Map<String, Map<String, String>> dmRegistrationBodyMap = new HashMap<String, Map<String, String>>();
+                Map<String, String> driverInfoMap = new HashMap<String, String>();
+                driverInfoMap.put("instanceID", "usb12345");
+                dmRegistrationBodyMap.put("driverInfo", driverInfoMap);
+                return (T)dmRegistrationBodyMap;
+            }
+        };
+
+        listener.contextInitialized(null);
+    }
+
+    @Test
+    public void contextInitializedTestNormalCaseIpNotNull() {
+
+        new MockUp<RestfulProxy>() {
+
+            @Mock
+            public RestfulResponse post(String url, RestfulParametes restParametes) {
+                RestfulResponse resp = new RestfulResponse();
+                resp.setStatus(200);
+                return resp;
+            }
+        };
+
+        new MockUp<File>() {
+
+            @Mock
+            public boolean exists() {
+                return true;
+            }
+        };
+
+        new MockUp<Files>() {
+
+            @Mock
+            public byte[] readAllBytes(Path path) {
+
+                byte[] myvar = "Value".getBytes();
+                return myvar;
+            }
+        };
+
+        new MockUp<ObjectMapper>() {
+
+            @SuppressWarnings("unchecked")
+            @Mock
+            public <T> T readValue(byte[] src, Class<T> valueType) {
+
+                Map<String, Map<String, String>> dmRegistrationBodyMap = new HashMap<String, Map<String, String>>();
+                Map<String, String> driverInfoMap = new HashMap<String, String>();
+                driverInfoMap.put("instanceID", "usb12345");
+                driverInfoMap.put("ip", "10.172.13.12");
+                dmRegistrationBodyMap.put("driverInfo", driverInfoMap);
+                return (T)dmRegistrationBodyMap;
+            }
+        };
+
         listener.contextInitialized(null);
     }
 }

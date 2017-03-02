@@ -18,14 +18,21 @@ package org.openo.sdnhub.acwanservice.impl;
 
 import static org.junit.Assert.assertEquals;
 
-import mockit.Mock;
-import mockit.MockUp;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.helpers.AbstractMarshallerImpl;
+import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.openo.baseservice.remoteservice.exception.ServiceException;
-import org.openo.sdnhub.acwanservice.impl.L3vpnAcServiceImpl;
 import org.openo.sdnhub.common.restconf.HttpProxy;
 import org.openo.sdnhub.common.services.ESRutil;
 import org.openo.sdnhub.model.networkmodel.servicetypes.L3Acs;
@@ -50,15 +57,8 @@ import org.openo.sdno.result.Result;
 import org.openo.sdno.util.http.HTTPRequestMessage;
 import org.openo.sdno.util.http.HTTPReturnMessage;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.helpers.AbstractMarshallerImpl;
-import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
+import mockit.Mock;
+import mockit.MockUp;
 
 public class L3vpnAcServiceTest {
 
@@ -73,11 +73,12 @@ public class L3vpnAcServiceTest {
     /**
      * Initial setup for test
      * <br/>
+     * @throws JAXBException
      *
      * @since  SDNHUB 0.5
      */
     @Before
-    public void create() {
+    public void create() throws JAXBException {
 
         AdminStatus adminStatus = AdminStatus.ADMIN_DOWN;
         l3Vpn.setAdminStatus(adminStatus);
@@ -155,6 +156,7 @@ public class L3vpnAcServiceTest {
         map.put("l3VpnId", string);
         map.put("tpId", string);
         map.put("uuid", string);
+
     }
 
     @Test
@@ -178,11 +180,10 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
-                    Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                return l3Vpn;
+                return (T)l3Vpn;
             }
         };
 
@@ -237,11 +238,10 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
-                    Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                return l3Vpn;
+                return (T)l3Vpn;
             }
         };
 
@@ -263,6 +263,31 @@ public class L3vpnAcServiceTest {
             }
         };
 
+        new MockUp<ESRutil>() {
+
+            @Mock
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
+            }
+        };
+
+        new MockUp<IOUtils>() {
+
+            @Mock
+            public String toString(InputStream input) throws IOException {
+                return "temp";
+            }
+        };
+
         Result<String> resultString = l3vpnAcService.l3vpnStatusUpdate("reqeset", "123", "123");
         assertEquals(resultString.getErrcode(), 0);
     }
@@ -279,11 +304,10 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
-                    Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpn = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
                 l3Vpn.setDescription("description");
-                return l3Vpn;
+                return (T)l3Vpn;
             }
         };
 
@@ -311,6 +335,22 @@ public class L3vpnAcServiceTest {
 
     @Test
     public void testl3vpnCreate() throws ServiceException {
+        new MockUp<ESRutil>() {
+
+            @Mock
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
+            }
+        };
         new MockUp<IOUtils>() {
 
             @Mock
@@ -321,10 +361,9 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
-                    Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpnl = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-                return l3Vpnl;
+                return (T)l3Vpnl;
             }
         };
 
@@ -347,10 +386,9 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn fromJson(String arg0,
-                    Class<org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn l3Vpnl = new org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn();
-                return l3Vpnl;
+                return (T)l3Vpnl;
             }
         };
 
@@ -375,6 +413,22 @@ public class L3vpnAcServiceTest {
 
     @Test
     public void testl3vpnDelete() throws ServiceException {
+        new MockUp<ESRutil>() {
+
+            @Mock
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
+            }
+        };
 
         new MockUp<HttpProxy>() {
 
@@ -411,10 +465,10 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public L3Vpn fromJson(String arg0, Class<L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 L3Vpn l3Vpn = new L3Vpn();
                 l3Vpn.setAcs(new L3Acs());
-                return l3Vpn;
+                return (T)l3Vpn;
             }
         };
         new MockUp<ESRutil>() {
@@ -451,10 +505,10 @@ public class L3vpnAcServiceTest {
         new MockUp<JsonUtil>() {
 
             @Mock
-            public L3Vpn fromJson(String arg0, Class<L3Vpn> arg1) {
+            public <T> T fromJson(String jsonStr, Class<T> objClass) {
                 L3Vpn l3Vpn = new L3Vpn();
                 l3Vpn.setAcs(new L3Acs());
-                return l3Vpn;
+                return (T)l3Vpn;
             }
         };
         new MockUp<HttpProxy>() {
@@ -490,6 +544,22 @@ public class L3vpnAcServiceTest {
                 return new VpnOperStatus();
             }
         };
+        new MockUp<ESRutil>() {
+
+            @Mock
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
+            }
+        };
         ServiceParasInfo spi = new ServiceParasInfo("uuid", "resource", "serviceBody", map, "classPath");
         Result<VpnOperStatus> resultVpnOperStatus = l3vpnAcService.l3vpnOperStatusGet(spi);
         assertEquals(resultVpnOperStatus.getErrcode(), 0);
@@ -501,10 +571,28 @@ public class L3vpnAcServiceTest {
 
             @Mock
             public HTTPReturnMessage restInvoke(HTTPRequestMessage arg0, HTTPRequestMessage arg1) {
+
                 HTTPReturnMessage httpReturnMessage = new HTTPReturnMessage();
                 httpReturnMessage.setStatus(200);
-                httpReturnMessage.setBody("body");
+                httpReturnMessage.setBody("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><instance><id>1</id></instance>");
                 return httpReturnMessage;
+            }
+        };
+
+        new MockUp<ESRutil>() {
+
+            @Mock
+            public Map<String, String> getControllerDetails(String arg0) throws ServiceException {
+                return new HashMap<String, String>() {
+
+                    private static final long serialVersionUID = 1L;
+
+                    {
+                        put("userName", "admin");
+                        put("password", "admin");
+                        put("url", "https://192.168.4.161:18008");
+                    }
+                };
             }
         };
 
