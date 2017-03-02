@@ -66,4 +66,16 @@ public class SerializeUtilTest {
         Map<String , String> result = SerializeUtil.deSerialize(ContentType.JSON, jsonStr, Map.class);
         assertEquals(result, null);
     }
+
+    @Test(expected = ServiceException.class)
+    public void fromXmlTestXmlException() throws ServiceException {
+        Map<String,String>  result = SerializeUtil.fromXml("<name>tester</name>", Map.class);
+        System.out.println(result);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void fromXmlTestParseException() throws ServiceException {
+        Map<String,String>  result = SerializeUtil.fromXml("\"tester\"", Map.class);
+        System.out.println(result);
+    }
 }
