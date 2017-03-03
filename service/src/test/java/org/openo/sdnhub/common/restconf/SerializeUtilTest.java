@@ -69,13 +69,11 @@ public class SerializeUtilTest {
 
     @Test(expected = ServiceException.class)
     public void fromXmlTestXmlException() throws ServiceException {
-        Map<String,String>  result = SerializeUtil.fromXml("<name>tester</name>", Map.class);
-        System.out.println(result);
+        SerializeUtil.fromXml("<name>tester</name>", Map.class);
     }
 
     @Test(expected = ServiceException.class)
     public void fromXmlTestParseException() throws ServiceException {
-        Map<String,String>  result = SerializeUtil.fromXml("\"tester\"", Map.class);
-        System.out.println(result);
+        SerializeUtil.fromXml("\"tester\"", Map.class);
     }
 }
