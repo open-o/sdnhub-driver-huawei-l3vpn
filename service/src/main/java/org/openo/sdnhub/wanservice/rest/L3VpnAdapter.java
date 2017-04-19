@@ -33,9 +33,14 @@ import org.openo.baseservice.remoteservice.exception.ServiceException;
 import org.openo.baseservice.util.RestUtils;
 import org.openo.sdnhub.wanservice.inf.L3VpnService;
 import org.openo.sdno.framework.container.service.IResource;
+import org.openo.sdno.framework.container.util.JsonUtil;
+import org.openo.sdno.model.uniformsbi.l3vpn.L3Vpn;
 import org.openo.sdno.result.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Restful interface class of L3 VPN adapter resource.<br>
@@ -47,6 +52,8 @@ import org.slf4j.LoggerFactory;
 public class L3VpnAdapter extends IResource<L3VpnService> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(L3VpnAdapter.class);
+
+    private static final String l3vpn = "l3vpn";
 
     private L3VpnService vpnService;
 
@@ -88,9 +95,10 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
 
         String req = RestUtils.getRequestBody(request);
         LOGGER.error("Create L3VPN request body: " + req);
+        Map<String, L3Vpn> l3vpnCreateReq = (JsonUtil.fromJson(req, (new HashMap<String, L3Vpn>()).getClass()));
 
         String ctrlUuid = ctrlUuidParam.substring(ctrlUuidParam.indexOf('=') + 1);
-        return vpnService.l3vpnCreate(req, ctrlUuid);
+        return vpnService.l3vpnCreate(JsonUtil.toJson(l3vpnCreateReq.get(l3vpn)), ctrlUuid);
     }
 
     /**
@@ -138,7 +146,6 @@ public class L3VpnAdapter extends IResource<L3VpnService> {
     /**
      * Get the information of L3vpn.<br>
      *
-     * @param request HTTP servlet request with the service parameters information.
      * @param vpnId VPN ID
      * @param ctrlUuidParam controller UUID parameter in header
      * @return required L3VPN object.
